@@ -1,0 +1,72 @@
+* {
+    color: white;
+    margin: 0;
+    font-family:'Times New Roman', Times, serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+    color: #000;
+
+    background-image: url(images/wizard.png);
+    background-size: 120em;
+}
+
+header, footer {
+    background: #000;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+}
+
+h1 {
+    font-size: 5em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.25em;
+}
+
+nav {
+    background: #000;
+    
+    display: flex;
+    justify-content: space-between;
+
+    text-align: right;
+    padding: 1em 0;
+}
+
+nav h1 {
+    font-size: 1.25em;
+    padding-left: 1em
+}
+
+nav a {
+    padding: 1em 1em;
+    text-decoration: none;
+}
+
+main {
+    padding: 2em;
+}
+
+main p {
+    font-size: 1em;
+}
+
+main div {
+    background-color: #000;
+    opacity: 0.95;
+
+    padding: 1em;
+    border-radius: 1em;
+
+    margin-bottom: 2em;
+}
