@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #ecf0f1;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            padding: 8px;
+            margin: 5px 0;
+            border-left: 5px solid #3498db;
+        }
+        /* New styling for the Advanced Mutations section */
+        .advanced-section {
+            background: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #3498db;
+            border-right: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+        .mutation-gallery {
+            width: 100%;
+            max-width: 800px; /* Adjust based on your preference */
+            height: auto;
+            display: block;
+            margin: 15px auto 5px auto;
+            border: 1px solid #ccc;
+        }
+        .disclaimer {
+            margin-top: 40px;
+            padding: 15px;
+            background-color: #fdf2f2;
+            border: 1px solid #facccc;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #721c24;
+            text-align: center;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Merging Rules</h2>
+    <table>
+        <tr>
+            <th>Merge</th>
+            <th>Result</th>
+        </tr>
+        <tr>
+            <td>0★ to 1★</td>
+            <td>75% of the base power of the sum of both units</td>
+        </tr>
+        <tr>
+            <td>1★ to 2★</td>
+            <td>100% of the base power of the sum of both units</td>
+        </tr>
+        <tr>
+            <td>2★ to 3★</td>
+            <td>100% of the base power of the sum of both units</td>
+        </tr>
+    </table>
+
+    <h2>Tier List</h2>
+    <ul>
+        <li><strong>Meta: </strong>Fire, Electric</li>
+        <li><strong>Good: </strong>Wind</li>
+        <li><strong>Okay: </strong>Water, Grass, Ice</li>
+        <li><strong>Terrible: </strong>Gold</li>
+    </ul>
+
+    <h2>Mutations</h2>
+    <table>
+        <tr>
+            <th>Type</th>
+            <th>Price</th>
+            <th>Effect</th>
+        </tr>
+        <tr>
+            <td>Gold</td>
+            <td>2x</td>
+            <td>No known effect</td>
+        </tr>
+        <tr>
+            <td>Ice</td>
+            <td>2x</td>
+            <td>Slows enemy, +10% ATK</td>
+        </tr>
+        <tr>
+            <td>Wind</td>
+            <td>3x</td>
+            <td>Increased unit movement speed</td>
+        </tr>
+        <tr>
+            <td>Water</td>
+            <td>4x</td>
+            <td>Gives shield for double the health</td>
+        </tr>
+        <tr>
+            <td>Grass</td>
+            <td>5x</td>
+            <td>Each hit gives HP to unit</td>
+        </tr>
+        <tr>
+            <td>Fire</td>
+            <td>6x</td>
+            <td>20% AoE attack, +20% ATK</td>
+        </tr>
+        <tr>
+            <td>Electric</td>
+            <td>6x</td>
+            <td>20% chain attack</td>
+        </tr>
+    </table>
+
+    <h2>Advanced Mutations</h2>
+    <div class="advanced-section">
+        <p><strong>Multi-mutation units are possible:</strong> Merging two mutated units has a <strong>1% or 2% chance</strong> of giving the element to the unit.</p>
+        <img src="image.png" alt="Examples of Mutated Units" class="mutation-gallery">
+    </div>
+
+    <div class="disclaimer">
+        <strong>Disclaimer:</strong> This information has been gathered and documented by players; it is not official data provided by the developers. Contact @pacifisity on discord if anything is incorrect.
+    </div>
+
+</body>
+</html>
