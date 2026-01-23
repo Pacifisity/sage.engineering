@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Network Map</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>
-    // Redirect immediately on page load
-    window.location.href = "https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Antropian%20Map&dark=auto#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1CHvamtBoZzN5Wq8Db9wAsJTlcL_n1njT%26export%3Ddownload#%7B%22pageId%22%3A%22Np7DuE2QVDsgusvwrCnh%22%7D";
-  </script>
-  <noscript>
-    <meta http-equiv="refresh" content="0; url=https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Antropian%20Map&dark=auto#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1CHvamtBoZzN5Wq8Db9wAsJTlcL_n1njT%26export%3Ddownload#%7B%22pageId%22%3A%22Np7DuE2QVDsgusvwrCnh%22%7D">
-    Click <a href="https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Antropian%20Map&dark=auto#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1CHvamtBoZzN5Wq8Db9wAsJTlcL_n1njT%26export%3Ddownload#%7B%22pageId%22%3A%22Np7DuE2QVDsgusvwrCnh%22%7D">here</a> if not redirected automatically.
-  </noscript>
+    <meta charset="utf-8">
+    <title>Auto-Refreshing Network Map</title>
+    <style>
+      body, html { margin: 0; padding: 0; height: 100%; }
+      iframe { width: 100%; height: 100%; border: none; }
+    </style>
 </head>
 <body>
+    <iframe id="mapFrame"
+        src="https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Antropian%20Map&dark=auto#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1CHvamtBoZzN5Wq8Db9wAsJTlcL_n1njT%26export%3Ddownload#%7B%22pageId%22%3A%22Np7DuE2QVDsgusvwrCnh%22%7D">
+    </iframe>
+
+    <script>
+      setInterval(() => {
+         document.getElementById("mapFrame").contentWindow.location.reload();
+      }, 60000); // 60,000 ms = 60 sec
+    </script>
 </body>
 </html>
