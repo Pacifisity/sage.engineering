@@ -5,157 +5,127 @@ export const DriveService = {
     SCOPES: 'https://www.googleapis.com/auth/drive.appdata',
     tokenClient: null,
     accessToken: null,
-    isRefreshing: false,
 
     init: function(onReady) {
-        gapi.load('client', async () => {
-            await gapi.client.init({
-                discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-            });
-
-            this.tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: this.CLIENT_ID,
-                scope: this.SCOPES,
-                callback: (resp) => {
-                    this.isRefreshing = false;
-                    if (resp.error) {
-                        console.error("Login Error:", resp.error);
-                        return;
-                    }
-
-                    this.accessToken = resp.access_token;
-                    gapi.client.setToken({ access_token: resp.access_token });
-
-                    // Save session
-                    const expiry = Date.now() + (resp.expires_in * 1000);
-                    localStorage.setItem('google_drive_session', JSON.stringify({
-                        token: resp.access_token,
-                        expiry: expiry
-                    }));
-
-                    // 1. Update UI first
-                    UI.updateSyncStatus(true);
-
-                    // 2. Trigger initial sync (Dynamic import to avoid circular dependency)
-                    import('./appController.js').then(module => {
-                        module.AppController.sync();
-                    }).catch(err => console.error("Sync trigger failed:", err));
-
-                    if (onReady) onReady();
-                },
-            });
-
-            // --- SMART AUTO-RESUME ---
-            const session = JSON.parse(localStorage.getItem('google_drive_session'));
-            
-            if (session && session.token) {
-                const isExpired = Date.now() > (session.expiry - 300000);
-                if (!isExpired) {
-                    this.accessToken = session.token;
-                    gapi.client.setToken({ access_token: session.token });
-                    
-                    // UPDATE UI ON SUCCESSFUL AUTO-RESUME
-                    UI.updateSyncStatus(true);
-                    
-                    if (onReady) onReady();
-                } else {
-                    this.requestSilentToken();
-                }
-            }
+        this.tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: this.CLIENT_ID,
+            scope: this.SCOPES,
+            callback: (resp) => {
+                if (resp.error) return console.error("Login Error:", resp.error);
+                this.handleNewToken(resp, onReady);
+            },
         });
+
+        // Auto-resume from localStorage
+        const session = JSON.parse(localStorage.getItem('google_drive_session'));
+        if (session && session.token && Date.now() < (session.expiry - 300000)) {
+            this.accessToken = session.token;
+            UI.updateSyncStatus(true);
+            if (onReady) onReady();
+        }
     },
 
-    requestSilentToken: function() {
-        if (this.isRefreshing) return;
-        this.isRefreshing = true;
-        this.tokenClient.requestAccessToken({ prompt: 'none' });
+    handleNewToken: function(resp, onReady) {
+        this.accessToken = resp.access_token;
+        const expiry = Date.now() + (resp.expires_in * 1000);
+        localStorage.setItem('google_drive_session', JSON.stringify({
+            token: resp.access_token,
+            expiry: expiry
+        }));
+
+        UI.updateSyncStatus(true);
+        
+        // CHANGE THIS: Call initCloudSync instead of sync()
+        import('./appController.js').then(m => m.AppController.initCloudSync());
+        
+        if (onReady) onReady();
     },
 
     login: function() {
-        if (!this.tokenClient) {
-            console.error("Token client not initialized yet.");
-            return;
-        }
-        this.isRefreshing = true;
-        this.tokenClient.requestAccessToken({ prompt: 'select_account' });
+        // 'consent' ensures the user can re-check the "Drive" permissions box if they missed it
+        this.tokenClient.requestAccessToken({ prompt: 'consent' });
     },
 
-    execute: async function(apiCall) {
-        if (!this.accessToken) {
-            console.warn("No access token available for sync.");
-            return null;
+    async fetchDrive(url, options = {}) {
+        options.headers = {
+            ...options.headers,
+            'Authorization': `Bearer ${this.accessToken}`,
+        };
+        const response = await fetch(url, options);
+        if (response.status === 401) {
+            localStorage.removeItem('google_drive_session');
+            UI.updateSyncStatus(false);
+            throw new Error("Unauthorized");
         }
-        
-        try {
-            return await apiCall();
-        } catch (err) {
-            // If the token expired mid-session
-            if (err.status === 401) {
-                this.handleAuthError(err);
-            }
-            throw err;
-        }
+        return response;
     },
 
-    handleAuthError: function(err) {
-        this.accessToken = null;
-        localStorage.removeItem('google_drive_session');
-        UI.updateSyncStatus(false);
+    /**
+     * Finds the stories.json file in the hidden appData folder
+     */
+    async getFileId() {
+        const query = encodeURIComponent("name='stories.json' and 'appDataFolder' in parents");
+        const response = await this.fetchDrive(
+            `https://www.googleapis.com/drive/v3/files?q=${query}&spaces=appDataFolder`
+        );
+        const data = await response.json();
+        return (data.files && data.files.length > 0) ? data.files[0].id : null;
     },
 
     saveStories: async function(books) {
-        return this.execute(async () => {
-            const response = await gapi.client.drive.files.list({
-                q: "name = 'stories.json'",
-                spaces: 'appDataFolder',
-                fields: 'files(id)'
+        const fileId = await this.getFileId();
+        const content = JSON.stringify(books);
+
+        if (fileId) {
+            // Update existing file
+            return await this.fetchDrive(
+                `https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`,
+                { 
+                    method: 'PATCH', 
+                    body: content,
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
+        } else {
+            // Create new file using Multipart upload
+            const boundary = '-------314159265358979323846';
+            const delimiter = `\r\n--${boundary}\r\n`;
+            const close_delim = `\r\n--${boundary}--`;
+
+            const metadata = JSON.stringify({
+                name: 'stories.json',
+                parents: ['appDataFolder']
             });
 
-            const fileId = response.result.files.length > 0 ? response.result.files[0].id : null;
-            const metadata = {
-                name: 'stories.json',
-                mimeType: 'application/json',
-                parents: ['appDataFolder']
-            };
+            const multipartBody = 
+                delimiter +
+                'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+                metadata +
+                delimiter +
+                'Content-Type: application/json\r\n\r\n' +
+                content +
+                close_delim;
 
-            const content = JSON.stringify(books);
-
-            if (fileId) {
-                return await gapi.client.request({
-                    path: `/upload/drive/v3/files/${fileId}`,
-                    method: 'PATCH',
-                    params: { uploadType: 'media' },
-                    body: content
-                });
-            } else {
-                return await gapi.client.request({
-                    path: '/upload/drive/v3/files',
+            return await this.fetchDrive(
+                `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`,
+                {
                     method: 'POST',
-                    params: { uploadType: 'multipart' },
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(metadata) + '\r\n\r\n' + content
-                });
-            }
-        });
+                    headers: { 'Content-Type': `multipart/related; boundary=${boundary}` },
+                    body: multipartBody
+                }
+            );
+        }
     },
 
     loadStories: async function() {
-        return this.execute(async () => {
-            const response = await gapi.client.drive.files.list({
-                q: "name = 'stories.json'",
-                spaces: 'appDataFolder',
-                fields: 'files(id)'
-            });
+        const fileId = await this.getFileId();
+        if (!fileId) return [];
 
-            if (response.result.files.length === 0) return [];
-
-            const fileId = response.result.files[0].id;
-            const file = await gapi.client.drive.files.get({
-                fileId: fileId,
-                alt: 'media'
-            });
-            
-            return file.result;
-        });
+        const fileRes = await this.fetchDrive(
+            `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`
+        );
+        
+        if (!fileRes.ok) return [];
+        return await fileRes.json();
     }
 };

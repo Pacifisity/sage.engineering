@@ -4,10 +4,26 @@ import { DriveService } from './drive.js';
 import { getElements } from './selectors.js';
 
 export const AppController = {
-    /**
-     * The single source of truth for refreshing the application state.
-     * Call this whenever data is added, deleted, or modified.
-     */
+    async initCloudSync() {
+        const elements = getElements();
+        try {
+            console.log("Fetching data from cloud...");
+            const cloudData = await DriveService.loadStories();
+            
+            // Only overwrite if cloud data actually exists and isn't empty
+            if (cloudData && Array.isArray(cloudData) && cloudData.length > 0) {
+                state.books = cloudData;
+                state.save(state.books); // Keep local storage in sync with cloud
+                UI.renderBooks(state.books, state.currentFilter, elements.library);
+                console.log("Cloud data loaded successfully.");
+            } else {
+                console.log("No cloud data found or folder is empty.");
+            }
+        } catch (error) {
+            console.error("Failed to load cloud data:", error);
+        }
+    },
+
     async sync() {
         const elements = getElements();
 
