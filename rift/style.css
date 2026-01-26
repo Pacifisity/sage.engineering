@@ -99,37 +99,70 @@ body {
    ========================================================================== */
 nav {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: 20px;
+    justify-content: space-between;
+    gap: 10px;
     padding: 15px 0;
     margin-bottom: 30px;
     user-select: none;
+    width: 100%;
 }
 
-/* Reset button styles to look like the original text links */
+.filter-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    padding: 0 5px; 
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-grow: 1;
+
+    /* Logic: 0 is no fade, 1 is full fade */
+    --left-opacity: 0;
+    --right-opacity: 0;
+
+    /* Increased the gradient range to 25% for a more dramatic effect */
+    mask-image: linear-gradient(
+        to right, 
+        rgba(0,0,0, calc(1 - var(--left-opacity))) 0%, 
+        black 25%, 
+        black 75%, 
+        rgba(0,0,0, calc(1 - var(--right-opacity))) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to right, 
+        rgba(0,0,0, calc(1 - var(--left-opacity))) 0%, 
+        black 25%, 
+        black 75%, 
+        rgba(0,0,0, calc(1 - var(--right-opacity))) 100%
+    );
+}
+
+.filter-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Rest of your button styles remain the same... */
 .filter-btn {
+    flex-shrink: 0;
     background: none;
     border: none;
-    padding: 0;
+    padding: 5px 0;
     font: inherit;
     color: var(--text-muted);
     cursor: pointer;
     font-weight: 600;
-    transition: color 0.2s ease, transform 0.1s ease;
-    position: relative; /* Needed for the .active dot */
+    transition: color 0.2s ease;
+    position: relative;
 }
 
-.filter-btn:hover, 
-.filter-btn.active {
-    color: var(--accent-primary);
-}
+.filter-btn.active { color: var(--accent-primary); }
 
-/* The active dot indicator */
 .filter-btn.active::after {
     content: '';
     position: absolute;
-    bottom: -8px;
+    bottom: -6px;
     left: 50%;
     transform: translateX(-50%);
     width: 4px;
@@ -139,30 +172,33 @@ nav {
     box-shadow: 0 0 10px var(--accent-primary);
 }
 
-/* Simple click feedback */
-.filter-btn:active {
-    transform: scale(0.95);
-}
-
 .add-btn {
-    background: var(--accent-primary);
-    color: white;
-    border: none;
-    border-radius: 50%;
+    /* Base styles matched to .account-btn */
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--accent-primary); /* Purple icon to signify action */
+    
     width: 35px;
     height: 35px;
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 1.5rem;
-    margin-left: auto;
-    transition: transform 0.2s, background 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 10px;
 }
 
 .add-btn:hover {
-    transform: scale(1.1);
-    filter: brightness(1.1);
+    /* Hover effects matched to .account-btn */
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-purple);
+    transform: translateY(-2px);
+    
+    /* Optional: making the icon pop a bit more on hover */
+    filter: brightness(1.2);
 }
 
 /* ==========================================================================

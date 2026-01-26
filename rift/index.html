@@ -47,13 +47,15 @@
         </div>
     </div>
 
-    <nav id="filter-nav">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="favorites">Favorites</button>
-        <button class="filter-btn" data-filter="Reading">Reading</button>
-        <button class="filter-btn" data-filter="Plan to Read">Plan to Read</button>
-        <button class="filter-btn" data-filter="Completed">Completed</button>
-        <button class="filter-btn" data-filter="Dropped">Dropped</button>
+    <nav>
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="Favorites">Favorites</button>
+            <button class="filter-btn" data-filter="Reading">Reading</button>
+            <button class="filter-btn" data-filter="Plan to Read">Plan to Read</button>
+            <button class="filter-btn" data-filter="Completed">Completed</button>
+            <button class="filter-btn" data-filter="Dropped">Dropped</button>
+        </div>
         <button id="open-modal" class="add-btn">+</button>
     </nav>
 
@@ -129,5 +131,6 @@
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://accounts.google.com/gsi/client"></script>
     <script type="module" src="main.js"></script>
+    <script src="style.js"></script>
 </body>
 </html>
