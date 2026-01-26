@@ -77,15 +77,18 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('myBooks', JSON.stringify(books));
         renderBooks();
         
-        // Sync to Drive if we have an access token
-        if (DriveService.accessToken) {
+        // Check if DriveService exists AND has the function before calling it
+        if (DriveService.accessToken && typeof DriveService.saveStories === 'function') {
             DriveService.saveStories(books)
                 .then(() => console.log("Synced with Cloud"))
                 .catch(err => console.error("Cloud sync failed", err));
+        } else if (DriveService.accessToken) {
+            console.warn("DriveService.saveStories is missing! Check your drive logic file.");
         }
     };
 
     const toggleModal = (modalEl, show = true) => {
+        if (!modalEl) return; // Safety check
         modalEl.style.display = show ? 'flex' : 'none';
     };
 
@@ -101,93 +104,63 @@ document.addEventListener('DOMContentLoaded', () => {
             renderBooks();
         };
     });
-
-    // --- Modal Controls ---
-    document.getElementById('open-modal').onclick = () => {
-        bookForm.reset();
-        bookIdInput.value = '';
-        modalTitle.innerText = "Add New Book";
-        deleteBtn.style.display = 'none';
-        toggleModal(modal, true);
+    
+    // --- Modal Controls (REPLACEMENT BLOCK) ---
+    
+    // Function to close EVERY modal at once
+    const closeAllModals = () => {
+        [modal, deleteConfirmModal, accountModal, importConfirmModal].forEach(m => {
+            if (m) m.style.display = 'none';
+        });
     };
 
-    document.getElementById('close-modal').onclick = () => toggleModal(modal, false);
-    document.getElementById('cancel-delete').onclick = () => toggleModal(deleteConfirmModal, false);
-
-        // --- Account Modal Controls ---
-    if (openAccountBtn) {
-        openAccountBtn.onclick = () => toggleModal(accountModal, true);
-    }
-
-    if (closeAccountBtn) {
-        closeAccountBtn.onclick = () => toggleModal(accountModal, false);
-    }
-
-    // --- Export Logic ---
-    exportBtn.onclick = () => {
-        const dataStr = JSON.stringify(books, null, 2);
-        const blob = new Blob([dataStr], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `rift-stories-backup-${new Date().toISOString().split('T')[0]}.json`;
-        link.click();
-        URL.revokeObjectURL(url);
-    };
-
-    // --- Import Logic ---
-    importTrigger.onclick = () => importFileInput.click();
-
-    importFileInput.onchange = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            try {
-                const importedBooks = JSON.parse(event.target.result);
-                if (Array.isArray(importedBooks)) {
-                    // Store data and show the custom modal
-                    pendingImportData = importedBooks;
-                    toggleModal(importConfirmModal, true);
-                } else {
-                    alert("Invalid format."); // You can turn this into a toast later!
-                }
-            } catch (err) {
-                console.error("JSON Parse Error");
-            }
+    // Open Main Modal
+    const openModalBtn = document.getElementById('open-modal');
+    if (openModalBtn) {
+        openModalBtn.onclick = () => {
+            bookForm.reset();
+            bookIdInput.value = '';
+            modalTitle.innerText = "Add New Book";
+            deleteBtn.style.display = 'none';
+            toggleModal(modal, true);
         };
-        reader.readAsText(file);
-        e.target.value = ''; 
-    };
+    }
 
-    // Confirm button inside the new modal
-    confirmImportBtn.onclick = () => {
-        if (pendingImportData) {
-            books = pendingImportData;
-            saveAndRender();
-            pendingImportData = null;
-            toggleModal(importConfirmModal, false);
-            toggleModal(accountModal, false); // Close account settings too
+    // Close buttons - Using a class check is safer
+    document.querySelectorAll('#close-modal, #cancel-delete, #close-account-modal, #cancel-import').forEach(btn => {
+        btn.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeAllModals();
+        };
+    });
+
+    // Account Modal Open
+    if (openAccountBtn) {
+        openAccountBtn.onclick = (e) => {
+            e.preventDefault();
+            toggleModal(accountModal, true);
+        };
+    }
+
+    // --- Global Window Click (The "Click Outside" Fix) ---
+    window.onclick = (e) => {
+        // If the user clicks the dark background (the overlay), close everything
+        if (e.target.classList.contains('modal-overlay') || 
+            e.target === modal || 
+            e.target === deleteConfirmModal || 
+            e.target === accountModal || 
+            e.target === importConfirmModal) {
+            closeAllModals();
         }
     };
 
-    // Cancel button
-    cancelImportBtn.onclick = () => {
-        pendingImportData = null;
-        toggleModal(importConfirmModal, false);
-    };
+    // --- ESC Key Support (New) ---
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape") closeAllModals();
+    });
 
-    // Update your window.onclick to close this modal too
-    window.onclick = (e) => {
-        if (e.target === modal) toggleModal(modal, false);
-        if (e.target === deleteConfirmModal) toggleModal(deleteConfirmModal, false);
-        if (e.target === accountModal) toggleModal(accountModal, false);
-        if (e.target === importConfirmModal) toggleModal(importConfirmModal, false); // Add this
-    };
-
-    // --- Form Submission (Updated) ---
+    // --- Form Submission (Updated Fix) ---
     bookForm.onsubmit = (e) => {
         e.preventDefault();
         
@@ -198,7 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
             title: titleInput.value,
             status: statusInput.value,
             trackingType: typeInput.value,
-            // Allow empty value; treat as 0 or empty string
             currentCount: valueInput.value || 0, 
             rating: parseInt(ratingInput.value),
             isFavorite: existingBook ? existingBook.isFavorite : false
@@ -211,7 +183,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         saveAndRender();
-        toggleModal(modal, false);
+        
+        // CHANGE THIS LINE:
+        closeAllModals(); 
     };
 
     // --- Delete Logic ---

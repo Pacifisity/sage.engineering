@@ -82,5 +82,64 @@ const DriveService = {
         localStorage.removeItem('google_drive_session');
         // Instead of a popup, we just update the UI so the user knows to click "Connect"
         if (typeof updateAccountUI === 'function') updateAccountUI();
+    },
+
+    saveStories: async function(books) {
+        return this.execute(async () => {
+            // 1. Check if the file already exists
+            const response = await gapi.client.drive.files.list({
+                q: "name = 'stories.json'",
+                spaces: 'appDataFolder',
+                fields: 'files(id)'
+            });
+
+            const fileId = response.result.files.length > 0 ? response.result.files[0].id : null;
+            const metadata = {
+                name: 'stories.json',
+                mimeType: 'application/json',
+                parents: ['appDataFolder']
+            };
+
+            const content = JSON.stringify(books);
+
+            if (fileId) {
+                // Update existing file
+                return await gapi.client.request({
+                    path: `/upload/drive/v3/files/${fileId}`,
+                    method: 'PATCH',
+                    params: { uploadType: 'media' },
+                    body: content
+                });
+            } else {
+                // Create new file
+                return await gapi.client.request({
+                    path: '/upload/drive/v3/files',
+                    method: 'POST',
+                    params: { uploadType: 'multipart' },
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(metadata) + '\r\n\r\n' + content
+                });
+            }
+        });
+    },
+
+    loadStories: async function() {
+        return this.execute(async () => {
+            const response = await gapi.client.drive.files.list({
+                q: "name = 'stories.json'",
+                spaces: 'appDataFolder',
+                fields: 'files(id)'
+            });
+
+            if (response.result.files.length === 0) return [];
+
+            const fileId = response.result.files[0].id;
+            const file = await gapi.client.drive.files.get({
+                fileId: fileId,
+                alt: 'media'
+            });
+            
+            return file.result;
+        });
     }
 };
