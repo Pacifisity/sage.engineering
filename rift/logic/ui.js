@@ -1,0 +1,57 @@
+// logic/ui.js
+export const UI = {
+    renderBooks: (books, currentFilter, container) => {
+        if (!container) return;
+        container.innerHTML = '';
+
+        const filteredBooks = books.filter(book => {
+            if (currentFilter === 'all') return true;
+            if (currentFilter === 'favorites') return book.isFavorite;
+            return book.status === currentFilter;
+        });
+
+        if (filteredBooks.length === 0) {
+            container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">No stories here...</p>`;
+            return;
+        }
+
+        filteredBooks.forEach(book => {
+            const card = document.createElement('div');
+            card.className = 'book-card';
+            
+            // CRITICAL: Store the ID in a data attribute for logic.js to read
+            card.dataset.id = book.id; 
+
+            // Format progress label
+            const label = book.trackingType ? (book.trackingType.charAt(0).toUpperCase() + book.trackingType.slice(1)) : 'Progress';
+            const hasProgress = book.currentCount && parseInt(book.currentCount) > 0;
+
+            const progressHTML = hasProgress 
+                ? `<span>${label}</span> <span>${book.currentCount}</span>`
+                : `<span style="font-style: italic; color: var(--text-muted); font-size: 0.85rem;">Haven't cracked it open yet</span>`;
+
+            const urlHTML = book.url 
+                ? `<a href="${book.url}" target="_blank" class="url-link" onclick="event.stopPropagation()"></a>` 
+                : '';
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <div>
+                        <span class="status-badge">${book.status || 'Reading'}</span>
+                        <h3>${book.title}</h3>
+                    </div>
+                    <button class="fav-btn ${book.isFavorite ? 'active' : ''}" data-id="${book.id}">
+                        ${book.isFavorite ? '★' : '☆'}
+                    </button>
+                </div>
+                <div class="card-stats">
+                    <p>${progressHTML}</p>
+                    <div class="rating-display" style="display: flex; align-items: center;">
+                        ${book.rating > 0 ? '★'.repeat(book.rating) : '<span style="color:var(--text-muted); font-size: 0.8rem;">UNRATED</span>'}
+                        ${urlHTML} </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+};

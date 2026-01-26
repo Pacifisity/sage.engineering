@@ -265,6 +265,45 @@ nav {
 }
 
 /* ==========================================================================
+   URL LINK STYLING (Purple Icon Badge)
+   ========================================================================== */
+.url-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: rgba(139, 92, 246, 0.15);
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    transition: all 0.2s ease;
+    /* This pushes it to the far right within the flex container */
+    margin-left: auto; 
+}
+
+.url-link::before {
+    content: '🔗';
+    font-size: 0.9rem;
+}
+
+.url-link:hover {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-purple);
+    transform: translateY(-1px);
+}
+
+/* Ensure the container stretches to allow the "auto" margin to work */
+.rating-display {
+    display: flex;
+    align-items: center;
+    width: 100%; 
+    margin-top: 8px;
+}
+
+
+/* ==========================================================================
    MODAL COMPONENT
    ========================================================================== */
 .modal-overlay {

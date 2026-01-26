@@ -90,6 +90,8 @@
                     <option value="5">5 Stars</option>
                 </select>
 
+                <input type="url" id="url" placeholder="Source URL (e.g., https://...)" aria-label="Book source link">
+
                 <div class="modal-actions">
                     <button type="button" id="close-modal">Cancel</button>
                     <button type="button" id="delete-btn" style="display: none; background: #ff4d4d; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 4px;">Delete Book</button>
@@ -126,7 +128,6 @@
     
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://accounts.google.com/gsi/client"></script>
-    <script src="drive.js"></script>
-    <script src="logic.js"></script>
+    <script type="module" src="logic.js"></script>
 </body>
 </html>

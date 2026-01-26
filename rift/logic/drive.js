@@ -1,4 +1,4 @@
-const DriveService = {
+export const DriveService = {
     CLIENT_ID: '1090774428999-pjc7fkh4g278cioh00mimq8ru0ljq940.apps.googleusercontent.com',
     SCOPES: 'https://www.googleapis.com/auth/drive.appdata',
     tokenClient: null,
@@ -80,7 +80,6 @@ const DriveService = {
     handleAuthError: function(err) {
         this.accessToken = null;
         localStorage.removeItem('google_drive_session');
-        // Instead of a popup, we just update the UI so the user knows to click "Connect"
         if (typeof updateAccountUI === 'function') updateAccountUI();
     },
 
