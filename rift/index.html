@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rift</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header-controls">
+        <button id="open-account-modal" class="account-btn" aria-label="Account Settings">
+            <span class="user-icon">👤</span>
+        </button>
+        <form role="search" class="search-container">
+            <input 
+                type="search" 
+                id="search" 
+                placeholder="Search..." 
+                aria-label="Search through library content"
+            >
+        </form>
+    </div>
+
+    <div id="account-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Account</h2>
+            
+            <div class="account-status">
+                <p id="sync-status">Status: <strong>Local Only</strong></p>
+                <p class="status-subtext">Sign in to back up your stories to Google Drive.</p>
+            </div>
+            
+            <div class="data-grid">
+                <button id="export-btn" class="secondary-action-btn">
+                    <span class="icon">📤</span> Export JSON
+                </button>
+                <button id="import-trigger" class="secondary-action-btn">
+                    <span class="icon">📥</span> Import JSON
+                </button>
+                <input type="file" id="import-file" accept=".json" style="display: none;">
+            </div>
+
+            <div class="account-actions">
+                <button id="google-login-btn">Connect Google Drive</button>
+                <button type="button" id="close-account-modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <nav id="filter-nav">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="favorites">Favorites</button>
+        <button class="filter-btn" data-filter="Reading">Reading</button>
+        <button class="filter-btn" data-filter="Plan to Read">Plan to Read</button>
+        <button class="filter-btn" data-filter="Completed">Completed</button>
+        <button class="filter-btn" data-filter="Dropped">Dropped</button>
+        <button id="open-modal" class="add-btn">+</button>
+    </nav>
+
+    <div id="library"></div>
+
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modal-title">Add New Book</h2>
+            <form id="book-form">
+                <input type="hidden" id="book-id">
+                <input type="text" id="title" placeholder="Book Title" required>
+                
+                <select id="status">
+                    <option value="Reading">Reading</option>
+                    <option value="Plan to Read">Plan to Read</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Dropped">Dropped</option>
+                </select>
+
+                <div class="input-group">
+                    <select id="tracking-type">
+                        <option value="chapter">Chapter</option>
+                        <option value="page">Page</option>
+                    </select>
+                    <input type="number" id="tracking-value" placeholder="Count">
+                </div>
+
+                <select id="rating">
+                    <option value="0">No Rating</option>
+                    <option value="1">1 Star</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="5">5 Stars</option>
+                </select>
+
+                <div class="modal-actions">
+                    <button type="button" id="close-modal">Cancel</button>
+                    <button type="button" id="delete-btn" style="display: none; background: #ff4d4d; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 4px;">Delete Book</button>
+                    <button type="submit" class="submit-btn">Save Book</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="delete-confirm-modal" class="modal-overlay">
+        <div class="modal-content delete-confirm-content">
+            <h3 style="color: #ff4d4d; margin-bottom: 10px;">Delete Book?</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">This will permanently remove this book from your library.</p>
+            <div class="modal-actions">
+                <button type="button" id="cancel-delete">Cancel</button>
+                <button type="button" id="confirm-delete-btn" class="confirm-btn" style="background: #ff4d4d;">Delete Permanently</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="import-confirm-modal" class="modal-overlay">
+        <div class="modal-content delete-confirm-content">
+            <h3 style="color: var(--accent-primary); margin-bottom: 10px;">Import Data?</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">
+                This will <strong style="color: #ff4d4d;">replace</strong> your current library with the imported file. 
+                This cannot be undone.
+            </p>
+            <div class="modal-actions">
+                <button type="button" id="cancel-import">Cancel</button>
+                <button type="button" id="confirm-import-btn" class="submit-btn">Confirm Import</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <script src="drive.js"></script>
+    <script src="logic.js"></script>
+</body>
+</html>
