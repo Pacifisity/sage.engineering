@@ -53,5 +53,19 @@ export const UI = {
             `;
             container.appendChild(card);
         });
+    },
+    
+    updateSyncStatus(isAuthenticated) {
+        const statusElement = document.querySelector('#sync-status strong');
+        const loginBtn = document.getElementById('google-login-btn');
+        
+        if (isAuthenticated) {
+            statusElement.textContent = "Cloud Synced";
+            statusElement.style.color = "#4CAF50"; // Green
+            if (loginBtn) loginBtn.textContent = "Account Connected";
+        } else {
+            statusElement.textContent = "Local Only";
+            statusElement.style.color = ""; 
+        }
     }
 };
