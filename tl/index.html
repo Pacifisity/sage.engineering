@@ -6,56 +6,92 @@
     <title>Multi-Team Resource Hub</title>
     <style>
         :root {
-            --primary: #2563eb;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
+            /* Army Cyber Dark Mode Palette */
+            --gold: #ffcc00; 
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #ffffff;
+            --text-dim: #a0a0a0;
+            --border: #333333;
         }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             line-height: 1.6;
             margin: 0;
             padding: 20px;
         }
+
         header {
             text-align: center;
-            padding: 40px 0;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
         }
+
+        h1 {
+            color: var(--gold);
+            margin: 0;
+            font-size: 2rem;
+        }
+
         .container {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: auto;
             display: grid;
-            gap: 25px;
+            gap: 20px;
         }
+
         .team-card {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            border-left: 6px solid var(--primary);
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--gold);
+            border-radius: 8px;
+            padding: 20px;
         }
-        h2 { margin-top: 0; color: var(--primary); }
-        .members { font-weight: bold; color: #64748b; font-size: 0.9em; }
-        .description { margin: 15px 0; font-style: italic; }
+
+        h2 { 
+            margin-top: 0; 
+            color: var(--gold); 
+            font-size: 1.5rem;
+        }
+
+        .members { 
+            font-weight: bold; 
+            color: var(--text-dim); 
+            font-size: 0.95em;
+            margin-bottom: 8px;
+        }
+
+        .description { 
+            margin: 10px 0; 
+            color: var(--text);
+        }
+
         .links-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
             margin-top: 15px;
         }
+
         .resource-link {
-            background: #eff6ff;
-            color: #1d4ed8;
+            background: #2a2a2a;
+            color: var(--gold);
             text-decoration: none;
             padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            transition: background 0.2s;
-            border: 1px solid #dbeafe;
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
         }
-        .resource-link:hover { background: #dbeafe; }
+
+        .resource-link:hover { 
+            background: var(--gold);
+            color: #000000;
+        }
     </style>
 </head>
 <body>
@@ -71,7 +107,7 @@
         <p class="members">Members: Kenneh, WHitley, Marmo</p>
         <p class="description">Replay attack with hackerf</p>
         <div class="links-grid">
-            <a href="#" class="resource-link">Notes</a>
+            <a href="https://docs.google.com/document/d/17X_63xdxYgBzPPS2EHDHjC3PJk6WgR8V84DfDvgJaws/edit?usp=sharing" class="resource-link">Notes</a>
         </div>
     </div>
 
@@ -80,7 +116,7 @@
         <p class="members">Members: Baker, Artzt, Hadnot</p>
         <p class="description">Replay attack with arduino</p>
         <div class="links-grid">
-            <a href="#" class="resource-link">Notes</a>
+            <a href="https://docs.google.com/document/d/1qp1IdSUshBjLf4zAuCnMNYLAXPyLCPTc7GPhhnUnAME/edit?usp=sharing" class="resource-link">Notes</a>
         </div>
     </div>
 
@@ -89,7 +125,7 @@
         <p class="members">Members: Sansouci, Greene, Owusu</p>
         <p class="description">Reverse engineer dump 1090</p>
         <div class="links-grid">
-            <a href="#" class="resource-link">Notes</a>
+            <a href="https://docs.google.com/document/d/1nSz--uRghBQSva7snOJPnK3s9qdwQbA_FHBrw0Eym5k/edit?usp=sharing" class="resource-link">Notes</a>
         </div>
     </div>
 
@@ -98,7 +134,7 @@
         <p class="members">Members: Cooper, Liang, Sixtos</p>
         <p class="description">Attack smaller network</p>
         <div class="links-grid">
-            <a href="#" class="resource-link">Notes</a>
+            <a href="https://docs.google.com/document/d/1TF6HXRt6lLsVO0pV_cDNwGvI1YIGoLEwNWsfukLMsgk/edit?usp=sharing" class="resource-link">Notes</a>
         </div>
     </div>
 
@@ -107,11 +143,10 @@
         <p class="members">Members: Rendel, Vaughan, Morris, Weese, Gautam, Posey</p>
         <p class="description">Attack larger network</p>
         <div class="links-grid">
-            <a href="#" class="resource-link">Notes</a>
+            <a href="https://docs.google.com/document/d/1DBsxncJIf0ucqblGBjhB2g53K__SD_hbOEkqDyK_hjM/edit?usp=sharing" class="resource-link">Notes</a>
         </div>
     </div>
-
-    </div>
+</div>
 
 </body>
 </html>
