@@ -1,24 +1,35 @@
+/**
+ * Utility for mapping between DOM form elements and the application's book data structure.
+ */
 export const FormHandler = {
     /**
-     * Extracts values from the DOM elements and returns a clean Book object.
+     * Serializes form input values into a structured book object.
+     * Handles ID assignment and data type normalization (parsing integers/trimming strings).
+     * * @param {Object} elements - The collection of DOM nodes from selectors.js.
+     * @returns {Object} A sanitized book data object.
      */
     getFormData(elements) {
         return {
-            // If there's an ID, we're editing; otherwise, it's a new entry
+            // Existing ID indicates an 'Update' operation; lack of ID triggers 'Create' via timestamp.
             id: elements.bookIdInput.value ? parseInt(elements.bookIdInput.value) : Date.now(),
             title: elements.titleInput.value.trim(),
             url: elements.urlInput.value.trim(),
             status: elements.statusInput.value,
             trackingType: elements.typeInput.value,
             currentCount: parseInt(elements.countInput.value) || 0,
+            
+            // Map empty selection to null for rating consistency
             rating: elements.ratingInput.value === "" ? null : parseInt(elements.ratingInput.value, 10),
-            // Keep existing properties that aren't in the form (like favorite status)
+            
+            // Preserve boolean flags if present in the UI
             isFavorite: elements.isFavoriteInput?.checked || false 
         };
     },
 
     /**
-     * Populates the form fields with data from an existing book object.
+     * Hydrates form fields with properties from a specific book record for editing.
+     * * @param {Object} book - The source book object from state.
+     * @param {Object} elements - The collection of DOM nodes to be populated.
      */
     setFormData(book, elements) {
         elements.bookIdInput.value = book.id;
@@ -31,10 +42,15 @@ export const FormHandler = {
     },
 
     /**
-     * Clears the form for a fresh entry.
+     * Restores form to its default state and explicitly clears hidden identifiers.
+     * * @param {Object} elements - The collection of DOM nodes to be cleared.
      */
     reset(elements) {
         elements.bookForm?.reset();
-        if (elements.bookIdInput) elements.bookIdInput.value = '';
+        
+        // Ensure hidden ID field is cleared to prevent "Update" logic on a "Create" action
+        if (elements.bookIdInput) {
+            elements.bookIdInput.value = '';
+        }
     }
 };

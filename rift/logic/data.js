@@ -1,10 +1,17 @@
+/**
+ * Service for handling local data persistence via JSON files.
+ */
 export const DataService = {
+    /**
+     * Exports data to a JSON file. 
+     * Prioritizes the native Web Share API (mobile) with a download fallback (desktop).
+     */
     exportJSON: async (data) => {
         const fileName = `rift-library-${new Date().toISOString().slice(0, 10)}.json`;
         const jsonString = JSON.stringify(data, null, 2);
         const blob = new Blob([jsonString], { type: 'application/json' });
 
-        // Check if the Web Share API is available and can handle files
+        // Attempt to use the native OS share sheet (primary for Mobile)
         if (navigator.canShare && navigator.share) {
             try {
                 const file = new File([blob], fileName, { type: 'application/json' });
@@ -13,14 +20,14 @@ export const DataService = {
                     title: 'Export Data',
                     text: 'Your exported library data'
                 });
-                return; // Success!
+                return; 
             } catch (err) {
-                // User cancelled or share failed, proceed to fallback
-                console.log("Share failed, trying download fallback", err);
+                // Fallback triggered if user cancels or browser rejects share
+                console.log("Web Share unavailable or cancelled, using download link.");
             }
         }
 
-        // Fallback: Traditional download link (Desktop / Older Mobile)
+        // Standard download anchor fallback (Primary for Desktop)
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -28,17 +35,22 @@ export const DataService = {
         document.body.appendChild(a);
         a.click();
         
+        // Clean up DOM and memory
         setTimeout(() => {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }, 100);
     },
 
+    /**
+     * Reads and parses a JSON file from a file input.
+     * @param {File} file - The file object from the input element.
+     * @returns {Promise<Object>} The parsed JSON data.
+     */
     importJSON: (file) => {
-        // Your current import logic is actually quite mobile-friendly!
-        // <input type="file"> works well across iOS/Android.
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
+            
             reader.onload = (e) => {
                 try {
                     const json = JSON.parse(e.target.result);
@@ -47,6 +59,7 @@ export const DataService = {
                     reject("Invalid JSON file");
                 }
             };
+            
             reader.onerror = () => reject("File reading failed");
             reader.readAsText(file);
         });

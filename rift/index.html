@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rift</title>
+    <title>Rift | Personal Story Library</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="header-controls">
         <button id="open-account-modal" class="account-btn" aria-label="Account Settings">
             <span class="user-icon">👤</span>
@@ -57,7 +58,7 @@
             <button class="filter-btn" data-filter="Dropped">Dropped</button>
             <div class="nav-indicator"></div>
         </div>
-        <button id="open-modal" class="add-btn">+</button>
+        <button id="open-modal" class="add-btn" aria-label="Add New Entry">+</button>
     </nav>
 
     <div id="library"></div>
@@ -67,6 +68,7 @@
             <h2 id="modal-title">Add New Book</h2>
             <form id="book-form">
                 <input type="hidden" id="book-id">
+                
                 <input type="text" id="title" placeholder="Book Title" required>
                 
                 <select id="status">
@@ -77,14 +79,14 @@
                 </select>
 
                 <div class="input-group">
-                    <select id="tracking-type">
+                    <select id="tracking-type" aria-label="Tracking Unit">
                         <option value="chapter">Chapter</option>
                         <option value="page">Page</option>
                     </select>
-                    <input type="number" id="tracking-value" placeholder="Count">
+                    <input type="number" id="tracking-value" placeholder="Count" min="0">
                 </div>
 
-                <select id="rating">
+                <select id="rating" aria-label="Star Rating">
                     <option value="Unrated">Unrated</option> 
                     <option value="1">1 Star</option>
                     <option value="2">2 Stars</option>
@@ -97,7 +99,7 @@
 
                 <div class="modal-actions">
                     <button type="button" id="close-modal">Cancel</button>
-                    <button type="button" id="delete-btn" style="display: none; background: #ff4d4d; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 4px;">Delete Book</button>
+                    <button type="button" id="delete-btn" class="danger-btn" style="display: none;">Delete Book</button>
                     <button type="submit" class="submit-btn">Save Book</button>
                 </div>
             </form>
@@ -106,21 +108,21 @@
 
     <div id="delete-confirm-modal" class="modal-overlay">
         <div class="modal-content delete-confirm-content">
-            <h3 style="color: #ff4d4d; margin-bottom: 10px;">Delete Book?</h3>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">This will permanently remove this book from your library.</p>
+            <h3 class="danger-text">Delete Book?</h3>
+            <p class="muted-text">This will permanently remove this book from your library.</p>
             <div class="modal-actions">
                 <button type="button" id="cancel-delete">Cancel</button>
-                <button type="button" id="confirm-delete-btn" class="confirm-btn" style="background: #ff4d4d;">Delete Permanently</button>
+                <button type="button" id="confirm-delete-btn" class="confirm-btn danger-bg">Delete</button>
             </div>
         </div>
     </div>
 
     <div id="import-confirm-modal" class="modal-overlay">
         <div class="modal-content delete-confirm-content">
-            <h3 style="color: var(--accent-primary); margin-bottom: 10px;">Import Data?</h3>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">
-                This will <strong style="color: #ff4d4d;">replace</strong> your current library with the imported file. 
-                This cannot be undone.
+            <h3 class="accent-text">Import Data?</h3>
+            <p class="muted-text">
+                This will <strong class="danger-text">replace</strong> your current library with the imported file. 
+                This action is irreversible.
             </p>
             <div class="modal-actions">
                 <button type="button" id="cancel-import">Cancel</button>

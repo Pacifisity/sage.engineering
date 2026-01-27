@@ -1,11 +1,18 @@
 import { UI } from './ui.js';
 
+/**
+ * Service to handle Google Drive AppData synchronization.
+ * Uses the Google Identity Services (GIS) implicit flow.
+ */
 export const DriveService = {
     CLIENT_ID: '1090774428999-pjc7fkh4g278cioh00mimq8ru0ljq940.apps.googleusercontent.com',
     SCOPES: 'https://www.googleapis.com/auth/drive.appdata',
     tokenClient: null,
     accessToken: null,
 
+    /**
+     * Initializes the Google Identity client and restores existing sessions.
+     */
     init: function(onReady) {
         this.tokenClient = google.accounts.oauth2.initTokenClient({
             client_id: this.CLIENT_ID,
@@ -16,7 +23,7 @@ export const DriveService = {
             },
         });
 
-        // Auto-resume from localStorage
+        // Restore session from storage if it hasn't expired (with 5-minute buffer)
         const session = JSON.parse(localStorage.getItem('google_drive_session'));
         if (session && session.token && Date.now() < (session.expiry - 300000)) {
             this.accessToken = session.token;
@@ -25,9 +32,13 @@ export const DriveService = {
         }
     },
 
+    /**
+     * Processes new tokens and persists them to localStorage.
+     */
     handleNewToken: function(resp, onReady) {
         this.accessToken = resp.access_token;
         const expiry = Date.now() + (resp.expires_in * 1000);
+        
         localStorage.setItem('google_drive_session', JSON.stringify({
             token: resp.access_token,
             expiry: expiry
@@ -35,33 +46,65 @@ export const DriveService = {
 
         UI.updateSyncStatus(true);
         
-        // CHANGE THIS: Call initCloudSync instead of sync()
+        // Trigger background sync initialization
         import('./appController.js').then(m => m.AppController.initCloudSync());
         
         if (onReady) onReady();
     },
 
+    /**
+     * Initiates the OAuth2 login flow.
+     */
     login: function() {
-        // 'consent' ensures the user can re-check the "Drive" permissions box if they missed it
-        this.tokenClient.requestAccessToken({ prompt: 'consent' });
+        // use select_account to allow user switching without forcing full consent prompts
+        this.tokenClient.requestAccessToken({ prompt: 'select_account' });
     },
 
+    /**
+     * Wrapper for fetch that injects Auth headers and handles silent token refresh.
+     */
     async fetchDrive(url, options = {}) {
         options.headers = {
             ...options.headers,
             'Authorization': `Bearer ${this.accessToken}`,
         };
-        const response = await fetch(url, options);
+
+        let response = await fetch(url, options);
+
+        // Handle expired tokens by attempting a silent background refresh
         if (response.status === 401) {
-            localStorage.removeItem('google_drive_session');
-            UI.updateSyncStatus(false);
-            throw new Error("Unauthorized");
+            return new Promise((resolve, reject) => {
+                this.tokenClient.callback = async (resp) => {
+                    if (resp.error) {
+                        this.logout();
+                        reject(new Error("Refresh failed"));
+                        return;
+                    }
+                    this.handleNewToken(resp);
+                    
+                    options.headers['Authorization'] = `Bearer ${this.accessToken}`;
+                    const retryRes = await fetch(url, options);
+                    resolve(retryRes);
+                };
+                
+                // prompt: '' attempts to get a token without showing a popup
+                this.tokenClient.requestAccessToken({ prompt: '' });
+            });
         }
         return response;
     },
 
     /**
-     * Finds the stories.json file in the hidden appData folder
+     * Clears local authentication state.
+     */
+    logout: function() {
+        localStorage.removeItem('google_drive_session');
+        this.accessToken = null;
+        UI.updateSyncStatus(false);
+    },
+
+    /**
+     * Locates 'stories.json' within the user's hidden Drive AppData folder.
      */
     async getFileId() {
         const query = encodeURIComponent("name='stories.json' and 'appDataFolder' in parents");
@@ -72,12 +115,14 @@ export const DriveService = {
         return (data.files && data.files.length > 0) ? data.files[0].id : null;
     },
 
+    /**
+     * Uploads story data to Google Drive.
+     */
     saveStories: async function(books) {
         const fileId = await this.getFileId();
         const content = JSON.stringify(books);
 
         if (fileId) {
-            // Update existing file
             return await this.fetchDrive(
                 `https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`,
                 { 
@@ -87,7 +132,7 @@ export const DriveService = {
                 }
             );
         } else {
-            // Create new file using Multipart upload
+            // Create a new file using a multipart upload to set metadata and content at once
             const boundary = '-------314159265358979323846';
             const delimiter = `\r\n--${boundary}\r\n`;
             const close_delim = `\r\n--${boundary}--`;
@@ -117,6 +162,9 @@ export const DriveService = {
         }
     },
 
+    /**
+     * Downloads story data from Google Drive.
+     */
     loadStories: async function() {
         const fileId = await this.getFileId();
         if (!fileId) return [];
