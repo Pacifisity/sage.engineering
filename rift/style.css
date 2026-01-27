@@ -130,8 +130,31 @@ nav {
     display: flex;
     gap: 12px;
     padding: 4px;
-    position: relative; 
+    position: relative;
+    overflow-x: auto; 
     scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    /* The Mask: Uses your JS variables to fade the edges */
+    -webkit-mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, calc(1 - var(--left-opacity, 0))) 0%,
+        black 60px,
+        black calc(100% - 60px),
+        rgba(0, 0, 0, calc(1 - var(--right-opacity, 1))) 100%
+    );
+    mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, calc(1 - var(--left-opacity, 0))) 0%,
+        black 60px,
+        black calc(100% - 60px),
+        rgba(0, 0, 0, calc(1 - var(--right-opacity, 1))) 100%
+    );
+}
+
+/* Ensure the scrollbar stays invisible in Chrome/Safari */
+.filter-container::-webkit-scrollbar {
+    display: none;
 }
 
 .filter-btn {
