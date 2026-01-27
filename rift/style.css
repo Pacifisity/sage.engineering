@@ -606,11 +606,64 @@ nav {
 /* The Overlay Fade Out */
 .modal-overlay.closing {
     opacity: 0;
-    transition: opacity 0.2s ease-out;
+    transition: opacity 0.2s ease-out; /* Smoothly fade the dark background */
     pointer-events: none;
 }
 
 /* The Content Slide Out */
 .modal-overlay.closing .modal-content {
     animation: modalPopOut 0.2s ease-out forwards;
+}
+
+/* New stuff for cards */
+/* The Animation Definition */
+@keyframes cardEntry {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Apply to the card class */
+.card {
+    animation: cardEntry 0.3s ease-out forwards;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Subtle hover effect for extra "life" */
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* 1. The Animation */
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 2. Apply to the card class */
+.book-card {
+    /* Ensure cards are invisible before animation starts */
+    opacity: 0;
+    animation: cardEntrance 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    
+    /* Smooth transitions for hover and interactions */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 3. Make it feel alive on hover */
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }

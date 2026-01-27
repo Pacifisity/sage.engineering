@@ -11,14 +11,22 @@ export const UI = {
         });
 
         if (filteredBooks.length === 0) {
-            container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">No stories here...</p>`;
+            container.innerHTML = `
+                <p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px; 
+                animation: cardEntrance 0.5s ease forwards;">
+                    No stories here...
+                </p>`;
             return;
         }
 
-        filteredBooks.forEach(book => {
+        filteredBooks.forEach((book, index) => {
             const card = document.createElement('div');
             card.className = 'book-card';
             card.dataset.id = book.id; 
+
+            // Add staggered delay for the "flow-in" effect
+            // Every card waits 0.05s longer than the previous one
+            card.style.animationDelay = `${index * 0.05}s`;
 
             const label = book.trackingType ? (book.trackingType.charAt(0).toUpperCase() + book.trackingType.slice(1)) : 'Progress';
             const hasProgress = book.currentCount && parseInt(book.currentCount) > 0;
@@ -32,14 +40,14 @@ export const UI = {
                 : '';
 
             // --- RATING LOGIC ---
-            const maxStars = 5;
             const ratingValue = book.rating;
-            const isRated = typeof ratingValue === 'number';
+            const isRated = typeof ratingValue === 'number' || (typeof ratingValue === 'string' && ratingValue !== "Unrated" && ratingValue !== "");
 
             let ratingHTML = '';
             if (isRated) {
-                const filled = '★'.repeat(ratingValue);
-                const empty = '☆'.repeat(5 - ratingValue);
+                const numStars = parseInt(ratingValue);
+                const filled = '★'.repeat(numStars);
+                const empty = '☆'.repeat(5 - numStars);
                 ratingHTML = `<span class="stars-filled">${filled}</span><span class="stars-empty">${empty}</span>`;
             } else {
                 ratingHTML = `<span style="color:var(--text-muted); font-size: 0.8rem; letter-spacing: 1px;">UNRATED</span>`;
@@ -67,19 +75,31 @@ export const UI = {
         });
     },
 
-    // CALL THIS FUNCTION WHEN YOU OPEN YOUR EDIT MODAL
     populateEditModal: (book) => {
         const ratingSelect = document.getElementById('rating');
-        if (!ratingSelect) return;
+        const titleInput = document.getElementById('title');
+        const statusSelect = document.getElementById('status');
+        const idInput = document.getElementById('book-id');
+        const trackingTypeSelect = document.getElementById('tracking-type');
+        const trackingValueInput = document.getElementById('tracking-value');
+        const urlInput = document.getElementById('url');
+        const deleteBtn = document.getElementById('delete-btn');
 
-        // This ensures the dropdown says "Unrated" instead of being empty
-        // It matches the <option value=""> in your HTML
-        ratingSelect.value = (book.rating === null || book.rating === undefined) ? "" : book.rating;
+        if (idInput) idInput.value = book.id || '';
+        if (titleInput) titleInput.value = book.title || '';
+        if (statusSelect) statusSelect.value = book.status || 'Reading';
+        if (trackingTypeSelect) trackingTypeSelect.value = book.trackingType || 'chapter';
+        if (trackingValueInput) trackingValueInput.value = book.currentCount || '';
+        if (urlInput) urlInput.value = book.url || '';
         
-        // Populate other fields as well
-        document.getElementById('edit-title').value = book.title || '';
-        document.getElementById('edit-status').value = book.status || 'Reading';
-        // ... any other fields
+        if (ratingSelect) {
+            ratingSelect.value = (book.rating === null || book.rating === undefined) ? "Unrated" : book.rating;
+        }
+
+        if (deleteBtn) deleteBtn.style.display = 'block';
+        
+        const modalTitle = document.getElementById('modal-title');
+        if (modalTitle) modalTitle.textContent = "Edit Book";
     },
     
     updateSyncStatus(isAuthenticated) {
@@ -87,12 +107,16 @@ export const UI = {
         const loginBtn = document.getElementById('google-login-btn');
         
         if (isAuthenticated) {
-            statusElement.textContent = "Cloud Synced";
-            statusElement.style.color = "#4CAF50"; 
+            if (statusElement) {
+                statusElement.textContent = "Cloud Synced";
+                statusElement.style.color = "#4CAF50"; 
+            }
             if (loginBtn) loginBtn.textContent = "Account Connected";
         } else {
-            statusElement.textContent = "Local Only";
-            statusElement.style.color = ""; 
+            if (statusElement) {
+                statusElement.textContent = "Local Only";
+                statusElement.style.color = ""; 
+            }
         }
     }
 };
