@@ -18,3 +18,34 @@ const handleScroll = () => {
 container.addEventListener('scroll', handleScroll);
 window.addEventListener('resize', handleScroll);
 handleScroll();
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return; // Guard clause: stop if the modal doesn't exist
+    
+    modal.classList.add('closing');
+
+    setTimeout(() => {
+        modal.style.display = 'none';
+        modal.classList.remove('closing');
+    }, 200);
+}
+
+// Example usage for your close button:
+document.getElementById('close-account-modal').addEventListener('click', () => {
+    closeModal('account-modal');
+});
+
+document.getElementById('close-modal').addEventListener('click', () => {
+    closeModal('modal-overlay');
+});
+
+// Delete Modal Cancel
+document.getElementById('cancel-delete').addEventListener('click', () => {
+    closeModal('delete-confirm-modal');
+});
+
+// Import Modal Cancel
+document.getElementById('cancel-import').addEventListener('click', () => {
+    closeModal('import-confirm-modal');
+});
