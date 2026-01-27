@@ -109,10 +109,6 @@ body {
 
 /* 2. HOVER STATE: Purple left and right borders only */
 #search:hover {
-    border-left: 2px solid var(--accent-primary);
-    border-right: 2px solid var(--accent-primary);
-    border-top: 2px solid var(--border-color);
-    border-bottom: 2px solid var(--border-color);
     box-shadow: 0 0 15px rgba(139, 92, 246, 0.4), 
                 inset 0 0 5px rgba(139, 92, 246, 0.2);
 }
@@ -120,7 +116,7 @@ body {
 /* 3. FOCUS STATE: Full neon glow and full primary border */
 #search:focus {
     background: #1a1a1e;
-    border: 2px solid var(--accent-primary);
+    border: 1px solid var(--accent-primary);
     box-shadow: 0 0 15px rgba(139, 92, 246, 0.4), 
                 inset 0 0 5px rgba(139, 92, 246, 0.2);
 }
