@@ -69,7 +69,7 @@
             <form id="book-form">
                 <input type="hidden" id="book-id">
                 
-                <input type="text" id="title" placeholder="Book Title" maxlength="100" required>
+                <input type="text" id="title" placeholder="Book Title" maxlength="64" required>
                 
                 <select id="status">
                     <option value="Reading">Reading</option>
@@ -83,7 +83,7 @@
                         <option value="chapter">Chapter</option>
                         <option value="page">Page</option>
                     </select>
-                    <input type="number" id="tracking-value" placeholder="Count" min="0" maxlength="9">
+                    <input type="number" id="tracking-value" placeholder="Count" min="0" max="99999999999999">
                 </div>
 
                 <select id="rating" aria-label="Star Rating">
