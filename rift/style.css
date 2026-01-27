@@ -90,7 +90,7 @@ body {
     background: var(--bg-surface);
     color: var(--text-main);
     padding: 12px 20px;
-    border-radius: 8px;
+    border-radius: 50px;
     outline: none;
     font-family: inherit;
     font-size: 1rem;
@@ -99,7 +99,7 @@ body {
     -webkit-user-select: text;
 
     /* 1. DEFAULT STATE: Regular border all around */
-    border: 2px solid var(--border-color);
+    border: 1px solid var(--border-color);
     box-shadow: none;
 }
 
