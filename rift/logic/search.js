@@ -7,7 +7,7 @@ export const Search = {
     /**
      * Debounces a function to prevent it from running too frequently.
      */
-    debounce: (func, delay = 300) => {
+    debounce: (func, delay = 500) => {
         let timeout;
         return (...args) => {
             clearTimeout(timeout);

@@ -91,26 +91,38 @@ body {
     color: var(--text-main);
     padding: 12px 20px;
     border-radius: 8px;
-    box-shadow: var(--shadow-purple);
-    border: 1px solid var(--border-color);
-    /* Decorative side accents */
-    border-left: 2px solid var(--accent-primary);
-    border-right: 2px solid var(--accent-primary);
     outline: none;
     font-family: inherit;
     font-size: 1rem;
     transition: all 0.2s ease-in-out;
-
     user-select: text;
     -webkit-user-select: text;
+
+    /* 1. DEFAULT STATE: Regular border all around */
+    border: 2px solid var(--border-color);
+    box-shadow: none;
 }
 
-#search::placeholder { color: var(--text-muted); }
+#search::placeholder { 
+    color: var(--text-muted); 
+}
 
+/* 2. HOVER STATE: Purple left and right borders only */
+#search:hover {
+    border-left: 2px solid var(--accent-primary);
+    border-right: 2px solid var(--accent-primary);
+    border-top: 2px solid var(--border-color);
+    border-bottom: 2px solid var(--border-color);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4), 
+                inset 0 0 5px rgba(139, 92, 246, 0.2);
+}
+
+/* 3. FOCUS STATE: Full neon glow and full primary border */
 #search:focus {
-    border-color: var(--accent-primary);
     background: #1a1a1e;
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+    border: 2px solid var(--accent-primary);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4), 
+                inset 0 0 5px rgba(139, 92, 246, 0.2);
 }
 
 /* ==========================================================================
@@ -176,6 +188,8 @@ nav {
 
 .filter-btn.active {
     color: var(--accent-primary);
+    pointer-events: none; 
+    cursor: default;
 }
 
 /* Dynamic JS-driven highlight bar */
