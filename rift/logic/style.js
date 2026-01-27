@@ -66,26 +66,29 @@ if (navContainer) {
 /* --- MODAL LOGIC --- */
 window.closeModal = (modalId) => {
     const modal = document.getElementById(modalId);
-    if (!modal) return;
-    modal.classList.add('closing');
-    setTimeout(() => {
-        modal.style.display = 'none';
-        modal.classList.remove('closing');
-    }, 200);
+    if (modal) {
+        modal.classList.remove('active');
+    }
 };
 
 document.addEventListener('click', (e) => {
-    // Modal clicks
-    if (e.target.id === 'close-account-modal') window.closeModal('account-modal');
-    if (e.target.id === 'close-modal') window.closeModal('modal-overlay');
-    if (e.target.id === 'cancel-delete') window.closeModal('delete-confirm-modal');
-    if (e.target.id === 'cancel-import') window.closeModal('import-confirm-modal');
+    // Check for close buttons
+    const closeIds = ['close-account-modal', 'close-modal', 'cancel-delete', 'cancel-import'];
+    if (closeIds.includes(e.target.id)) {
+        // Find the closest parent overlay and shut it down
+        const modal = e.target.closest('.modal-overlay');
+        if (modal) window.closeModal(modal.id);
+    }
 
-    // Tab clicks (Ensure the active class actually moves)
+    // Close on backdrop click (clicking outside the content)
+    if (e.target.classList.contains('modal-overlay')) {
+        window.closeModal(e.target.id);
+    }
+
+    // Tab Filter logic (Ensuring it doesn't break)
     if (e.target.classList.contains('filter-btn')) {
         const parent = e.target.parentElement;
         parent.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
         e.target.classList.add('active');
-        // MutationObserver handles the glow movement automatically now!
     }
 });
