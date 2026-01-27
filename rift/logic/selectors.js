@@ -9,6 +9,8 @@
 export const getElements = () => ({
     // Containers & Status
     library: document.getElementById('library'),
+    searchBar: document.getElementById('search'),
+    filterButtons: document.querySelectorAll('.filter-btn'),
     syncStatus: document.querySelector('#sync-status strong'),
     
     // Modals & Overlays

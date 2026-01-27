@@ -12,6 +12,15 @@ import { UI } from './ui.js';
  * Orchestrates event listeners and user interactions across the application.
  */
 export const Events = {
+    // Helper to prevent animation lag during rapid typing
+    _debounce(func, delay = 250) {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    },
+
     /**
      * Set up global UI interactions like closing modals via backdrop or dedicated buttons.
      */
@@ -26,15 +35,12 @@ export const Events = {
      * Initialize handlers for local data import/export and Google Drive integration.
      */
     initDataHandlers(elements) {
-        // Local File Export
         elements.exportBtn?.addEventListener('click', () => DataService.exportJSON(state.books));
         
-        // Import Workflow: Trigger confirm modal when a file is selected
         elements.importFile?.addEventListener('change', (e) => {
             if (e.target.files.length > 0) ModalController.open(elements.importConfirmModal);
         });
 
-        // Finalize Import: Parse JSON and update application state
         elements.confirmImportBtn?.addEventListener('click', async () => {
             const file = elements.importFile?.files[0];
             if (!file) return;
@@ -42,16 +48,14 @@ export const Events = {
                 const newData = await DataService.importJSON(file);
                 await AppController.handleImport(newData);
                 ModalController.closeAll();
-                elements.importFile.value = ''; // Reset input to allow re-selection of same file
+                elements.importFile.value = ''; 
             } catch (err) { 
                 alert(err); 
             }
         });
 
-        // Proxy click for custom styled upload buttons
         document.getElementById('import-trigger').onclick = () => elements.importFile.click();
 
-        // Cloud Authentication
         if (elements.googleLoginBtn) {
             elements.googleLoginBtn.addEventListener('click', () => {
                 DriveService.login();
@@ -60,21 +64,34 @@ export const Events = {
     },
 
     /**
-     * Handle library-wide interactions using event delegation for efficiency.
+     * Handle library-wide interactions including Search and Filtering.
      */
     initLibraryHandlers(elements) {
+        // --- SEARCH LOGIC ---
+        const debouncedSearch = this._debounce((query) => {
+            // Re-render with current filter + search query
+            UI.renderBooks(state.books, state.currentFilter, elements.library, query);
+        });
+
+        elements.searchBar?.addEventListener('input', (e) => {
+            debouncedSearch(e.target.value);
+        });
+
+        // Prevent search bar from refreshing page on 'Enter'
+        elements.searchBar?.closest('form')?.addEventListener('submit', e => e.preventDefault());
+
+
+        // --- CARD & FAVORITE INTERACTION ---
         elements.library?.addEventListener('click', (e) => {
             const card = e.target.closest('.book-card');
             const favBtn = e.target.closest('.fav-btn');
             const id = parseInt(card?.dataset.id || favBtn?.dataset.id);
 
-            // Handle Favorite Toggle
             if (favBtn) {
                 e.stopPropagation();
                 BookActions.toggleFavorite(id);
                 AppController.sync();
             } 
-            // Handle Edit Mode: Populate and open form
             else if (card) {
                 const book = state.books.find(b => b.id === id);
                 if (book) {
@@ -85,13 +102,16 @@ export const Events = {
             }
         });
 
-        // Setup filter categorization listeners
+        // --- FILTER TAB LOGIC ---
         getGroups.filterBtns().forEach(btn => {
             btn.onclick = () => {
                 getGroups.filterBtns().forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 state.currentFilter = btn.dataset.filter;
-                UI.renderBooks(state.books, state.currentFilter, elements.library);
+                
+                // When switching tabs, respect the current search term
+                const currentSearch = elements.searchBar?.value || '';
+                UI.renderBooks(state.books, state.currentFilter, elements.library, currentSearch);
             };
         });
     },
@@ -100,7 +120,6 @@ export const Events = {
      * Manage form submissions, deletions, and entry-point triggers.
      */
     initFormHandlers(elements) {
-        // Form Submission (Add/Edit)
         elements.bookForm?.addEventListener('submit', (e) => {
             e.preventDefault();
             const bookData = FormHandler.getFormData(elements);
@@ -109,7 +128,6 @@ export const Events = {
             ModalController.closeAll();
         });
 
-        // Multi-step Deletion Workflow
         elements.deleteBtn?.addEventListener('click', () => ModalController.open(elements.deleteConfirmModal));
         
         elements.confirmDeleteBtn?.addEventListener('click', () => {
@@ -118,11 +136,10 @@ export const Events = {
             ModalController.closeAll();
         });
 
-        // UI Open Triggers
         document.getElementById('open-modal')?.addEventListener('click', () => {
             FormHandler.reset(elements);
             ModalController.open(elements.modalOverlay, "Add New Book", elements);
-            elements.deleteBtn.style.display = 'none'; // Hide delete for new entries
+            elements.deleteBtn.style.display = 'none';
         });
 
         document.getElementById('open-account-modal')?.addEventListener('click', () => {
