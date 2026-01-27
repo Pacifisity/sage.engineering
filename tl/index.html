@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Team Resource Hub</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            gap: 25px;
+        }
+        .team-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-left: 6px solid var(--primary);
+        }
+        h2 { margin-top: 0; color: var(--primary); }
+        .members { font-weight: bold; color: #64748b; font-size: 0.9em; }
+        .description { margin: 15px 0; font-style: italic; }
+        .links-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .resource-link {
+            background: #eff6ff;
+            color: #1d4ed8;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            transition: background 0.2s;
+            border: 1px solid #dbeafe;
+        }
+        .resource-link:hover { background: #dbeafe; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>OPERATION TOMAHAWK-STRIKE</h1>
+    <p>Centralized links, maps, and notes for all teams.</p>
+</header>
+
+<div class="container">
+    <div class="team-card">
+        <h2>Drone Team</h2>
+        <p class="members">Members: Kenneh, WHitley, Marmo</p>
+        <p class="description">Replay attack with hackerf</p>
+        <div class="links-grid">
+            <a href="#" class="resource-link">Notes</a>
+        </div>
+    </div>
+
+    <div class="team-card">
+        <h2>Arduino Team</h2>
+        <p class="members">Members: Baker, Artzt, Hadnot</p>
+        <p class="description">Replay attack with arduino</p>
+        <div class="links-grid">
+            <a href="#" class="resource-link">Notes</a>
+        </div>
+    </div>
+
+    <div class="team-card">
+        <h2>Reversing Team</h2>
+        <p class="members">Members: Sansouci, Greene, Owusu</p>
+        <p class="description">Reverse engineer dump 1090</p>
+        <div class="links-grid">
+            <a href="#" class="resource-link">Notes</a>
+        </div>
+    </div>
+
+    <div class="team-card">
+        <h2>NMT</h2>
+        <p class="members">Members: Cooper, Liang, Sixtos</p>
+        <p class="description">Attack smaller network</p>
+        <div class="links-grid">
+            <a href="#" class="resource-link">Notes</a>
+        </div>
+    </div>
+
+    <div class="team-card">
+        <h2>CMT</h2>
+        <p class="members">Members: Rendel, Vaughan, Morris, Weese, Gautam, Posey</p>
+        <p class="description">Attack larger network</p>
+        <div class="links-grid">
+            <a href="#" class="resource-link">Notes</a>
+        </div>
+    </div>
+
+    </div>
+
+</body>
+</html>
