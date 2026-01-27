@@ -29,6 +29,11 @@ export const DriveService = {
             this.accessToken = session.token;
             UI.updateSyncStatus(true);
             if (onReady) onReady();
+        } else if (session) {
+            // If we HAD a session but it's expired, try to recover it silently
+            this.requestSilentToken()
+                .then(() => { if (onReady) onReady(); })
+                .catch(() => { console.log("Could not auto-restore session."); });
         }
     },
 
@@ -60,10 +65,12 @@ export const DriveService = {
         this.tokenClient.requestAccessToken({ prompt: 'select_account' });
     },
 
-    /**
-     * Wrapper for fetch that injects Auth headers and handles silent token refresh.
-     */
     async fetchDrive(url, options = {}) {
+        // 1. Check if we even have a token
+        if (!this.accessToken) {
+            throw new Error("No access token available. Please login.");
+        }
+
         options.headers = {
             ...options.headers,
             'Authorization': `Bearer ${this.accessToken}`,
@@ -71,27 +78,41 @@ export const DriveService = {
 
         let response = await fetch(url, options);
 
-        // Handle expired tokens by attempting a silent background refresh
+        // 2. Handle 401 Unauthorized (Token Expired)
         if (response.status === 401) {
-            return new Promise((resolve, reject) => {
-                this.tokenClient.callback = async (resp) => {
-                    if (resp.error) {
-                        this.logout();
-                        reject(new Error("Refresh failed"));
-                        return;
-                    }
-                    this.handleNewToken(resp);
-                    
-                    options.headers['Authorization'] = `Bearer ${this.accessToken}`;
-                    const retryRes = await fetch(url, options);
-                    resolve(retryRes);
-                };
-                
-                // prompt: '' attempts to get a token without showing a popup
-                this.tokenClient.requestAccessToken({ prompt: '' });
-            });
+            console.log("Token expired, attempting silent refresh...");
+            
+            try {
+                const newToken = await this.requestSilentToken();
+                options.headers['Authorization'] = `Bearer ${newToken}`;
+                return await fetch(url, options); // Retry the original request
+            } catch (err) {
+                console.error("Silent refresh failed. User must click login.");
+                this.logout();
+                throw err;
+            }
         }
         return response;
+    },
+
+    /**
+     * Prompts Google for a new token without showing a UI popup.
+     */
+    requestSilentToken() {
+        return new Promise((resolve, reject) => {
+            this.tokenClient.callback = (resp) => {
+                if (resp.error) {
+                    reject(resp.error);
+                } else {
+                    this.handleNewToken(resp);
+                    resolve(resp.access_token);
+                }
+            };
+
+            // 'prompt: none' is the magic for "silent" refresh
+            // Note: This may fail if the user logged out of Google or revoked access
+            this.tokenClient.requestAccessToken({ prompt: 'none' });
+        });
     },
 
     /**
