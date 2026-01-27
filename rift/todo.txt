@@ -1,9 +1,0 @@
-HIGH PRIORITY:
-- fix google drive overwriting local data 100% of the time
-
-MEDIUM PRIORITY:
-- add animation to the closing of account modal, too abrupt
-- customization for colors
-
-LOW PRIORITY:
-- custom rating systems
