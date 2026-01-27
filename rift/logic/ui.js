@@ -107,7 +107,7 @@ export const UI = {
                 `;
                 container.appendChild(card);
             });
-        }, 200); // Wait for the "Exit" flight to nearly finish
+        }, 150); // Wait for the "Exit" flight to nearly finish
     },
 
     populateEditModal: (book) => {

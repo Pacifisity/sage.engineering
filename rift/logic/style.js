@@ -49,3 +49,36 @@ document.getElementById('cancel-delete').addEventListener('click', () => {
 document.getElementById('cancel-import').addEventListener('click', () => {
     closeModal('import-confirm-modal');
 });
+
+const updateIndicator = () => {
+    const activeBtn = document.querySelector('.filter-btn.active');
+    const indicator = document.querySelector('.nav-indicator');
+    const container = document.querySelector('.filter-container');
+
+    if (activeBtn && indicator) {
+        // 1. Get dimensions
+        const btnWidth = activeBtn.offsetWidth;
+        const btnLeft = activeBtn.offsetLeft;
+        
+        // 2. Set the glow width (e.g., 70% of the button)
+        const glowWidth = btnWidth * 0.7; 
+        indicator.style.width = `${glowWidth}px`;
+
+        // 3. THE CENTER LOGIC:
+        // Start at button left + (half of button) - (half of glow)
+        const centerPos = btnLeft + (btnWidth / 2) - (glowWidth / 2);
+
+        indicator.style.transform = `translateX(${centerPos}px)`;
+    }
+};
+
+// 1. Run on load
+window.addEventListener('load', updateIndicator);
+
+// 2. Run whenever a filter button is clicked
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        // ... your existing active class toggle logic ...
+        setTimeout(updateIndicator, 10); // Tiny delay ensures the 'active' class has moved
+    });
+});

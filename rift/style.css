@@ -120,7 +120,7 @@ nav {
     display: flex;
     gap: 12px;
     padding: 4px;
-    overflow-x: auto;
+    position: relative; /* CRUCIAL: Makes the indicator stay inside the container */
     scrollbar-width: none;
 }
 
@@ -150,15 +150,11 @@ nav {
     background: rgba(var(--accent-rgb), 0.05); 
 }
 
-/* The "Light Leak" Underline */
-.filter-btn.active::after {
-    content: '';
+.nav-indicator {
     position: absolute;
-    bottom: 2px; /* Pulls it slightly up into the button area */
-    left: 15%;
-    right: 15%;
+    bottom: 6px;
+    left: 0; /* Start at 0 so JS math is simple */
     height: 1.5px;
-    /* Gradient makes the line disappear into the edges rather than stopping abruptly */
     background: linear-gradient(
         90deg, 
         transparent, 
@@ -166,8 +162,9 @@ nav {
         var(--accent-primary) 80%, 
         transparent
     );
-    /* This adds the "glow" without being a big blurry mess */
     box-shadow: 0 2px 10px rgba(var(--accent-rgb), 0.3);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    pointer-events: none;
     opacity: 0.8;
 }
 
