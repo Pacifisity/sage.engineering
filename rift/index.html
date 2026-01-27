@@ -131,6 +131,35 @@
         </div>
     </div>
     
+    <div id="sync-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="sync-modal-title">Data Sync Conflict</h2>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">We found a difference between your local library and your cloud backup. Which one should we keep?</p>
+                
+                <div class="sync-options">
+                    <button id="use-cloud-btn" class="sync-button">
+                        <div class="sync-icon">☁️</div>
+                        <div class="sync-info">
+                            <strong>Cloud Data</strong>
+                            <p>Keep the version stored in Google Drive.</p>
+                        </div>
+                    </button>
+                    
+                    <button id="use-local-btn" class="sync-button">
+                        <div class="sync-icon">📱</div>
+                        <div class="sync-info">
+                            <strong>Local Data</strong>
+                            <p>Keep the version on this device and update the cloud.</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://accounts.google.com/gsi/client"></script>
     <script type="module" src="main.js"></script>

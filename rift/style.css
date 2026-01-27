@@ -56,6 +56,8 @@ body {
 
 .search-container {
     flex-grow: 1;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .account-btn {
@@ -72,6 +74,8 @@ body {
     font-size: 1.2rem;
     transition: all 0.2s ease;
     flex-shrink: 0;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .account-btn:hover {
@@ -96,6 +100,9 @@ body {
     font-family: inherit;
     font-size: 1rem;
     transition: all 0.2s ease-in-out;
+
+    user-select: text;
+    -webkit-user-select: text;
 }
 
 #search::placeholder { color: var(--text-muted); }
@@ -215,11 +222,13 @@ nav {
     will-change: transform, opacity;
     backface-visibility: hidden;
     opacity: 0;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .book-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-purple);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px var(--shadow-purple);
     border-color: var(--accent-primary);
 }
 
@@ -339,7 +348,7 @@ nav {
 }
 
 /* ==========================================================================
-   MODAL FOUNDATION (Universal Overlay)
+   MODAL FOUNDATION
    ========================================================================== */
 .modal-overlay {
     position: fixed;
@@ -347,20 +356,24 @@ nav {
     display: flex; 
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.7); /* Slightly lighter for better contrast */
     z-index: 1000;
     
+    /* Performance: promote to own layer */
+    will-change: opacity, visibility;
     opacity: 0;
     visibility: hidden; 
     pointer-events: none;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
 .modal-overlay.active {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    backdrop-filter: blur(8px);
+    /* Reduced blur for smoother animation performance */
+    backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.8);
 }
 
 .modal-content {
@@ -368,26 +381,97 @@ nav {
     padding: 30px;
     border-radius: 20px;
     border: 1px solid var(--accent-primary); 
-    box-shadow: 0 0 40px rgba(139, 92, 246, 0.2); 
+    
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     
     width: 90%;
     max-width: 450px; 
     
-    transform: scale(0.9) translateY(20px);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    
+    /* Text rendering fix */
+    -webkit-font-smoothing: antialiased;
 }
 
 .modal-overlay.active .modal-content {
-    transform: scale(1) translateY(0);
+    transform: scale(1);
 }
 
 .modal-content h2 { 
-    margin-bottom: 25px; 
+    margin-bottom: 20px; 
     color: var(--accent-primary); 
     font-size: 1.6rem;
     letter-spacing: -0.5px;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 15px;
+}
+
+/* ==========================================================================
+   CONFLICT SPECIFIC STYLES
+   ========================================================================== */
+.modal-description {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.sync-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.sync-button {
+    appearance: none;
+    -webkit-appearance: none;
+    
+    background: #252529; 
+    
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+
+    transition: background-color 0.05s linear, border-color 0.05s linear;
+}
+
+.sync-button strong {
+    display: block;
+    color: var(--text-main);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    pointer-events: none; 
+}
+
+.sync-button p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.4;
+    pointer-events: none;
+}
+
+.sync-button:hover {
+    background: #2d2d33;
+    border-color: var(--accent-primary);
+}
+
+.sync-button:active {
+    background: #33333a;
+}
+
+.sync-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+    text-shadow: none;
+    color: var(--accent-primary);
 }
 
 /* ==========================================================================

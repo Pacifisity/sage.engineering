@@ -1,13 +1,10 @@
 /**
  * logic/selectors.js
- * * Centralized DOM element references.
+ * Centralized DOM element references.
  */
 
 /**
  * Returns an object containing primary application elements.
- * * NOTE: This is wrapped in a function to ensure elements are queried 
- * lazily (only when needed), preventing 'null' references if the script 
- * executes before the DOM has fully parsed.
  */
 export const getElements = () => ({
     // Containers & Status
@@ -20,6 +17,7 @@ export const getElements = () => ({
     accountModal: document.getElementById('account-modal'),
     deleteConfirmModal: document.getElementById('delete-confirm-modal'),
     importConfirmModal: document.getElementById('import-confirm-modal'),
+    syncModal: document.getElementById('sync-modal'),
     
     // Form Inputs
     bookForm: document.getElementById('book-form'),
@@ -50,6 +48,7 @@ export const getGroups = {
     // Selects all category filter controls
     filterBtns: () => document.querySelectorAll('.filter-btn'),
     
-    // Aggregates various UI 'close' or 'cancel' triggers across different modals
-    closeBtns: () => document.querySelectorAll('#close-modal, #close-account-modal, #cancel-delete, #cancel-import')
+    // Aggregates various UI 'close' or 'cancel' triggers
+    // Added #cancel-sync here just in case you add a close button to that modal
+    closeBtns: () => document.querySelectorAll('#close-modal, #close-account-modal, #cancel-delete, #cancel-import, #cancel-sync')
 };

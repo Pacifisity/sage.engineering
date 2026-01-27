@@ -154,18 +154,44 @@ export const UI = {
      */
     updateSyncStatus(isAuthenticated) {
         const statusElement = document.querySelector('#sync-status strong');
+        const subtextElement = document.querySelector('.status-subtext');
         const loginBtn = document.getElementById('google-login-btn');
         
         if (isAuthenticated) {
+            // Update Status Header
             if (statusElement) {
                 statusElement.textContent = "Cloud Synced";
                 statusElement.style.color = "#4CAF50"; 
             }
-            if (loginBtn) loginBtn.textContent = "Account Connected";
+
+            // Hide the "Sign in to back up..." message
+            if (subtextElement) {
+                subtextElement.style.display = 'none';
+            }
+
+            // Disable button interaction and update look
+            if (loginBtn) {
+                loginBtn.textContent = "Account Connected";
+                loginBtn.style.pointerEvents = 'none';
+                loginBtn.style.opacity = '0.7';
+                loginBtn.style.filter = 'grayscale(0.5)';
+            }
         } else {
+            // Restore "Logged Out" State
             if (statusElement) {
                 statusElement.textContent = "Local Only";
                 statusElement.style.color = ""; 
+            }
+
+            if (subtextElement) {
+                subtextElement.style.display = 'block';
+            }
+
+            if (loginBtn) {
+                loginBtn.textContent = "Connect Google Drive";
+                loginBtn.style.pointerEvents = 'auto';
+                loginBtn.style.opacity = '1';
+                loginBtn.style.filter = 'none';
             }
         }
     }
