@@ -21,6 +21,11 @@
     box-sizing: border-box;
 }
 
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-deep);
@@ -29,6 +34,10 @@ body {
     padding: 20px;
 }
 
+html, body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
 /* ==========================================================================
    SEARCH COMPONENT
    ========================================================================== */
@@ -198,6 +207,12 @@ nav {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
+    padding: 10px;
+    
+    overflow-x: hidden; 
+    
+    position: relative;
+    min-height: 400px; 
 }
 
 .book-card {
@@ -212,7 +227,13 @@ nav {
     align-items: flex-start;
     text-align: left;
     cursor: pointer;
+    
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    
+    opacity: 0;
 }
 
 .book-card:hover {
@@ -580,6 +601,7 @@ nav {
 /* ==========================================================================
    ANIMATIONS
    ========================================================================== */
+
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 @keyframes modalPop {
@@ -587,90 +609,65 @@ nav {
     to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* Updated Closing animation: slightly more movement for a 'softer' feel */
 @keyframes modalPopOut {
     from { opacity: 1; transform: scale(1) translateY(0); }
     to { opacity: 0; transform: scale(0.95) translateY(15px); }
 }
 
-/* The Overlay Fade Out */
 .modal-overlay.closing {
     opacity: 0;
-    transition: opacity 0.2s ease-out; /* Smoothly fade the dark background */
+    transition: opacity 0.2s ease-out;
     pointer-events: none;
 }
 
-/* The Content Slide Out */
 .modal-overlay.closing .modal-content {
     animation: modalPopOut 0.2s ease-out forwards;
 }
 
-/* New stuff for cards */
-/* The Animation Definition */
-@keyframes cardEntry {
-    from {
-        opacity: 0;
-        transform: scale(0.9) translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
-/* Apply to the card class */
-.card {
-    animation: cardEntry 0.3s ease-out forwards;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Subtle hover effect for extra "life" */
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-
-/* 1. The Animation */
-@keyframes cardEntrance {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* 2. Apply to the card class */
-.book-card {
-    /* Ensure cards are invisible before animation starts */
+/* --- CARD & EMPTY STATE BASE STYLES --- */
+.book-card, .empty-state-msg {
     opacity: 0;
-    animation: cardEntrance 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    
-    /* Smooth transitions for hover and interactions */
+    /* transition remains for the hover effect, but animations handle the flight */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* 3. Make it feel alive on hover */
 .book-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
-.empty-state-msg {
-    animation: cardEntrance 0.5s ease forwards;
+/* --- THE "LITERAL FLIGHT" ANIMATIONS --- */
+
+/* Entrance: Coming from off-screen */
+@keyframes flyInRight {
+    /* Start completely off the right edge of the screen */
+    from { opacity: 0; transform: translateX(100vw); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
-/* The Shake Animation */
-@keyframes teaseShake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-8px); }
-    50% { transform: translateX(8px); }
-    75% { transform: translateX(-4px); }
+@keyframes flyInLeft {
+    /* Start completely off the left edge of the screen */
+    from { opacity: 0; transform: translateX(-100vw); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
-.shake-tease {
-    /* We keep the entrance 'forwards' state, but layer the shake on top */
-    animation: teaseShake 0.4s ease-in-out;
+/* Exit: Going to off-screen */
+@keyframes flyOutRight {
+    from { opacity: 1; transform: translateX(0); }
+    /* Fly all the way off the right edge */
+    to { opacity: 0; transform: translateX(100vw); }
 }
+
+@keyframes flyOutLeft {
+    from { opacity: 1; transform: translateX(0); }
+    /* Fly all the way off the left edge */
+    to { opacity: 0; transform: translateX(-100vw); }
+}
+
+/* --- DYNAMIC CLASSES --- */
+.fly-in-right { animation: flyInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+.fly-in-left { animation: flyInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+/* Exit animations need to be fast and aggressive */
+.fly-out-right { animation: flyOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important; }
+.fly-out-left { animation: flyOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important; }

@@ -1,91 +1,113 @@
+let lastTabIndex = 0;
+
 // logic/ui.js
 export const UI = {
     renderBooks: (books, currentFilter, container) => {
         if (!container) return;
 
-        const filteredBooks = books.filter(book => {
-            if (currentFilter === 'all') return true;
-            if (currentFilter === 'favorites') return book.isFavorite;
-            return book.status === currentFilter;
-        });
+        // 1. DYNAMICALLY FIND TAB ORDER
+        const allTabs = Array.from(document.querySelectorAll('.filter-btn'));
+        const currentTabIndex = allTabs.findIndex(tab => 
+            tab.dataset.filter.toLowerCase() === currentFilter.toLowerCase()
+        );
+        
+        // Determine "Flight" Directions
+        const isMovingRight = currentTabIndex >= lastTabIndex;
+        const exitClass = isMovingRight ? 'fly-out-left' : 'fly-out-right';
+        const enterClass = isMovingRight ? 'fly-in-right' : 'fly-in-left';
+        
+        lastTabIndex = currentTabIndex;
 
-        if (filteredBooks.length === 0) {
-            const existingMsg = container.querySelector('.empty-state-msg');
-            
-            if (existingMsg) {
-                // It's already there, so let's just tease the user
-                // We remove and re-add the class to trigger the animation again
-                existingMsg.classList.remove('shake-tease');
-                void existingMsg.offsetWidth; // The "magic" line that forces a browser reflow
-                existingMsg.classList.add('shake-tease');
+        // 2. TRIGGER THE "FLY AWAY" (Exit) for ALL existing content
+        const existingElements = container.querySelectorAll('.book-card, .empty-state-msg');
+        if (existingElements.length > 0) {
+            existingElements.forEach(el => {
+                // Reset delays so they all fly out at the same time
+                el.style.animationDelay = '0s';
+                el.classList.remove('fly-in-right', 'fly-in-left', 'slide-right', 'slide-left');
+                
+                // Force a reflow so the browser notices the class change
+                void el.offsetWidth; 
+                el.classList.add(exitClass);
+            });
+        }
+
+        // 3. WAIT FOR EXIT FLIGHT (300ms), THEN RENDER NEW CONTENT
+        setTimeout(() => {
+            container.innerHTML = '';
+
+            // Filter logic
+            const filteredBooks = books.filter(book => {
+                if (currentFilter === 'all') return true;
+                if (currentFilter.toLowerCase() === 'favorites') return book.isFavorite;
+                return book.status === currentFilter;
+            });
+
+            // Handle Empty State "Flying In"
+            if (filteredBooks.length === 0) {
+                container.innerHTML = `
+                    <p class="empty-state-msg ${enterClass}" style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">
+                        No stories here...
+                    </p>`;
                 return;
             }
 
-            // First time landing on an empty tab
-            container.innerHTML = `
-                <p class="empty-state-msg" style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">
-                    No stories here...
-                </p>`;
-            return;
-        }
+            // Handle Cards "Flying In"
+            filteredBooks.forEach((book, index) => {
+                const card = document.createElement('div');
+                card.className = `book-card ${enterClass}`;
+                card.dataset.id = book.id; 
+                
+                // Stagger the entrance for a "flowing" effect
+                card.style.animationDelay = `${index * 0.04}s`;
 
-        // Clear and render cards if books exist
-        container.innerHTML = '';
+                // --- PROGRESS LOGIC ---
+                const label = book.trackingType ? (book.trackingType.charAt(0).toUpperCase() + book.trackingType.slice(1)) : 'Progress';
+                const hasProgress = book.currentCount && parseInt(book.currentCount) > 0;
+                const progressHTML = hasProgress 
+                    ? `<span>${label}</span> <span>${book.currentCount}</span>`
+                    : `<span style="font-style: italic; color: var(--text-muted); font-size: 0.85rem;">Haven't cracked it open yet</span>`;
 
-        filteredBooks.forEach((book, index) => {
-            const card = document.createElement('div');
-            card.className = 'book-card';
-            card.dataset.id = book.id; 
+                // --- URL LOGIC ---
+                const urlHTML = book.url 
+                    ? `<a href="${book.url}" target="_blank" class="url-link" onclick="event.stopPropagation()"></a>` 
+                    : '';
 
-            // Add staggered delay for the "flow-in" effect
-            // Every card waits 0.05s longer than the previous one
-            card.style.animationDelay = `${index * 0.05}s`;
+                // --- RATING LOGIC ---
+                const ratingValue = book.rating;
+                const isRated = typeof ratingValue === 'number' || (typeof ratingValue === 'string' && ratingValue !== "Unrated" && ratingValue !== "");
+                let ratingHTML = '';
+                if (isRated) {
+                    const numStars = parseInt(ratingValue);
+                    const filled = '★'.repeat(numStars);
+                    const empty = '☆'.repeat(5 - numStars);
+                    ratingHTML = `<span class="stars-filled">${filled}</span><span class="stars-empty">${empty}</span>`;
+                } else {
+                    ratingHTML = `<span style="color:var(--text-muted); font-size: 0.8rem; letter-spacing: 1px;">UNRATED</span>`;
+                }
 
-            const label = book.trackingType ? (book.trackingType.charAt(0).toUpperCase() + book.trackingType.slice(1)) : 'Progress';
-            const hasProgress = book.currentCount && parseInt(book.currentCount) > 0;
-
-            const progressHTML = hasProgress 
-                ? `<span>${label}</span> <span>${book.currentCount}</span>`
-                : `<span style="font-style: italic; color: var(--text-muted); font-size: 0.85rem;">Haven't cracked it open yet</span>`;
-
-            const urlHTML = book.url 
-                ? `<a href="${book.url}" target="_blank" class="url-link" onclick="event.stopPropagation()"></a>` 
-                : '';
-
-            // --- RATING LOGIC ---
-            const ratingValue = book.rating;
-            const isRated = typeof ratingValue === 'number' || (typeof ratingValue === 'string' && ratingValue !== "Unrated" && ratingValue !== "");
-
-            let ratingHTML = '';
-            if (isRated) {
-                const numStars = parseInt(ratingValue);
-                const filled = '★'.repeat(numStars);
-                const empty = '☆'.repeat(5 - numStars);
-                ratingHTML = `<span class="stars-filled">${filled}</span><span class="stars-empty">${empty}</span>`;
-            } else {
-                ratingHTML = `<span style="color:var(--text-muted); font-size: 0.8rem; letter-spacing: 1px;">UNRATED</span>`;
-            }
-
-            card.innerHTML = `
-                <div class="card-header">
-                    <div>
-                        <span class="status-badge">${book.status || 'Reading'}</span>
-                        <h3>${book.title}</h3>
+                // --- GENERATE HTML ---
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div>
+                            <span class="status-badge">${book.status || 'Reading'}</span>
+                            <h3>${book.title}</h3>
+                        </div>
+                        <button class="fav-btn ${book.isFavorite ? 'active' : ''}" data-id="${book.id}">
+                            ${book.isFavorite ? '★' : '☆'}
+                        </button>
                     </div>
-                    <button class="fav-btn ${book.isFavorite ? 'active' : ''}" data-id="${book.id}">
-                        ${book.isFavorite ? '★' : '☆'}
-                    </button>
-                </div>
-                <div class="card-stats">
-                    <p>${progressHTML}</p>
-                    <div class="rating-display" style="display: flex; align-items: center; gap: 8px; min-height: 24px;">
-                        <div class="star-rating">${ratingHTML}</div>
-                        ${urlHTML} 
+                    <div class="card-stats">
+                        <p>${progressHTML}</p>
+                        <div class="rating-display" style="display: flex; align-items: center; gap: 8px; min-height: 24px;">
+                            <div class="star-rating">${ratingHTML}</div>
+                            ${urlHTML} 
+                        </div>
                     </div>
-                </div>
-            `;
-            container.appendChild(card);
-        });
+                `;
+                container.appendChild(card);
+            });
+        }, 200); // Wait for the "Exit" flight to nearly finish
     },
 
     populateEditModal: (book) => {
