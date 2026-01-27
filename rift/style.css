@@ -572,6 +572,21 @@ nav {
     background: rgba(255, 255, 255, 0.1); 
     color: var(--text-main); 
 }
+
+.star-rating {
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+}
+
+.stars-filled {
+    color: #ffcc00; 
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.3);
+}
+
+.stars-empty {
+    color: rgba(255, 255, 255, 0.1); /* Very faint white */
+}
 /* ==========================================================================
    ANIMATIONS
    ========================================================================== */

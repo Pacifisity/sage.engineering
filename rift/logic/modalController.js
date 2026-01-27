@@ -11,14 +11,16 @@ export const ModalController = {
         }
         modalElement.style.display = 'flex';
     },
-
+    
     fillBookForm: (book, elements) => {
         elements.bookIdInput.value = book.id;
         elements.titleInput.value = book.title;
         elements.statusInput.value = book.status;
         elements.typeInput.value = book.trackingType;
         elements.countInput.value = book.currentCount;
-        elements.ratingInput.value = book.rating;
+
+        elements.ratingInput.value = book.rating || "Unrated";
+
         elements.urlInput.value = book.url || '';
     }
 };

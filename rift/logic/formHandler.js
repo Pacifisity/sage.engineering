@@ -11,7 +11,7 @@ export const FormHandler = {
             status: elements.statusInput.value,
             trackingType: elements.typeInput.value,
             currentCount: parseInt(elements.countInput.value) || 0,
-            rating: parseInt(elements.ratingInput.value) || 0,
+            rating: elements.ratingInput.value === "" ? null : parseInt(elements.ratingInput.value, 10),
             // Keep existing properties that aren't in the form (like favorite status)
             isFavorite: elements.isFavoriteInput?.checked || false 
         };

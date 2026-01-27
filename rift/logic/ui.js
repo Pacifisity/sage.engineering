@@ -18,11 +18,8 @@ export const UI = {
         filteredBooks.forEach(book => {
             const card = document.createElement('div');
             card.className = 'book-card';
-            
-            // CRITICAL: Store the ID in a data attribute for logic.js to read
             card.dataset.id = book.id; 
 
-            // Format progress label
             const label = book.trackingType ? (book.trackingType.charAt(0).toUpperCase() + book.trackingType.slice(1)) : 'Progress';
             const hasProgress = book.currentCount && parseInt(book.currentCount) > 0;
 
@@ -33,6 +30,20 @@ export const UI = {
             const urlHTML = book.url 
                 ? `<a href="${book.url}" target="_blank" class="url-link" onclick="event.stopPropagation()"></a>` 
                 : '';
+
+            // --- RATING LOGIC ---
+            const maxStars = 5;
+            const ratingValue = book.rating;
+            const isRated = typeof ratingValue === 'number';
+
+            let ratingHTML = '';
+            if (isRated) {
+                const filled = '★'.repeat(ratingValue);
+                const empty = '☆'.repeat(5 - ratingValue);
+                ratingHTML = `<span class="stars-filled">${filled}</span><span class="stars-empty">${empty}</span>`;
+            } else {
+                ratingHTML = `<span style="color:var(--text-muted); font-size: 0.8rem; letter-spacing: 1px;">UNRATED</span>`;
+            }
 
             card.innerHTML = `
                 <div class="card-header">
@@ -46,13 +57,29 @@ export const UI = {
                 </div>
                 <div class="card-stats">
                     <p>${progressHTML}</p>
-                    <div class="rating-display" style="display: flex; align-items: center;">
-                        ${book.rating > 0 ? '★'.repeat(book.rating) : '<span style="color:var(--text-muted); font-size: 0.8rem;">UNRATED</span>'}
-                        ${urlHTML} </div>
+                    <div class="rating-display" style="display: flex; align-items: center; gap: 8px; min-height: 24px;">
+                        <div class="star-rating">${ratingHTML}</div>
+                        ${urlHTML} 
+                    </div>
                 </div>
             `;
             container.appendChild(card);
         });
+    },
+
+    // CALL THIS FUNCTION WHEN YOU OPEN YOUR EDIT MODAL
+    populateEditModal: (book) => {
+        const ratingSelect = document.getElementById('rating');
+        if (!ratingSelect) return;
+
+        // This ensures the dropdown says "Unrated" instead of being empty
+        // It matches the <option value=""> in your HTML
+        ratingSelect.value = (book.rating === null || book.rating === undefined) ? "" : book.rating;
+        
+        // Populate other fields as well
+        document.getElementById('edit-title').value = book.title || '';
+        document.getElementById('edit-status').value = book.status || 'Reading';
+        // ... any other fields
     },
     
     updateSyncStatus(isAuthenticated) {
@@ -61,7 +88,7 @@ export const UI = {
         
         if (isAuthenticated) {
             statusElement.textContent = "Cloud Synced";
-            statusElement.style.color = "#4CAF50"; // Green
+            statusElement.style.color = "#4CAF50"; 
             if (loginBtn) loginBtn.textContent = "Account Connected";
         } else {
             statusElement.textContent = "Local Only";
