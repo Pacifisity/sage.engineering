@@ -101,7 +101,6 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
     padding: 15px 0;
     margin-bottom: 30px;
     user-select: none;
@@ -110,66 +109,57 @@ nav {
 
 .filter-container {
     display: flex;
-    flex-wrap: nowrap;
-    gap: 20px;
-    padding: 0 5px; 
+    gap: 12px;
+    padding: 4px;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    flex-grow: 1;
-
-    /* Logic: 0 is no fade, 1 is full fade */
-    --left-opacity: 0;
-    --right-opacity: 0;
-
-    /* Increased the gradient range to 25% for a more dramatic effect */
-    mask-image: linear-gradient(
-        to right, 
-        rgba(0,0,0, calc(1 - var(--left-opacity))) 0%, 
-        black 25%, 
-        black 75%, 
-        rgba(0,0,0, calc(1 - var(--right-opacity))) 100%
-    );
-    -webkit-mask-image: linear-gradient(
-        to right, 
-        rgba(0,0,0, calc(1 - var(--left-opacity))) 0%, 
-        black 25%, 
-        black 75%, 
-        rgba(0,0,0, calc(1 - var(--right-opacity))) 100%
-    );
 }
 
-.filter-container::-webkit-scrollbar {
-    display: none;
-}
-
-/* Rest of your button styles remain the same... */
 .filter-btn {
     flex-shrink: 0;
-    background: none;
+    background: transparent;
     border: none;
-    padding: 5px 0;
-    font: inherit;
+    padding: 10px 18px; 
+    font-size: 0.95rem;
+    font-weight: 500;
     color: var(--text-muted);
     cursor: pointer;
-    font-weight: 600;
-    transition: color 0.2s ease;
+    border-radius: 8px;
+    transition: all 0.25s ease;
     position: relative;
+    white-space: nowrap;
 }
 
-.filter-btn.active { color: var(--accent-primary); }
+/* Hover state: Gentle text brightening */
+.filter-btn:hover {
+    color: #fff;
+}
 
+.filter-btn.active {
+    color: var(--accent-primary);
+    /* Subtle background lift to define the area */
+    background: rgba(var(--accent-rgb), 0.05); 
+}
+
+/* The "Light Leak" Underline */
 .filter-btn.active::after {
     content: '';
     position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    background: var(--accent-primary);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--accent-primary);
+    bottom: 2px; /* Pulls it slightly up into the button area */
+    left: 15%;
+    right: 15%;
+    height: 1.5px;
+    /* Gradient makes the line disappear into the edges rather than stopping abruptly */
+    background: linear-gradient(
+        90deg, 
+        transparent, 
+        var(--accent-primary) 20%, 
+        var(--accent-primary) 80%, 
+        transparent
+    );
+    /* This adds the "glow" without being a big blurry mess */
+    box-shadow: 0 2px 10px rgba(var(--accent-rgb), 0.3);
+    opacity: 0.8;
 }
 
 .add-btn {
