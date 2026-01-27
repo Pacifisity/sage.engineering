@@ -1,4 +1,4 @@
-/* --- ModalController.js --- */
+/* --- modalController.js --- */
 import { getGroups } from './selectors.js';
 
 /**
