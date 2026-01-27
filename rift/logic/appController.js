@@ -2,7 +2,7 @@ import { state } from './state.js';
 import { UI } from './ui.js';
 import { DriveService } from './drive.js';
 import { getElements } from './selectors.js';
-import { ModalController } from './ModalController.js'; // Import this
+import { ModalController } from './modalController.js'; // Import this
 
 export const AppController = {
     /**
