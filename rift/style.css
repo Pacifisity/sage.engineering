@@ -657,3 +657,20 @@ nav {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
+
+.empty-state-msg {
+    animation: cardEntrance 0.5s ease forwards;
+}
+
+/* The Shake Animation */
+@keyframes teaseShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+    75% { transform: translateX(-4px); }
+}
+
+.shake-tease {
+    /* We keep the entrance 'forwards' state, but layer the shake on top */
+    animation: teaseShake 0.4s ease-in-out;
+}

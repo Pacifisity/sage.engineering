@@ -2,7 +2,6 @@
 export const UI = {
     renderBooks: (books, currentFilter, container) => {
         if (!container) return;
-        container.innerHTML = '';
 
         const filteredBooks = books.filter(book => {
             if (currentFilter === 'all') return true;
@@ -11,13 +10,27 @@ export const UI = {
         });
 
         if (filteredBooks.length === 0) {
+            const existingMsg = container.querySelector('.empty-state-msg');
+            
+            if (existingMsg) {
+                // It's already there, so let's just tease the user
+                // We remove and re-add the class to trigger the animation again
+                existingMsg.classList.remove('shake-tease');
+                void existingMsg.offsetWidth; // The "magic" line that forces a browser reflow
+                existingMsg.classList.add('shake-tease');
+                return;
+            }
+
+            // First time landing on an empty tab
             container.innerHTML = `
-                <p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px; 
-                animation: cardEntrance 0.5s ease forwards;">
+                <p class="empty-state-msg" style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">
                     No stories here...
                 </p>`;
             return;
         }
+
+        // Clear and render cards if books exist
+        container.innerHTML = '';
 
         filteredBooks.forEach((book, index) => {
             const card = document.createElement('div');
