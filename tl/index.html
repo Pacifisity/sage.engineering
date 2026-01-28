@@ -3,149 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OPERATION TOMAHAWK-STRIKE</title>
+    <title>TOMAHAWK // STRIKE</title>
     <style>
         :root {
-            /* Army Cyber Dark Mode Palette */
             --gold: #ffcc00; 
-            --bg: #121212;
-            --card-bg: #1e1e1e;
-            --text: #ffffff;
-            --text-dim: #a0a0a0;
-            --border: #333333;
+            --bg: #0a0a0a;
+            --card-bg: #141414;
+            --text: #e0e0e0;
+            --text-dim: #777777;
+            --border: #222222;
+            --gold-glow: rgba(255, 204, 0, 0.2);
         }
 
         body {
-            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            /* Using a monospace font makes it feel more "hacker" casual */
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
             background-color: var(--bg);
             color: var(--text);
-            line-height: 1.6;
+            line-height: 1.5;
             margin: 0;
-            padding: 20px;
+            padding: 0 0 60px 0;
         }
 
         header {
             text-align: center;
-            padding: 30px 0;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 30px;
+            padding: 50px 0 30px 0;
         }
 
         h1 {
             color: var(--gold);
             margin: 0;
-            font-size: 2rem;
+            font-size: 2.5rem;
+            letter-spacing: -1px;
+            text-transform: lowercase;
+            font-style: italic;
+        }
+
+        h1::before { content: "> "; opacity: 0.5; }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .ops-bar {
+            width: 100%;
+            background: #111;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+            padding: 10px 0;
+        }
+
+        .inner-bar {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: auto;
             display: grid;
-            gap: 20px;
+            gap: 15px;
+            padding: 0 20px;
         }
 
         .team-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-left: 5px solid var(--gold);
-            border-radius: 8px;
+            border-radius: 2px;
             padding: 20px;
+            transition: border 0.3s ease;
+        }
+
+        .team-card:hover {
+            border-color: var(--gold);
         }
 
         h2 { 
-            margin-top: 0; 
+            margin: 0 0 5px 0; 
             color: var(--gold); 
-            font-size: 1.5rem;
+            font-size: 1.2rem; 
+            text-transform: uppercase;
         }
 
         .members { 
-            font-weight: bold; 
-            color: var(--text-dim); 
-            font-size: 0.95em;
-            margin-bottom: 8px;
+            color: var(--gold); 
+            font-size: 0.8em; 
+            margin-bottom: 12px; 
+            opacity: 0.8;
         }
 
         .description { 
             margin: 10px 0; 
-            color: var(--text);
+            color: var(--text); 
+            font-size: 0.95em;
         }
 
         .links-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 15px;
+            gap: 10px;
+            margin-top: 20px;
         }
 
         .resource-link {
-            background: #2a2a2a;
-            color: var(--gold);
+            background: transparent;
+            color: var(--text);
             text-decoration: none;
-            padding: 8px 16px;
-            border: 1px solid var(--gold);
-            border-radius: 4px;
-            font-size: 0.9em;
+            padding: 5px 12px;
+            border: 1px solid #444;
+            font-size: 0.8em;
             transition: all 0.2s ease;
         }
 
         .resource-link:hover { 
             background: var(--gold);
-            color: #000000;
+            color: #000;
+            border-color: var(--gold);
+            box-shadow: 0 0 8px var(--gold-glow);
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            background: #222;
+            padding: 2px 6px;
+            border-radius: 3px;
+            vertical-align: middle;
+            margin-left: 8px;
+            color: var(--text-dim);
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>OPERATION TOMAHAWK-STRIKE</h1>
-    <p>Centralized links, maps, and notes for all teams.</p>
+    <h1>tomahawk_strike.sh</h1>
 </header>
+
+<div class="ops-bar">
+    <div class="inner-bar">
+        <div class="links-grid" style="margin-top: 0;">
+            <a href="https://docs.google.com/presentation/d/1yEvJikbFjnqPcMiFM9kv99bu72mz-o9F/edit?usp=sharing&ouid=115094332923535254957&rtpof=true&sd=true" class="resource-link" target="_blank" rel="noopener noreferrer">// MISSION_BRIEF</a>
+        </div>
+    </div>
+</div>
 
 <div class="container">
     <div class="team-card">
-        <h2>Drone Team</h2>
-        <p class="members">Members: Kenneh, Whitley, Marmo</p>
-        <p class="description">Replay attack with hackerf</p>
+        <h2>Drone Squad <span class="tag">RF_ATTACK</span></h2>
+        <p class="members">Kenneh, Whitley, Marmo</p>
+        <p class="description">Spamming replay attacks with the HackerF.</p>
         <div class="links-grid">
-            <a href="https://docs.google.com/document/d/17X_63xdxYgBzPPS2EHDHjC3PJk6WgR8V84DfDvgJaws/edit?usp=sharing" class="resource-link">Notes</a>
+            <a href="https://docs.google.com/document/d/17X_63xdxYgBzPPS2EHDHjC3PJk6WgR8V84DfDvgJaws/edit?usp=sharing" class="resource-link" target="_blank">Logs</a>
         </div>
     </div>
 
     <div class="team-card">
-        <h2>Arduino Team</h2>
-        <p class="members">Members: Baker, Artzt, Hadnot</p>
-        <p class="description">Replay attack with arduino</p>
+        <h2>Arduino Crew <span class="tag">HARDWARE</span></h2>
+        <p class="members">Baker, Artzt, Hadnot</p>
+        <p class="description">Replay attacks via Arduino.</p>
         <div class="links-grid">
-            <a href="https://docs.google.com/document/d/1qp1IdSUshBjLf4zAuCnMNYLAXPyLCPTc7GPhhnUnAME/edit?usp=sharing" class="resource-link">Notes</a>
+            <a href="https://docs.google.com/document/d/1qp1IdSUshBjLf4zAuCnMNYLAXPyLCPTc7GPhhnUnAME/edit?usp=sharing" class="resource-link" target="_blank">Logs</a>
         </div>
     </div>
 
     <div class="team-card">
-        <h2>Reversing Team</h2>
-        <p class="members">Members: Sansouci, Greene, Owusu</p>
-        <p class="description">Reverse engineer dump 1090</p>
+        <h2>The Reverse Engineers <span class="tag">DUMP_1090</span></h2>
+        <p class="members">Sansouci, Greene, Owusu</p>
+        <p class="description">Taking dump 1090 apart.</p>
         <div class="links-grid">
-            <a href="https://docs.google.com/document/d/1nSz--uRghBQSva7snOJPnK3s9qdwQbA_FHBrw0Eym5k/edit?usp=sharing" class="resource-link">Notes</a>
+            <a href="https://docs.google.com/document/d/1nSz--uRghBQSva7snOJPnK3s9qdwQbA_FHBrw0Eym5k/edit?usp=sharing" class="resource-link" target="_blank">Logs</a>
         </div>
     </div>
 
     <div class="team-card">
-        <h2>NMT</h2>
-        <p class="members">Members: Cooper, Liang, Sixtos</p>
-        <p class="description">Attack smaller network</p>
+        <h2>NMT <span class="tag">SMALL_NET</span></h2>
+        <p class="members">Cooper, Liang, Sixtos</p>
+        <p class="description">Targeting the smaller network.</p>
         <div class="links-grid">
-            <a href="https://docs.google.com/document/d/1TF6HXRt6lLsVO0pV_cDNwGvI1YIGoLEwNWsfukLMsgk/edit?usp=sharing" class="resource-link">Notes</a>
-            <a href="https://drive.google.com/file/d/1vexusHydazxAws_J7ZlMepPMxLQPI4qf/view?usp=sharing" class="resource-link">Map</a>
+            <a href="https://docs.google.com/document/d/1TF6HXRt6lLsVO0pV_cDNwGvI1YIGoLEwNWsfukLMsgk/edit?usp=sharing" class="resource-link" target="_blank">Logs</a>
+            <a href="https://drive.google.com/file/d/1vexusHydazxAws_J7ZlMepPMxLQPI4qf/view?usp=sharing" class="resource-link" target="_blank">Network Map</a>
         </div>
     </div>
 
     <div class="team-card">
-        <h2>CMT</h2>
-        <p class="members">Members: Rendel, Vaughan, Morris, Weese, Gautam, Posey</p>
-        <p class="description">Attack larger network</p>
+        <h2>CMT <span class="tag">LARGE_NET</span></h2>
+        <p class="members">Rendel, Vaughan, Morris, Weese, Gautam, Posey</p>
+        <p class="description">Hitting the large network.</p>
         <div class="links-grid">
-            <a href="https://docs.google.com/document/d/1DBsxncJIf0ucqblGBjhB2g53K__SD_hbOEkqDyK_hjM/edit?usp=sharing" class="resource-link">Notes</a>
-            <a href="https://drive.google.com/file/d/1yXAFLm4MRyMCjkHOnDFzNxhl_cCHekTS/view?usp=sharing" class="resource-link">Map</a>
+            <a href="https://docs.google.com/document/d/1DBsxncJIf0ucqblGBjhB2g53K__SD_hbOEkqDyK_hjM/edit?usp=sharing" class="resource-link" target="_blank">Logs</a>
+            <a href="https://drive.google.com/file/d/1yXAFLm4MRyMCjkHOnDFzNxhl_cCHekTS/view?usp=sharing" class="resource-link" target="_blank">Network Map</a>
         </div>
     </div>
 </div>
