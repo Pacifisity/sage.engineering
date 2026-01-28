@@ -37,12 +37,6 @@
             font-style: italic;
         }
 
-        .subtitle {
-            color: var(--text-dim);
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-
         .ops-bar {
             width: 100%;
             background: #111;
@@ -67,44 +61,97 @@
             padding: 0 20px;
         }
 
+        /* --- CLEANER DROPDOWN --- */
+        .objectives-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            transition: border 0.3s ease;
+        }
+
+        .objectives-card[open] {
+            border-color: var(--gold);
+        }
+
+        .objectives-card summary {
+            padding: 20px 25px;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .objectives-card summary::-webkit-details-marker { display: none; }
+
+        .objectives-card h2 { margin: 0; font-size: 1.1rem; }
+
+        /* Minimal Chevron Indicator */
+        .objectives-card summary::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid var(--gold);
+            border-bottom: 2px solid var(--gold);
+            transform: rotate(45deg);
+            transition: transform 0.2s ease;
+            margin-right: 5px;
+        }
+
+        .objectives-card[open] summary::after {
+            transform: rotate(-135deg);
+            margin-top: 5px;
+        }
+
+        /* Animation Logic */
+        .obj-content {
+            padding: 0 25px 25px 25px;
+            overflow: hidden;
+        }
+
+        /* --- LIST STYLES --- */
+        .obj-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .obj-item {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.9em;
+            color: var(--text);
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 5px;
+        }
+
+        .obj-item::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* --- TEAM CARDS --- */
         .team-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 2px;
             padding: 20px;
             transition: border 0.3s ease;
         }
 
-        .team-card:hover {
-            border-color: var(--gold);
-        }
+        .team-card:hover { border-color: var(--gold); }
 
-        h2 { 
-            margin: 0 0 5px 0; 
-            color: var(--gold); 
-            font-size: 1.2rem; 
-            text-transform: uppercase;
-        }
+        h2 { margin: 0 0 5px 0; color: var(--gold); font-size: 1.2rem; text-transform: uppercase; }
 
-        .members { 
-            color: var(--gold); 
-            font-size: 0.8em; 
-            margin-bottom: 12px; 
-            opacity: 0.8;
-        }
+        .members { color: var(--gold); font-size: 0.8em; margin-bottom: 12px; opacity: 0.8; }
 
-        .description { 
-            margin: 10px 0; 
-            color: var(--text); 
-            font-size: 0.95em;
-        }
+        .description { margin: 10px 0; color: var(--text); font-size: 0.95em; }
 
-        .links-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
+        .links-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
 
         .resource-link {
             background: transparent;
@@ -120,71 +167,6 @@
             background: var(--gold);
             color: #000;
             border-color: var(--gold);
-            box-shadow: 0 0 8px var(--gold-glow);
-        }
-    
-        /* --- STYLED DROP-DOWN OBJECTIVES --- */
-        .objectives-card {
-            background: #1a1a1a;
-            border: 1px dashed #444;
-            border-left: 4px solid var(--gold);
-            padding: 0; /* Changed to 0 so the summary covers the top */
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-
-        .objectives-card summary {
-            padding: 20px 25px;
-            cursor: pointer;
-            outline: none;
-            list-style: none; /* Hide default arrow */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.3s ease;
-        }
-
-        .objectives-card summary:hover {
-            background: #222;
-        }
-
-        /* Custom arrow icon */
-        .objectives-card summary::after {
-            content: "[ + ]";
-            color: var(--gold);
-            font-weight: bold;
-        }
-
-        .objectives-card[open] summary::after {
-            content: "[ - ]";
-        }
-
-        .obj-content {
-            padding: 0 25px 25px 25px;
-        }
-
-        .obj-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .obj-item {
-            margin-bottom: 12px;
-            padding-left: 20px;
-            position: relative;
-            font-size: 0.9em;
-            color: var(--text);
-            border-bottom: 1px solid #222;
-            padding-bottom: 5px;
-        }
-
-        .obj-item::before {
-            content: "[!]";
-            position: absolute;
-            left: -10px;
-            color: var(--gold);
-            font-weight: bold;
         }
     </style>
 </head>
