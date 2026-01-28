@@ -123,12 +123,44 @@
             box-shadow: 0 0 8px var(--gold-glow);
         }
     
+        /* --- STYLED DROP-DOWN OBJECTIVES --- */
         .objectives-card {
             background: #1a1a1a;
             border: 1px dashed #444;
             border-left: 4px solid var(--gold);
-            padding: 25px;
+            padding: 0; /* Changed to 0 so the summary covers the top */
             margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .objectives-card summary {
+            padding: 20px 25px;
+            cursor: pointer;
+            outline: none;
+            list-style: none; /* Hide default arrow */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .objectives-card summary:hover {
+            background: #222;
+        }
+
+        /* Custom arrow icon */
+        .objectives-card summary::after {
+            content: "[ + ]";
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .objectives-card[open] summary::after {
+            content: "[ - ]";
+        }
+
+        .obj-content {
+            padding: 0 25px 25px 25px;
         }
 
         .obj-list {
@@ -143,7 +175,8 @@
             position: relative;
             font-size: 0.9em;
             color: var(--text);
-            border-bottom: 1px solid #1a1a1a;
+            border-bottom: 1px solid #222;
+            padding-bottom: 5px;
         }
 
         .obj-item::before {
@@ -172,25 +205,27 @@
 </div>
 
 <div class="container">
-    <div class="objectives-card">
-        <h2>Objectives</h2>
-        <div class="obj-list">
-            <div class="obj-item">What nuclear rail capabilities can be affected via Cyber and EW?</div>
-            <div class="obj-item">Are there any opportunities to gain a foothold into UAS development for future leverage?</div>
-            <div class="obj-item">How can Cyber and/or EW affect Donovian Air Defense to provide safe corridors for Allied air combat support?</div>
-            <div class="obj-item">How much money is being transferred to the BFB 3NTITY cell?</div>
-            <div class="obj-item">How can financial support to the BFB 3NTITY cell be cut-off, diverted, postponed?</div>
-            <div class="obj-item">Who within the Donovian government is responsible for allocating funds to BFB?</div>
-            <div class="obj-item">What disruptive activities can be executed by Cyber and EW to thwart Donovian influence and presence in the Augusta region of Atropia?</div>
-            <div class="obj-item">Establish persistence and covert C2 channels where able</div>
-            <div class="obj-item">Uncover information about the link/support between Donovia and 3ntity</div>
-            <div class="obj-item">How is 3NTITY operating UAV assets in the IVO OBJ Blue Steel?</div>
-            <div class="obj-item">What ISR capabilities does the UAV have?</div>
-            <div class="obj-item">What type of UAV vehicle is being used?</div>
-            <div class="obj-item">Identify location(s) of reported Unidentified Unmanned Aerial Vehicle(s).</div>
-            <div class="obj-item">Who in charge of 3NTITY’s Information Operations?</div>
+    <details class="objectives-card">
+        <summary><h2>Objectives</h2></summary>
+        <div class="obj-content">
+            <div class="obj-list">
+                <div class="obj-item">What nuclear rail capabilities can be affected via Cyber and EW?</div>
+                <div class="obj-item">Are there any opportunities to gain a foothold into UAS development for future leverage?</div>
+                <div class="obj-item">How can Cyber and/or EW affect Donovian Air Defense to provide safe corridors for Allied air combat support?</div>
+                <div class="obj-item">How much money is being transferred to the BFB 3NTITY cell?</div>
+                <div class="obj-item">How can financial support to the BFB 3NTITY cell be cut-off, diverted, postponed?</div>
+                <div class="obj-item">Who within the Donovian government is responsible for allocating funds to BFB?</div>
+                <div class="obj-item">What disruptive activities can be executed by Cyber and EW to thwart Donovian influence and presence in the Augusta region of Atropia?</div>
+                <div class="obj-item">Establish persistence and covert C2 channels where able</div>
+                <div class="obj-item">Uncover information about the link/support between Donovia and 3ntity</div>
+                <div class="obj-item">How is 3NTITY operating UAV assets in the IVO OBJ Blue Steel?</div>
+                <div class="obj-item">What ISR capabilities does the UAV have?</div>
+                <div class="obj-item">What type of UAV vehicle is being used?</div>
+                <div class="obj-item">Identify location(s) of reported Unidentified Unmanned Aerial Vehicle(s).</div>
+                <div class="obj-item">Who in charge of 3NTITY’s Information Operations?</div>
+            </div>
         </div>
-    </div>
+    </details>
 
     <div class="team-card">
         <h2>HackRF</h2>
