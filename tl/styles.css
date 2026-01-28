@@ -1,0 +1,163 @@
+:root {
+    --gold: #ffcc00; 
+    --bg: #0a0a0a;
+    --card-bg: #141414;
+    --text: #e0e0e0;
+    --text-dim: #777777;
+    --border: #222222;
+    --gold-glow: rgba(255, 204, 0, 0.2);
+}
+
+body {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    margin: 0;
+    padding: 0 0 60px 0;
+}
+
+header {
+    text-align: center;
+    padding: 50px 0 30px 0;
+}
+
+h1 {
+    color: var(--gold);
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: -1px;
+    font-style: italic;
+}
+
+.ops-bar {
+    width: 100%;
+    background: #111;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+    padding: 10px 0;
+}
+
+.inner-bar {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    display: grid;
+    gap: 15px;
+    padding: 0 20px;
+}
+
+/* --- CLEANER DROPDOWN --- */
+.objectives-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    margin-bottom: 30px;
+    transition: border 0.3s ease;
+}
+
+.objectives-card[open] {
+    border-color: var(--gold);
+}
+
+.objectives-card summary {
+    padding: 20px 25px;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.objectives-card summary::-webkit-details-marker { display: none; }
+
+.objectives-card h2 { margin: 0; font-size: 1.1rem; }
+
+/* Minimal Chevron Indicator */
+.objectives-card summary::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+    margin-right: 5px;
+}
+
+.objectives-card[open] summary::after {
+    transform: rotate(-135deg);
+    margin-top: 5px;
+}
+
+/* Animation Logic */
+.obj-content {
+    padding: 0 25px 25px 25px;
+    overflow: hidden;
+}
+
+/* --- LIST STYLES --- */
+.obj-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.obj-item {
+    margin-bottom: 12px;
+    padding-left: 20px;
+    position: relative;
+    font-size: 0.9em;
+    color: var(--text);
+    border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 5px;
+}
+
+.obj-item::before {
+    content: ">";
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-weight: bold;
+}
+
+/* --- TEAM CARDS --- */
+.team-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 20px;
+    transition: border 0.3s ease;
+}
+
+.team-card:hover { border-color: var(--gold); }
+
+h2 { margin: 0 0 5px 0; color: var(--gold); font-size: 1.2rem; text-transform: uppercase; }
+
+.members { color: var(--gold); font-size: 0.8em; margin-bottom: 12px; opacity: 0.8; }
+
+.description { margin: 10px 0; color: var(--text); font-size: 0.95em; }
+
+.links-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+
+.resource-link {
+    background: transparent;
+    color: var(--text);
+    text-decoration: none;
+    padding: 5px 12px;
+    border: 1px solid #444;
+    font-size: 0.8em;
+    transition: all 0.2s ease;
+}
+
+.resource-link:hover { 
+    background: var(--gold);
+    color: #000;
+    border-color: var(--gold);
+}
