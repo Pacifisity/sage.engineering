@@ -44,21 +44,44 @@ export const UI = {
         setTimeout(() => {
             container.innerHTML = '';
 
-            // Combine Tab Filtering and Search Filtering
+            // 1. Filter Logic
             const filteredBooks = books.filter(book => {
-                // 1. Tab Logic
                 const matchesTab = currentFilter === 'all' || 
                                   (currentFilter.toLowerCase() === 'favorites' 
                                    ? book.isFavorite 
                                    : book.status === currentFilter);
                 
-                // 2. Search Logic (Case-insensitive check on Title)
                 const query = searchQuery.toLowerCase().trim();
                 const matchesSearch = !query || book.title.toLowerCase().includes(query);
 
                 return matchesTab && matchesSearch;
             });
 
+            // 2. Sorting Logic: Status (Reading -> Plan -> Completed -> Dropped) then Rating (High to Low)
+            const statusOrder = {
+                'Reading': 1,
+                'Plan to Read': 2,
+                'Completed': 3,
+                'Dropped': 4
+            };
+
+            filteredBooks.sort((a, b) => {
+                // Compare status priority first
+                const priorityA = statusOrder[a.status] || 5;
+                const priorityB = statusOrder[b.status] || 5;
+
+                if (priorityA !== priorityB) {
+                    return priorityA - priorityB;
+                }
+
+                // If status is identical, sort by rating descending
+                const ratingA = (a.rating === "Unrated" || !a.rating) ? 0 : parseInt(a.rating);
+                const ratingB = (b.rating === "Unrated" || !b.rating) ? 0 : parseInt(b.rating);
+
+                return ratingB - ratingA;
+            });
+
+            // 3. Handle Empty State
             if (filteredBooks.length === 0) {
                 const message = searchQuery 
                     ? `No titles match "${searchQuery}"` 
@@ -71,6 +94,7 @@ export const UI = {
                 return;
             }
 
+            // 4. Generate Cards
             filteredBooks.forEach((book, index) => {
                 const card = document.createElement('div');
                 card.className = `book-card ${enterClass}`;

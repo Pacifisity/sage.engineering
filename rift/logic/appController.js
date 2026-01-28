@@ -56,20 +56,33 @@ export const AppController = {
      */
     resolveSyncConflict(elements) {
         return new Promise((resolve) => {
-            ModalController.open(elements.syncModal); // Assumes you added this to selectors
+            ModalController.open(elements.syncModal);
 
-            const cloudBtn = elements.syncModal.querySelector('#use-cloud-btn');
-            const localBtn = elements.syncModal.querySelector('#use-local-btn');
+            const buttons = [
+                elements.syncModal.querySelector('#use-cloud-btn'),
+                elements.syncModal.querySelector('#use-local-btn')
+            ];
 
-            cloudBtn.onclick = () => {
-                ModalController.closeAll();
-                resolve('cloud');
-            };
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('sync-btn', 'btn-locked');
+                
+                // Start the 5s progress line
+                requestAnimationFrame(() => {
+                    btn.classList.add('loading');
+                });
+            });
 
-            localBtn.onclick = () => {
-                ModalController.closeAll();
-                resolve('local');
-            };
+            setTimeout(() => {
+                buttons.forEach(btn => {
+                    btn.disabled = false;
+                    // Removing 'btn-locked' triggers the 0.8s CSS transition
+                    btn.classList.remove('btn-locked', 'loading');
+                });
+            }, 2000);
+
+            buttons[0].onclick = () => { ModalController.closeAll(); resolve('cloud'); };
+            buttons[1].onclick = () => { ModalController.closeAll(); resolve('local'); };
         });
     },
 

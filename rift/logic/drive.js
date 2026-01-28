@@ -109,8 +109,6 @@ export const DriveService = {
                 }
             };
 
-            // 'prompt: none' is the magic for "silent" refresh
-            // Note: This may fail if the user logged out of Google or revoked access
             this.tokenClient.requestAccessToken({ prompt: 'none' });
         });
     },

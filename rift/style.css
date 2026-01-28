@@ -713,6 +713,37 @@ nav {
 }
 
 /* ==========================================================================
+   SYNC BUTTON WITH LOCKED STATE & PROGRESS INDICATOR
+   ========================================================================== */
+.sync-btn {
+    transition: opacity 0.8s ease-in-out, background-color 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* The "Locked" state */
+.sync-btn.btn-locked {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Subtle progress line at the very bottom */
+.sync-btn.btn-locked::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background: currentColor; /* Matches the button's text color automatically */
+    transition: width 2s linear;
+}
+
+.sync-btn.btn-locked.loading::after {
+    width: 100%;
+}
+
+/* ==========================================================================
    DIRECTIONAL FLIGHT ANIMATIONS
    ========================================================================== */
 
