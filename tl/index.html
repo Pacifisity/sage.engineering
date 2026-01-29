@@ -10,7 +10,7 @@
 
 <header>
     <h1>Operation Tomahawk-Strike</h1>
-    <p>TL: Hadnot</p>
+    <p>TL: Morris</p>
 </header>
 
 <div class="ops-bar">
@@ -49,40 +49,8 @@
     <details class="objectives-card" style="margin-top: 20px;">
         <summary><h2>Capabilities</h2></summary>
         <div class="obj-content">
-            <div class="obj-list">
-                <div class="obj-item">
-                    <strong style="color: #00ff00;">[HackRF]</strong><br>
-                    Established control over the drone; we are able to capture the RF (Radio Frequency) 
-                    and replay it to disrupt and manipulate the drone operation over the Key Bridge.
-                </div>
-
-                <div class="obj-item">
-                    <strong style="color: #00ff00;">[Arduino]</strong><br>
-                    By intercepting the signals, we can modify the directions sent to the drone in order to 
-                    disrupt the effectiveness of the drones. By using our transmitter, we can send RF signals 
-                    and take control of the drone or disrupt current signals.
-                </div>
-
-                <div class="obj-item">
-                    <strong style="color: #00ff00;">[Reversing]</strong><br>
-                    We are able to capture live, raw flight data within Donovian airspace and write that data to a file. 
-                    To replay the attack, we are using netcat to pipe the raw data file into enemy system port 30001, 
-                    which is the port that dump1090 uses for input. This creates false air traffic on their system.
-                </div>
-
-                <div class="obj-item">
-                    <strong style="color: #00ff00;">[NMT]</strong><br>
-                    * Compromised ‘entity-uav’ system.<br>
-                    * Gathered intel on Donovian UAV unit structure.<br>
-                    * Ability to modify drone behavior via configuration on the ‘entity-uav’ system.
-                </div>
-
-                <div class="obj-item">
-                    <strong style="color: #00ff00;">[CMT]</strong><br>
-                    * Established remote tunnel from Donovian DMZ host to attacker host.<br>
-                    * Obtained 4 sets of credentials for users on Donovian DMZ 172.17.7.80 device.<br>
-                    * Obtained login credentials for 10.50.161.1 FTP service.
-                </div>
+            <div id="capabilities-container" class="obj-list">
+                <p>Loading tactical capabilities...</p>
             </div>
         </div>
     </details>
@@ -134,6 +102,6 @@
         </div>
     </div>
 </div>
-
+<script src="logic.js"></script>
 </body>
 </html>
