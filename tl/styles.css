@@ -103,7 +103,6 @@ h1 {
     overflow: hidden;
 }
 
-/* --- LIST STYLES --- */
 .obj-list {
     list-style: none;
     padding: 0;
@@ -112,7 +111,7 @@ h1 {
 
 .obj-item {
     margin-bottom: 12px;
-    padding-left: 20px;
+    padding-left: 0; 
     position: relative;
     font-size: 0.9em;
     color: var(--text);
@@ -120,7 +119,13 @@ h1 {
     padding-bottom: 5px;
 }
 
-.obj-item::before {
+.cap-header {
+    position: relative;
+    padding-left: 20px;
+    display: inline-block; /
+}
+
+.cap-header::before {
     content: ">";
     position: absolute;
     left: 0;
