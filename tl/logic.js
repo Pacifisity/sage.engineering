@@ -6,17 +6,14 @@ async function loadCapabilities() {
         const response = await fetch(scriptURL);
         const rawText = await response.text();
 
-        // Split text by double new lines to separate different sections
         const sections = rawText.split('\n\n');
-        
         let htmlContent = '';
 
         sections.forEach(section => {
             if (section.trim().length > 0) {
-                // If a section starts with [ ], wrap that part in green bold
-                let formattedSection = section.replace(/\[(.*?)\]/, '<strong style="color: #00ff00;">[$1]</strong><br>');
+                // Modified line: Added class="cap-header" to the strong tag
+                let formattedSection = section.replace(/\[(.*?)\]/, '<strong class="cap-header" style="color: #00ff00;">[$1]</strong><br>');
                 
-                // Wrap the whole thing in your existing CSS class
                 htmlContent += `<div class="obj-item">${formattedSection}</div>`;
             }
         });
@@ -24,7 +21,7 @@ async function loadCapabilities() {
         container.innerHTML = htmlContent;
     } catch (error) {
         console.error('Fetch Error:', error);
-        container.innerHTML = `<div class="obj-item" style="color: red;">Error: Ensure the script is deployed to "Anyone".</div>`;
+        container.innerHTML = `<div class="obj-item" style="color: red;">Error: Connection failed.</div>`;
     }
 }
 
