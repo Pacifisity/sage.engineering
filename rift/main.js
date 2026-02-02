@@ -11,6 +11,7 @@ import { state } from './logic/state.js';
 import { getElements } from './logic/selectors.js';
 import { Events } from './logic/events.js'; 
 import { ThemeService } from './logic/theme.js';
+import { Recommendations } from './logic/recommendations.js';
 import { detectUserLanguage, initGoogleTranslate } from './logic/language.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- SERVICE INITIALIZATION ---
     // Prepare external integrations (e.g., Google Drive API client)
     DriveService.init();
+    Recommendations.initHandlers();
     
     // --- EVENT BINDING ---
     // Initialize event listeners by functional domain

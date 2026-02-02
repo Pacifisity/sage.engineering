@@ -67,6 +67,8 @@ export const UI = {
                 const matchesTab = currentFilter === 'all' || 
                                   (currentFilter.toLowerCase() === 'favorites' 
                                    ? book.isFavorite 
+                                   : currentFilter.toLowerCase() === 'recommendations'
+                                   ? book.status === 'Recommendations'
                                    : book.status === currentFilter);
                 
                 const query = searchQuery.toLowerCase().trim();
@@ -80,7 +82,8 @@ export const UI = {
                 'Reading': 1,
                 'Plan to Read': 2,
                 'Completed': 3,
-                'Dropped': 4
+                'Dropped': 4,
+                'Recommendations': 5
             };
 
             filteredBooks.sort((a, b) => {

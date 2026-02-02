@@ -45,6 +45,9 @@
                 <button id="theme-trigger" class="secondary-action-btn">
                     <span class="icon">🎨</span>Theme
                 </button>
+                <button id="recommendations-trigger" class="secondary-action-btn">
+                    <span class="icon">⭐</span>Recommendations
+                </button>
             </div>
 
             <div class="account-actions">
@@ -64,6 +67,7 @@
             <button class="filter-btn" data-filter="Plan to Read">Plan to Read</button>
             <button class="filter-btn" data-filter="Completed">Completed</button>
             <button class="filter-btn" data-filter="Dropped">Dropped</button>
+            <button class="filter-btn" data-filter="Recommendations">Recommendations</button>
             <div class="nav-indicator"></div>
         </div>
         <button id="open-modal" class="add-btn" aria-label="Add New Entry">+</button>
@@ -98,6 +102,7 @@
                     <option value="Plan to Read">Plan to Read</option>
                     <option value="Completed">Completed</option>
                     <option value="Dropped">Dropped</option>
+                    <option value="Recommendations">Recommendations</option>
                 </select>
 
                 <div class="input-group">
@@ -167,7 +172,7 @@
     </div>
     
     <div id="export-format-modal" class="modal-overlay">
-        <div class="modal-content delete-confirm-content">
+        <div class="modal-content">
             <h3>Choose Export Format</h3>
             <p class="muted-text">Select how you'd like to export your library:</p>
             <div class="format-options">
@@ -176,12 +181,12 @@
                     <strong>JSON</strong>
                     <p>Full backup, can be imported later</p>
                 </button>
-                <button id="export-csv-btn" class="format-btn">
+                <button id="export-csv-btn" class="format-btn" disabled aria-disabled="true">
                     <span class="format-icon">📊</span>
                     <strong>CSV</strong>
                     <p>Open in Excel or Sheets</p>
                 </button>
-                <button id="export-md-btn" class="format-btn">
+                <button id="export-md-btn" class="format-btn" disabled aria-disabled="true">
                     <span class="format-icon">📝</span>
                     <strong>Markdown</strong>
                     <p>Readable text format</p>
@@ -283,8 +288,32 @@
         </div>
     </div>
 
+    <div id="recommendations-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Recommendations</h2>
+            
+            <div class="recommendations-actions">
+                <input type="search" id="recommendations-search" placeholder="Search titles..." class="recommendations-search-input">
+                <div id="recommendations-selection" class="recommendations-selection"></div>
+                <div class="recommendations-buttons">
+                    <button id="export-recommendations" class="primary-btn">
+                        <span class="icon">📤</span> Export
+                    </button>
+                    <button id="import-recommendations" class="secondary-btn">
+                        <span class="icon">📥</span> Import
+                    </button>
+                    <input type="file" id="import-recommendations-file" accept=".json" style="display: none;">
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" id="close-recommendations" class="ghost-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
     <div id="import-format-modal" class="modal-overlay">
-        <div class="modal-content delete-confirm-content">
+        <div class="modal-content">
             <h3>Choose Import Format</h3>
             <p class="muted-text">Select the format of the file you're importing:</p>
             <div class="format-options">
@@ -293,12 +322,12 @@
                     <strong>JSON</strong>
                     <p>Full backup file</p>
                 </button>
-                <button id="import-csv-btn" class="format-btn">
+                <button id="import-csv-btn" class="format-btn" disabled aria-disabled="true">
                     <span class="format-icon">📊</span>
                     <strong>CSV</strong>
                     <p>Spreadsheet file</p>
                 </button>
-                <button id="import-md-btn" class="format-btn">
+                <button id="import-md-btn" class="format-btn" disabled aria-disabled="true">
                     <span class="format-icon">📝</span>
                     <strong>Markdown</strong>
                     <p>Text file</p>
