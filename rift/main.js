@@ -11,6 +11,7 @@ import { state } from './logic/state.js';
 import { getElements } from './logic/selectors.js';
 import { Events } from './logic/events.js'; 
 import { ThemeService } from './logic/theme.js';
+import { detectUserLanguage, initGoogleTranslate } from './logic/language.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Retrieve centralized DOM references
@@ -33,4 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- INITIAL RENDER ---
     // Hydrate the UI with data from state.js (LocalStorage source-of-truth)
     UI.renderBooks(state.books, state.currentFilter, elements.library);
+
+    // --- LANGUAGE DETECTION & TRANSLATION ---
+    const userLang = detectUserLanguage().split('-')[0];
+    if (userLang !== 'en') {
+        // Only auto-translate if not English
+        initGoogleTranslate(userLang);
+    }
 });
