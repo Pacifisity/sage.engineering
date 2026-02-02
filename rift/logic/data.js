@@ -2,6 +2,48 @@
  * Service for handling local data persistence and export/import in multiple formats.
  */
 export const DataService = {
+    parseCSV: (text) => {
+        const rows = [];
+        let row = [];
+        let field = '';
+        let inQuotes = false;
+
+        for (let i = 0; i < text.length; i++) {
+            const char = text[i];
+            const nextChar = text[i + 1];
+
+            if (char === '"') {
+                if (inQuotes && nextChar === '"') {
+                    field += '"';
+                    i++;
+                } else {
+                    inQuotes = !inQuotes;
+                }
+                continue;
+            }
+
+            if (char === ',' && !inQuotes) {
+                row.push(field);
+                field = '';
+                continue;
+            }
+
+            if ((char === '\n' || char === '\r') && !inQuotes) {
+                if (char === '\r' && nextChar === '\n') i++;
+                row.push(field);
+                field = '';
+                if (row.length > 1 || row[0]?.trim()) rows.push(row);
+                row = [];
+                continue;
+            }
+
+            field += char;
+        }
+
+        row.push(field);
+        if (row.length > 1 || row[0]?.trim()) rows.push(row);
+        return rows;
+    },
     /**
      * Levenshtein distance for fuzzy string matching
      */
@@ -231,27 +273,34 @@ export const DataService = {
             
             reader.onload = (e) => {
                 try {
-                    const lines = e.target.result.split('\n');
-                    const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+                    const rows = DataService.parseCSV(e.target.result);
+                    if (rows.length === 0) throw new Error('Empty CSV');
+
+                    const headers = rows[0].map(h => h.trim().toLowerCase());
                     
                     const books = [];
                     let id = Date.now();
 
-                    for (let i = 1; i < lines.length; i++) {
-                        if (!lines[i].trim()) continue;
+                    const getValue = (values, header) => {
+                        const index = headers.indexOf(header);
+                        return index > -1 ? (values[index] || '') : '';
+                    };
 
-                        const values = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+                    for (let i = 1; i < rows.length; i++) {
+                        const values = rows[i].map(v => v.trim());
+                        if (values.length === 1 && !values[0]) continue;
+
                         const book = {
                             id: id++,
-                            title: values[headers.indexOf('title')] || '',
-                            author: values[headers.indexOf('author')] || '',
-                            status: values[headers.indexOf('status')] || 'Reading',
-                            rating: values[headers.indexOf('rating')] || 'Unrated',
-                            trackingType: values[headers.indexOf('tracking type')] || 'chapter',
-                            currentCount: parseInt(values[headers.indexOf('progress')]) || 0,
-                            url: values[headers.indexOf('url')] || '',
-                            notes: values[headers.indexOf('notes')] || '',
-                            isFavorite: (values[headers.indexOf('favorite')] || '').toLowerCase() === 'yes'
+                            title: getValue(values, 'title'),
+                            author: getValue(values, 'author'),
+                            status: getValue(values, 'status') || 'Reading',
+                            rating: getValue(values, 'rating') || 'Unrated',
+                            trackingType: getValue(values, 'tracking type') || 'chapter',
+                            currentCount: parseInt(getValue(values, 'progress')) || 0,
+                            url: getValue(values, 'url'),
+                            notes: getValue(values, 'notes'),
+                            isFavorite: getValue(values, 'favorite').toLowerCase() === 'yes'
                         };
                         
                         if (book.title) books.push(book);

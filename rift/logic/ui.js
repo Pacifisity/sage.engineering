@@ -7,6 +7,28 @@
 let lastTabIndex = 0;
 let lastRenderedBookIds = []; // Track which books were rendered
 
+const escapeHTML = (value) => {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+};
+
+const sanitizeUrl = (url) => {
+    if (!url) return '';
+    try {
+        const parsed = new URL(url, window.location.href);
+        if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+            return parsed.href;
+        }
+    } catch {
+        return '';
+    }
+    return '';
+};
+
 export const UI = {
     /**
      * Renders the book library with context-aware animations.
@@ -148,16 +170,21 @@ export const UI = {
                 const message = searchQuery 
                     ? `No titles match "${searchQuery}"` 
                     : "No stories here...";
-                    
-                const animationStyle = enterClass && animationDelay ? `animation-delay: 0s;` : '';
-                container.innerHTML = `
-                    <p class="empty-state-msg ${enterClass}" style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px; ${animationStyle}">
-                        ${message}
-                    </p>`;
+
+                const empty = document.createElement('p');
+                empty.className = `empty-state-msg ${enterClass}`;
+                empty.style.gridColumn = '1/-1';
+                empty.style.textAlign = 'center';
+                empty.style.color = 'var(--text-muted)';
+                empty.style.padding = '40px';
+                if (enterClass && animationDelay) empty.style.animationDelay = '0s';
+                empty.textContent = message;
+                container.appendChild(empty);
                 return;
             }
 
             // 4. Generate Cards
+            const fragment = document.createDocumentFragment();
             filteredBooks.forEach((book, index) => {
                 const card = document.createElement('div');
                 card.className = `book-card ${enterClass}`;
@@ -173,9 +200,15 @@ export const UI = {
                     ? `<span>${label}</span> <span>${book.currentCount}</span>`
                     : ``;
 
-                const urlHTML = book.url 
-                    ? `<a href="${book.url}" target="_blank" class="url-link" onclick="event.stopPropagation()"></a>` 
+                const safeUrl = sanitizeUrl(book.url);
+                const urlHTML = safeUrl
+                    ? `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="url-link" onclick="event.stopPropagation()"></a>` 
                     : '';
+
+                const safeTitle = escapeHTML(book.title || '');
+                const safeAuthor = escapeHTML(book.author || '');
+                const safeStatus = escapeHTML(book.status || 'Reading');
+                const safeNotes = escapeHTML(book.notes || '');
 
                 const ratingValue = book.rating;
                 const isRated = typeof ratingValue === 'number' || (typeof ratingValue === 'string' && ratingValue !== "Unrated" && ratingValue !== "");
@@ -191,9 +224,9 @@ export const UI = {
                 card.innerHTML = `
                     <div class="card-header">
                         <div>
-                            <span class="status-badge">${book.status || 'Reading'}</span>
-                            <h3>${book.title}</h3>
-                            ${book.author ? `<p class="card-author">by ${book.author}</p>` : ''}
+                            <span class="status-badge">${safeStatus}</span>
+                            <h3>${safeTitle}</h3>
+                            ${safeAuthor ? `<p class="card-author">by ${safeAuthor}</p>` : ''}
                         </div>
                         <button class="fav-btn ${book.isFavorite ? 'active' : ''}" data-id="${book.id}">
                             ${book.isFavorite ? '★' : '☆'}
@@ -206,10 +239,11 @@ export const UI = {
                             ${urlHTML} 
                         </div>
                     </div>
-                    ${book.notes ? `<div class="card-notes">${book.notes}</div>` : ''}
+                    ${safeNotes ? `<div class="card-notes">${safeNotes}</div>` : ''}
                 `;
-                container.appendChild(card);
+                fragment.appendChild(card);
             });
+            container.appendChild(fragment);
         }, renderDelay);
     },
 

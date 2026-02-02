@@ -6,6 +6,153 @@ import { ModalController } from './modalController.js'; // Import this
 import { ThemeService } from './theme.js';
 
 export const AppController = {
+    normalizeKey(book) {
+        const title = (book?.title || '').trim().toLowerCase();
+        const author = (book?.author || '').trim().toLowerCase();
+        return `${title}::${author}`;
+    },
+
+    normalizeValue(value) {
+        if (value === null || value === undefined) return '';
+        if (typeof value === 'number') return String(value);
+        return String(value).trim();
+    },
+
+    isBookEqual(localBook, cloudBook) {
+        const fields = [
+            'title',
+            'author',
+            'status',
+            'rating',
+            'trackingType',
+            'currentCount',
+            'url',
+            'notes',
+            'isFavorite'
+        ];
+
+        return fields.every((field) =>
+            this.normalizeValue(localBook?.[field]) === this.normalizeValue(cloudBook?.[field])
+        );
+    },
+
+    buildDiffSummary(localBooks, cloudBooks) {
+        const local = Array.isArray(localBooks) ? localBooks : [];
+        const cloud = Array.isArray(cloudBooks) ? cloudBooks : [];
+
+        const cloudById = new Map();
+        cloud.forEach(book => cloudById.set(book.id, book));
+
+        const cloudByKey = new Map();
+        cloud.forEach(book => {
+            const key = this.normalizeKey(book);
+            if (!cloudByKey.has(key)) cloudByKey.set(key, []);
+            cloudByKey.get(key).push(book);
+        });
+
+        const matchedCloudIds = new Set();
+        const samples = {
+            localOnly: [],
+            cloudOnly: [],
+            changed: []
+        };
+
+        let localOnlyCount = 0;
+        let cloudOnlyCount = 0;
+        let changedCount = 0;
+        let sameCount = 0;
+
+        local.forEach(localBook => {
+            let match = null;
+
+            if (localBook?.id && cloudById.has(localBook.id)) {
+                match = cloudById.get(localBook.id);
+            } else {
+                const key = this.normalizeKey(localBook);
+                const candidates = cloudByKey.get(key) || [];
+                match = candidates.find(c => !matchedCloudIds.has(c.id));
+            }
+
+            if (match) {
+                matchedCloudIds.add(match.id);
+                if (this.isBookEqual(localBook, match)) {
+                    sameCount++;
+                } else {
+                    changedCount++;
+                    if (samples.changed.length < 3) samples.changed.push(localBook.title || 'Untitled');
+                }
+            } else {
+                localOnlyCount++;
+                if (samples.localOnly.length < 3) samples.localOnly.push(localBook.title || 'Untitled');
+            }
+        });
+
+        cloud.forEach(cloudBook => {
+            if (!matchedCloudIds.has(cloudBook.id)) {
+                cloudOnlyCount++;
+                if (samples.cloudOnly.length < 3) samples.cloudOnly.push(cloudBook.title || 'Untitled');
+            }
+        });
+
+        return {
+            localOnlyCount,
+            cloudOnlyCount,
+            changedCount,
+            sameCount,
+            samples
+        };
+    },
+
+    renderDiffSummary(modalElement, summary) {
+        if (!modalElement) return;
+        const container = modalElement.querySelector('#sync-diff-summary');
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        const title = document.createElement('h4');
+        title.textContent = 'Conflict summary';
+        container.appendChild(title);
+
+        const row = document.createElement('div');
+        row.className = 'summary-row';
+
+        const pills = [
+            { label: 'Local only', value: summary.localOnlyCount },
+            { label: 'Cloud only', value: summary.cloudOnlyCount },
+            { label: 'Changed', value: summary.changedCount },
+            { label: 'Same', value: summary.sameCount }
+        ];
+
+        pills.forEach(pill => {
+            const el = document.createElement('div');
+            el.className = 'summary-pill';
+            el.textContent = `${pill.label}: ${pill.value}`;
+            row.appendChild(el);
+        });
+
+        container.appendChild(row);
+
+        const addSampleList = (label, items) => {
+            if (!items || items.length === 0) return;
+            const listTitle = document.createElement('div');
+            listTitle.style.marginTop = '10px';
+            listTitle.textContent = label;
+            container.appendChild(listTitle);
+
+            const list = document.createElement('ul');
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                list.appendChild(li);
+            });
+            container.appendChild(list);
+        };
+
+        addSampleList('Local-only samples', summary.samples.localOnly);
+        addSampleList('Cloud-only samples', summary.samples.cloudOnly);
+        addSampleList('Changed samples', summary.samples.changed);
+    },
     /**
      * Helper to check if two data sets are functionally identical
      */
@@ -56,7 +203,17 @@ export const AppController = {
             }
 
             // 3. CONFLICT: Data exists and is different. Ask the user.
-            const userChoice = await this.resolveSyncConflict(elements, cloudTimestamp);
+            if (!state.books || state.books.length === 0) {
+                state.books = cloudBooks;
+                state.save(state.books);
+                this.resolveThemeDifferences(cloudTheme, true);
+                UI.renderBooks(state.books, state.currentFilter, elements.library, '', 'status-rating', 'content-update');
+                console.log("Local empty. Auto-selected Cloud data.");
+                return;
+            }
+
+            const diffSummary = this.buildDiffSummary(state.books, cloudBooks);
+            const userChoice = await this.resolveSyncConflict(elements, cloudTimestamp, diffSummary);
 
             if (userChoice === 'cloud') {
                 state.books = cloudBooks;
@@ -82,7 +239,7 @@ export const AppController = {
      * @param {Object} elements - DOM elements
      * @param {string|null} cloudTimestamp - ISO timestamp of when cloud data was last modified
      */
-    resolveSyncConflict(elements, cloudTimestamp = null) {
+    resolveSyncConflict(elements, cloudTimestamp = null, diffSummary = null) {
         return new Promise((resolve) => {
             ModalController.open(elements.syncModal);
 
@@ -90,6 +247,10 @@ export const AppController = {
             const timestampEl = elements.syncModal.querySelector('#cloud-timestamp');
             if (timestampEl && cloudTimestamp) {
                 timestampEl.textContent = this.formatTimestamp(cloudTimestamp);
+            }
+
+            if (diffSummary) {
+                this.renderDiffSummary(elements.syncModal, diffSummary);
             }
 
             const cloudBtn = elements.syncModal.querySelector('#use-cloud-btn');

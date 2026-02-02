@@ -53,7 +53,7 @@ export const BookActions = {
         
         // Check for duplicates (only warn, don't prevent)
         const duplicates = DataService.detectDuplicates(state.books, cleanedData);
-        if (duplicates.length > 0 && !index) {
+        if (duplicates.length > 0 && index === -1) {
             // Only warn about duplicates when creating new books
             const dupTitles = duplicates.slice(0, 3).map(d => d.book.title).join(', ');
             console.warn(`Possible duplicate detected: Similar to "${dupTitles}"`);

@@ -32,7 +32,15 @@ export const Events = {
                 e.target.classList.remove('active');
             }
         };
-        getGroups.closeBtns().forEach(btn => btn.onclick = ModalController.closeAll);
+        getGroups.closeBtns().forEach(btn => {
+            btn.onclick = (e) => {
+                // Close only the parent modal, not all modals
+                const modal = btn.closest('.modal-overlay');
+                if (modal) {
+                    modal.classList.remove('active');
+                }
+            };
+        });
     },
 
     /**

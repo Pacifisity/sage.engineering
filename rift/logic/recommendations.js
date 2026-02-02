@@ -16,6 +16,15 @@ export const Recommendations = {
         const container = document.getElementById('recommendations-selection');
         if (!container) return;
 
+        if (!container.dataset.bound) {
+            container.addEventListener('click', (e) => {
+                const item = e.target.closest('.recommendation-item');
+                if (!item || !container.contains(item)) return;
+                item.classList.toggle('selected');
+            });
+            container.dataset.bound = 'true';
+        }
+
         container.innerHTML = '';
         
         if (state.books.length === 0) {
@@ -58,11 +67,6 @@ export const Recommendations = {
             content.appendChild(linkInfo);
             
             item.appendChild(content);
-            
-            // Toggle selection on click
-            item.addEventListener('click', () => {
-                item.classList.toggle('selected');
-            });
             
             container.appendChild(item);
         });

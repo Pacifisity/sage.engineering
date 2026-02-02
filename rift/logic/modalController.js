@@ -29,6 +29,14 @@ export const ModalController = {
         // Trigger animation on next frame
         requestAnimationFrame(() => {
             modalElement.classList.add('active');
+            
+            // Scroll modal content to bottom to show action buttons
+            const content = modalElement.querySelector('.modal-content');
+            if (content) {
+                requestAnimationFrame(() => {
+                    content.scrollTop = content.scrollHeight;
+                });
+            }
         });
     },
     
