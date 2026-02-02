@@ -5,46 +5,63 @@
  */
 
 let lastTabIndex = 0;
+let lastRenderedBookIds = []; // Track which books were rendered
 
 export const UI = {
     /**
-     * Renders the book library with a directional "Flight" animation.
+     * Renders the book library with context-aware animations.
      * @param {Array} books - The full list of book objects.
      * @param {string} currentFilter - The active tab (e.g., 'all', 'Favorites').
      * @param {HTMLElement} container - The library div.
      * @param {string} searchQuery - The text from the search bar.
      * @param {string} sortMode - The sorting mode (default: 'status-rating').
+     * @param {string} animationType - Animation context: 'tab-change', 'content-update', 'smart', or 'none' (default: 'content-update').
      */
-    renderBooks: (books, currentFilter, container, searchQuery = '', sortMode = 'status-rating') => {
+    renderBooks: (books, currentFilter, container, searchQuery = '', sortMode = 'status-rating', animationType = 'content-update') => {
         if (!container) return;
 
-        // --- PHASE 1: DIRECTIONAL CALCULATIONS ---
-        const allTabs = Array.from(document.querySelectorAll('.filter-btn'));
-        const currentTabIndex = allTabs.findIndex(tab => 
-            tab.dataset.filter.toLowerCase() === currentFilter.toLowerCase()
-        );
+        // --- PHASE 1: ANIMATION CALCULATIONS ---
+        let exitClass, enterClass, animationDelay;
         
-        const isMovingRight = currentTabIndex >= lastTabIndex;
-        const exitClass = isMovingRight ? 'fly-out-left' : 'fly-out-right';
-        const enterClass = isMovingRight ? 'fly-in-right' : 'fly-in-left';
-        
-        lastTabIndex = currentTabIndex;
+        if (animationType === 'tab-change') {
+            // Full directional animation for tab changes
+            const allTabs = Array.from(document.querySelectorAll('.filter-btn'));
+            const currentTabIndex = allTabs.findIndex(tab => 
+                tab.dataset.filter.toLowerCase() === currentFilter.toLowerCase()
+            );
+            
+            const isMovingRight = currentTabIndex >= lastTabIndex;
+            exitClass = isMovingRight ? 'fly-out-left' : 'fly-out-right';
+            enterClass = isMovingRight ? 'fly-in-right' : 'fly-in-left';
+            animationDelay = 0.04;
+            
+            lastTabIndex = currentTabIndex;
+        } else if (animationType === 'content-update') {
+            // Subtle fade for content updates (sort, search, edit, favorite)
+            exitClass = 'fade-out-only';
+            enterClass = 'fade-in-only';
+            animationDelay = 0.015;
+        } else {
+            // No animation
+            exitClass = '';
+            enterClass = '';
+            animationDelay = 0;
+        }
 
         // --- PHASE 2: EXECUTE EXIT ANIMATIONS ---
         const existingElements = container.querySelectorAll('.book-card, .empty-state-msg');
-        if (existingElements.length > 0) {
+        if (existingElements.length > 0 && exitClass) {
             existingElements.forEach(el => {
                 el.style.animationDelay = '0s';
-                el.classList.remove('fly-in-right', 'fly-in-left', 'slide-right', 'slide-left');
+                el.classList.remove('fly-in-right', 'fly-in-left', 'fade-in-only', 'slide-right', 'slide-left');
                 void el.offsetWidth; 
                 el.classList.add(exitClass);
             });
         }
 
         // --- PHASE 3: RENDER NEW CONTENT ---
+        const renderDelay = (existingElements.length > 0 && exitClass) ? (animationType === 'tab-change' ? 150 : 80) : 0;
         setTimeout(() => {
-            container.innerHTML = '';
-
             // 1. Filter Logic
             const filteredBooks = books.filter(book => {
                 const matchesTab = currentFilter === 'all' || 
@@ -103,14 +120,35 @@ export const UI = {
                 }
             });
 
+            // Smart card reuse: If 'smart' mode and the same books are displayed in the same order, skip re-rendering
+            const currentBookIds = filteredBooks.map(b => b.id);
+            const sameBooks = animationType === 'smart' && 
+                              currentBookIds.length === lastRenderedBookIds.length &&
+                              currentBookIds.every((id, idx) => id === lastRenderedBookIds[idx]);
+            
+            if (sameBooks) {
+                // Just update existing cards in place without re-rendering
+                filteredBooks.forEach((book, index) => {
+                    const existingCard = container.querySelector(`[data-id="${book.id}"]`);
+                    if (existingCard) {
+                        UI.updateCardInPlace(existingCard, book);
+                    }
+                });
+                return;
+            }
+
+            lastRenderedBookIds = currentBookIds;
+            container.innerHTML = '';
+
             // 3. Handle Empty State
             if (filteredBooks.length === 0) {
                 const message = searchQuery 
                     ? `No titles match "${searchQuery}"` 
                     : "No stories here...";
                     
+                const animationStyle = enterClass && animationDelay ? `animation-delay: 0s;` : '';
                 container.innerHTML = `
-                    <p class="empty-state-msg ${enterClass}" style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">
+                    <p class="empty-state-msg ${enterClass}" style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px; ${animationStyle}">
                         ${message}
                     </p>`;
                 return;
@@ -121,7 +159,9 @@ export const UI = {
                 const card = document.createElement('div');
                 card.className = `book-card ${enterClass}`;
                 card.dataset.id = book.id; 
-                card.style.animationDelay = `${index * 0.04}s`;
+                if (enterClass) {
+                    card.style.animationDelay = `${index * animationDelay}s`;
+                }
 
                 const label = book.trackingType ? (book.trackingType.charAt(0).toUpperCase() + book.trackingType.slice(1)) : 'Progress';
                 const hasProgress = book.currentCount && parseInt(book.currentCount) > 0;
@@ -167,7 +207,7 @@ export const UI = {
                 `;
                 container.appendChild(card);
             });
-        }, 150);
+        }, renderDelay);
     },
 
     populateEditModal: (book) => {
@@ -235,6 +275,87 @@ export const UI = {
             if (logoutBtn) {
                 logoutBtn.style.display = 'none';
             }
+        }
+    },
+
+    /**
+     * Updates a single card in place without re-rendering
+     * @param {HTMLElement} cardElement - The card DOM element
+     * @param {Object} book - The updated book data
+     */
+    updateCardInPlace(cardElement, book) {
+        // Update favorite button
+        const favBtn = cardElement.querySelector('.fav-btn');
+        if (favBtn) {
+            favBtn.className = `fav-btn ${book.isFavorite ? 'active' : ''}`;
+            favBtn.textContent = book.isFavorite ? '★' : '☆';
+        }
+
+        // Update status badge
+        const statusBadge = cardElement.querySelector('.status-badge');
+        if (statusBadge) {
+            statusBadge.textContent = book.status || 'Reading';
+        }
+
+        // Update title
+        const titleEl = cardElement.querySelector('h3');
+        if (titleEl) {
+            titleEl.textContent = book.title;
+        }
+
+        // Update author
+        const authorEl = cardElement.querySelector('.card-author');
+        if (book.author) {
+            if (authorEl) {
+                authorEl.textContent = `by ${book.author}`;
+            } else {
+                const cardHeader = cardElement.querySelector('.card-header > div');
+                if (cardHeader) {
+                    const authorP = document.createElement('p');
+                    authorP.className = 'card-author';
+                    authorP.textContent = `by ${book.author}`;
+                    cardHeader.appendChild(authorP);
+                }
+            }
+        } else if (authorEl) {
+            authorEl.remove();
+        }
+
+        // Update progress
+        const statsP = cardElement.querySelector('.card-stats p');
+        if (statsP) {
+            const label = book.trackingType ? (book.trackingType.charAt(0).toUpperCase() + book.trackingType.slice(1)) : 'Progress';
+            const hasProgress = book.currentCount && parseInt(book.currentCount) > 0;
+            statsP.innerHTML = hasProgress ? `<span>${label}</span> <span>${book.currentCount}</span>` : '';
+        }
+
+        // Update rating
+        const ratingDisplay = cardElement.querySelector('.star-rating');
+        if (ratingDisplay) {
+            const ratingValue = book.rating;
+            const isRated = typeof ratingValue === 'number' || (typeof ratingValue === 'string' && ratingValue !== "Unrated" && ratingValue !== "");
+            
+            if (isRated) {
+                const numStars = parseInt(ratingValue);
+                ratingDisplay.innerHTML = `<span class="stars-filled">${'★'.repeat(numStars)}</span><span class="stars-empty">${'☆'.repeat(5 - numStars)}</span>`;
+            } else {
+                ratingDisplay.innerHTML = `<span style="color:var(--text-muted); font-size: 0.8rem; letter-spacing: 1px;">UNRATED</span>`;
+            }
+        }
+
+        // Update notes
+        const notesEl = cardElement.querySelector('.card-notes');
+        if (book.notes) {
+            if (notesEl) {
+                notesEl.textContent = book.notes;
+            } else {
+                const notesDiv = document.createElement('div');
+                notesDiv.className = 'card-notes';
+                notesDiv.textContent = book.notes;
+                cardElement.appendChild(notesDiv);
+            }
+        } else if (notesEl) {
+            notesEl.remove();
         }
     }
 };

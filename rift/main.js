@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- INITIAL RENDER ---
     // Hydrate the UI with data from state.js (LocalStorage source-of-truth)
-    UI.renderBooks(state.books, state.currentFilter, elements.library);
+    UI.renderBooks(state.books, state.currentFilter, elements.library, '', 'status-rating', 'none');
 
     // --- LANGUAGE DETECTION & TRANSLATION ---
     const userLang = detectUserLanguage().split('-')[0];

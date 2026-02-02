@@ -218,7 +218,7 @@ export const Events = {
         const debouncedSearch = this._debounce((query) => {
             // Re-render with current filter + search query + sort mode
             const sortMode = elements.sortSelect?.value || 'status-rating';
-            UI.renderBooks(state.books, state.currentFilter, elements.library, query, sortMode);
+            UI.renderBooks(state.books, state.currentFilter, elements.library, query, sortMode, 'content-update');
         });
 
         elements.searchBar?.addEventListener('input', (e) => {
@@ -232,7 +232,7 @@ export const Events = {
         elements.sortSelect?.addEventListener('change', (e) => {
             const sortMode = e.target.value;
             const currentSearch = elements.searchBar?.value || '';
-            UI.renderBooks(state.books, state.currentFilter, elements.library, currentSearch, sortMode);
+            UI.renderBooks(state.books, state.currentFilter, elements.library, currentSearch, sortMode, 'content-update');
         });
 
         // --- CARD & FAVORITE INTERACTION ---
@@ -266,7 +266,7 @@ export const Events = {
                 // When switching tabs, respect the current search term and sort mode
                 const currentSearch = elements.searchBar?.value || '';
                 const sortMode = elements.sortSelect?.value || 'status-rating';
-                UI.renderBooks(state.books, state.currentFilter, elements.library, currentSearch, sortMode);
+                UI.renderBooks(state.books, state.currentFilter, elements.library, currentSearch, sortMode, 'tab-change');
             };
         });
     },

@@ -363,7 +363,7 @@ nav {
     /* Optimization for "Flight" animations */
     will-change: transform, opacity;
     backface-visibility: hidden;
-    opacity: 0;
+    opacity: 1;
     user-select: none;
     -webkit-user-select: none;
 }
@@ -1150,26 +1150,38 @@ nav {
 }
 
 @keyframes flyInRight {
-    from { opacity: 0; transform: translateX(100vw); }
+    from { opacity: 0; transform: translateX(30px); }
     to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes flyInLeft {
-    from { opacity: 0; transform: translateX(-100vw); }
+    from { opacity: 0; transform: translateX(-30px); }
     to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes flyOutRight {
     from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(100vw); }
+    to { opacity: 0; transform: translateX(20px); }
 }
 
 @keyframes flyOutLeft {
     from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(-100vw); }
+    to { opacity: 0; transform: translateX(-20px); }
 }
 
-.fly-in-right { animation: flyInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-.fly-in-left { animation: flyInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-.fly-out-right { animation: flyOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important; }
-.fly-out-left { animation: flyOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important; }
+@keyframes fadeInOnly {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOutOnly {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.fly-in-right { opacity: 0; animation: flyInRight 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+.fly-in-left { opacity: 0; animation: flyInLeft 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+.fly-out-right { animation: flyOutRight 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards !important; }
+.fly-out-left { animation: flyOutLeft 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards !important; }
+.fade-in-only { opacity: 0; animation: fadeInOnly 0.2s ease forwards; }
+.fade-out-only { animation: fadeOutOnly 0.15s ease forwards !important; }

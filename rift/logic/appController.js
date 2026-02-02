@@ -69,7 +69,7 @@ export const AppController = {
                 console.log("User chose Local data. Overwriting cloud...");
             }
 
-            UI.renderBooks(state.books, state.currentFilter, elements.library);
+            UI.renderBooks(state.books, state.currentFilter, elements.library, '', 'status-rating', 'content-update');
             
         } catch (error) {
             console.error("Failed to load cloud data:", error);
@@ -167,7 +167,7 @@ export const AppController = {
         const elements = getElements();
         try {
             state.save(state.books);
-            UI.renderBooks(state.books, state.currentFilter, elements.library);
+            UI.renderBooks(state.books, state.currentFilter, elements.library, '', 'status-rating', 'smart');
 
             if (DriveService.accessToken) {
                 await DriveService.saveStories({ books: state.books, theme: ThemeService.getTheme() });
