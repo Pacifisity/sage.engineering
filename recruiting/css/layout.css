@@ -1,0 +1,32 @@
+.container {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+}
+header {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  position: sticky;
+  top: 0;
+  background: rgba(11, 15, 20, 0.92);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+section {
+  padding: 48px 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+}
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 0 48px;
+}
+@media (max-width: 720px) {
+  .nav-links {
+    display: none;
+  }
+}

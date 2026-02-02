@@ -1,0 +1,13 @@
+.faq details {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: rgba(15, 23, 42, 0.7);
+}
+.faq details[open] {
+  box-shadow: 0 12px 28px rgba(2, 6, 23, 0.25);
+}
+.faq summary {
+  cursor: pointer;
+  font-weight: 600;
+}
