@@ -113,7 +113,7 @@ window.closeModal = (modalId) => {
  */
 document.addEventListener('click', (e) => {
     // Modal Dismissal: Explicit close triggers
-    const closeIds = ['close-account-modal', 'close-modal', 'cancel-delete', 'cancel-import'];
+    const closeIds = ['close-account-modal', 'close-modal', 'cancel-delete', 'cancel-import', 'cancel-disconnect', 'cancel-theme'];
     if (closeIds.includes(e.target.id)) {
         const modal = e.target.closest('.modal-overlay');
         if (modal) window.closeModal(modal.id);

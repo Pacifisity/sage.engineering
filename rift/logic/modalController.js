@@ -14,24 +14,19 @@ export const ModalController = {
     },
 
     /**
-     * Activates a specific modal element.
-     * Uses requestAnimationFrame to ensure CSS transitions trigger correctly 
-     * even if the element was recently modified or toggled.
-     * * @param {HTMLElement} modalElement - The target overlay to display.
+     * Activates a specific modal element with smooth spring-like animation.
+     * @param {HTMLElement} modalElement - The target overlay to display.
      * @param {string|null} title - Optional text to update the modal's header.
      * @param {Object} elements - The DOM element collection for title injection.
      */
     open: (modalElement, title = null, elements = {}) => {
         if (!modalElement) return;
 
-        // Reset state to force a clean transition trigger
-        modalElement.classList.remove('active');
-        
         if (title && elements.modalTitle) {
             elements.modalTitle.innerText = title;
         }
         
-        // Execute on the next repaint to ensure the 'active' class transition animates
+        // Trigger animation on next frame
         requestAnimationFrame(() => {
             modalElement.classList.add('active');
         });

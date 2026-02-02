@@ -7,6 +7,7 @@ import { FormHandler } from './formHandler.js';
 import { getGroups } from './selectors.js';
 import { state } from './state.js';
 import { UI } from './ui.js';
+import { ThemeService } from './theme.js';
 
 /**
  * Orchestrates event listeners and user interactions across the application.
@@ -26,7 +27,10 @@ export const Events = {
      */
     initGlobalHandlers() {
         window.onclick = (e) => {
-            if (e.target.classList.contains('modal-overlay')) ModalController.closeAll();
+            // Only close the specific modal if clicking the backdrop, not all modals
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('active');
+            }
         };
         getGroups.closeBtns().forEach(btn => btn.onclick = ModalController.closeAll);
     },
@@ -35,32 +39,175 @@ export const Events = {
      * Initialize handlers for local data import/export and Google Drive integration.
      */
     initDataHandlers(elements) {
-        elements.exportBtn?.addEventListener('click', () => DataService.exportJSON(state.books));
-        
+        let cachedTheme = ThemeService.getTheme();
+
+        const buildThemeFromInputs = () => {
+            const theme = {};
+            elements.themeInputs?.forEach(input => {
+                const key = input.dataset.themeKey;
+                if (key) theme[key] = input.value;
+            });
+            return theme;
+        };
+
+        // Export format selection
+        elements.exportTrigger?.addEventListener('click', () => {
+            ModalController.open(elements.exportFormatModal);
+        });
+
+        elements.exportJsonBtn?.addEventListener('click', () => {
+            DataService.exportJSON(state.books);
+            ModalController.closeAll();
+        });
+
+        elements.exportCsvBtn?.addEventListener('click', () => {
+            DataService.exportCSV(state.books);
+            ModalController.closeAll();
+        });
+
+        elements.exportMdBtn?.addEventListener('click', () => {
+            DataService.exportMarkdown(state.books);
+            ModalController.closeAll();
+        });
+
+        // Import format selection
+        elements.importTrigger?.addEventListener('click', () => {
+            ModalController.open(elements.importFormatModal);
+        });
+
+        // Format selection buttons trigger file input
+        elements.importJsonBtn?.addEventListener('click', () => {
+            elements.importFile.accept = '.json';
+            elements.importFile.dataset.format = 'json';
+            elements.importFile.click();
+        });
+
+        elements.importCsvBtn?.addEventListener('click', () => {
+            elements.importFile.accept = '.csv';
+            elements.importFile.dataset.format = 'csv';
+            elements.importFile.click();
+        });
+
+        elements.importMdBtn?.addEventListener('click', () => {
+            elements.importFile.accept = '.md,.markdown';
+            elements.importFile.dataset.format = 'markdown';
+            elements.importFile.click();
+        });
+
+        // File input change handler
         elements.importFile?.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) ModalController.open(elements.importConfirmModal);
+            if (e.target.files.length > 0) {
+                ModalController.closeAll();
+                ModalController.open(elements.importConfirmModal);
+            }
         });
 
         elements.confirmImportBtn?.addEventListener('click', async () => {
             const file = elements.importFile?.files[0];
-            if (!file) return;
+            const format = elements.importFile?.dataset.format;
+            if (!file || !format) return;
+
             try {
-                const newData = await DataService.importJSON(file);
+                let newData;
+                
+                if (format === 'json') {
+                    newData = await DataService.importJSON(file);
+                } else if (format === 'csv') {
+                    newData = await DataService.importCSV(file);
+                } else if (format === 'markdown') {
+                    newData = await DataService.importMarkdown(file);
+                }
+
                 await AppController.handleImport(newData);
                 ModalController.closeAll();
-                elements.importFile.value = ''; 
+                elements.importFile.value = '';
+                elements.importFile.dataset.format = '';
             } catch (err) { 
-                alert(err); 
+                alert(`Import error: ${err}`); 
             }
         });
-
-        document.getElementById('import-trigger').onclick = () => elements.importFile.click();
 
         if (elements.googleLoginBtn) {
             elements.googleLoginBtn.addEventListener('click', () => {
                 DriveService.login();
             });
         }
+
+        if (elements.googleLogoutBtn) {
+            elements.googleLogoutBtn.addEventListener('click', () => {
+                ModalController.open(elements.disconnectConfirmModal);
+            });
+        }
+
+        if (elements.confirmDisconnectBtn) {
+            elements.confirmDisconnectBtn.addEventListener('click', () => {
+                DriveService.logout();
+                UI.updateSyncStatus(false);
+                ModalController.closeAll();
+            });
+        }
+
+        // Theme customization
+        elements.themeTrigger?.addEventListener('click', () => {
+            cachedTheme = ThemeService.getTheme();
+            elements.themeInputs?.forEach(input => {
+                const key = input.dataset.themeKey;
+                if (key && cachedTheme[key]) {
+                    input.value = cachedTheme[key];
+                }
+            });
+            if (elements.themeModal) {
+                elements.themeModal.classList.add('theme-advanced-collapsed');
+            }
+            if (elements.themeAdvancedToggle) {
+                elements.themeAdvancedToggle.setAttribute('aria-pressed', 'false');
+                elements.themeAdvancedToggle.textContent = 'Show advanced';
+            }
+            ModalController.open(elements.themeModal);
+        });
+
+        elements.themeAdvancedToggle?.addEventListener('click', () => {
+            if (!elements.themeModal || !elements.themeAdvancedToggle) return;
+            const isCollapsed = elements.themeModal.classList.toggle('theme-advanced-collapsed');
+            elements.themeAdvancedToggle.setAttribute('aria-pressed', String(!isCollapsed));
+            elements.themeAdvancedToggle.textContent = isCollapsed ? 'Show advanced' : 'Hide advanced';
+        });
+
+        elements.themeInputs?.forEach(input => {
+            input.addEventListener('input', () => {
+                ThemeService.apply(buildThemeFromInputs());
+            });
+        });
+
+        elements.saveThemeBtn?.addEventListener('click', () => {
+            ThemeService.save(buildThemeFromInputs());
+            AppController.sync();
+            ModalController.closeAll();
+        });
+
+        elements.resetThemeBtn?.addEventListener('click', () => {
+            ThemeService.reset();
+            const resetTheme = ThemeService.getTheme();
+            elements.themeInputs?.forEach(input => {
+                const key = input.dataset.themeKey;
+                if (key && resetTheme[key]) {
+                    input.value = resetTheme[key];
+                }
+            });
+            AppController.sync();
+        });
+
+        elements.cancelThemeBtn?.addEventListener('click', () => {
+            ThemeService.apply(cachedTheme);
+            if (elements.themeModal) {
+                elements.themeModal.classList.add('theme-advanced-collapsed');
+            }
+            if (elements.themeAdvancedToggle) {
+                elements.themeAdvancedToggle.setAttribute('aria-pressed', 'false');
+                elements.themeAdvancedToggle.textContent = 'Show advanced';
+            }
+            ModalController.closeAll();
+        });
     },
 
     /**
@@ -69,8 +216,9 @@ export const Events = {
     initLibraryHandlers(elements) {
         // --- SEARCH LOGIC ---
         const debouncedSearch = this._debounce((query) => {
-            // Re-render with current filter + search query
-            UI.renderBooks(state.books, state.currentFilter, elements.library, query);
+            // Re-render with current filter + search query + sort mode
+            const sortMode = elements.sortSelect?.value || 'status-rating';
+            UI.renderBooks(state.books, state.currentFilter, elements.library, query, sortMode);
         });
 
         elements.searchBar?.addEventListener('input', (e) => {
@@ -80,6 +228,12 @@ export const Events = {
         // Prevent search bar from refreshing page on 'Enter'
         elements.searchBar?.closest('form')?.addEventListener('submit', e => e.preventDefault());
 
+        // --- SORT LOGIC ---
+        elements.sortSelect?.addEventListener('change', (e) => {
+            const sortMode = e.target.value;
+            const currentSearch = elements.searchBar?.value || '';
+            UI.renderBooks(state.books, state.currentFilter, elements.library, currentSearch, sortMode);
+        });
 
         // --- CARD & FAVORITE INTERACTION ---
         elements.library?.addEventListener('click', (e) => {
@@ -109,9 +263,10 @@ export const Events = {
                 btn.classList.add('active');
                 state.currentFilter = btn.dataset.filter;
                 
-                // When switching tabs, respect the current search term
+                // When switching tabs, respect the current search term and sort mode
                 const currentSearch = elements.searchBar?.value || '';
-                UI.renderBooks(state.books, state.currentFilter, elements.library, currentSearch);
+                const sortMode = elements.sortSelect?.value || 'status-rating';
+                UI.renderBooks(state.books, state.currentFilter, elements.library, currentSearch, sortMode);
             };
         });
     },

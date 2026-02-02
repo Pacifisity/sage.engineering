@@ -13,8 +13,9 @@ export const UI = {
      * @param {string} currentFilter - The active tab (e.g., 'all', 'Favorites').
      * @param {HTMLElement} container - The library div.
      * @param {string} searchQuery - The text from the search bar.
+     * @param {string} sortMode - The sorting mode (default: 'status-rating').
      */
-    renderBooks: (books, currentFilter, container, searchQuery = '') => {
+    renderBooks: (books, currentFilter, container, searchQuery = '', sortMode = 'status-rating') => {
         if (!container) return;
 
         // --- PHASE 1: DIRECTIONAL CALCULATIONS ---
@@ -57,7 +58,7 @@ export const UI = {
                 return matchesTab && matchesSearch;
             });
 
-            // 2. Sorting Logic: Status (Reading -> Plan -> Completed -> Dropped) then Rating (High to Low)
+            // 2. Sorting Logic
             const statusOrder = {
                 'Reading': 1,
                 'Plan to Read': 2,
@@ -66,19 +67,40 @@ export const UI = {
             };
 
             filteredBooks.sort((a, b) => {
-                // Compare status priority first
-                const priorityA = statusOrder[a.status] || 5;
-                const priorityB = statusOrder[b.status] || 5;
+                switch(sortMode) {
+                    case 'status-rating':
+                        // Default: Status (Reading -> Plan -> Completed -> Dropped) then Rating (High to Low)
+                        const priorityA = statusOrder[a.status] || 5;
+                        const priorityB = statusOrder[b.status] || 5;
+                        if (priorityA !== priorityB) return priorityA - priorityB;
+                        const ratingA = (a.rating === "Unrated" || !a.rating) ? 0 : parseInt(a.rating);
+                        const ratingB = (b.rating === "Unrated" || !b.rating) ? 0 : parseInt(b.rating);
+                        return ratingB - ratingA;
 
-                if (priorityA !== priorityB) {
-                    return priorityA - priorityB;
+                    case 'rating-desc':
+                        const rA = (a.rating === "Unrated" || !a.rating) ? 0 : parseInt(a.rating);
+                        const rB = (b.rating === "Unrated" || !b.rating) ? 0 : parseInt(b.rating);
+                        return rB - rA;
+
+                    case 'title-asc':
+                        return (a.title || '').localeCompare(b.title || '');
+
+                    case 'date-added':
+                        const dateA = new Date(a.dateAdded || 0).getTime();
+                        const dateB = new Date(b.dateAdded || 0).getTime();
+                        return dateB - dateA;
+
+                    case 'author-asc':
+                        return (a.author || '').localeCompare(b.author || '');
+
+                    case 'progress-desc':
+                        const progressA = parseInt(a.currentCount || 0);
+                        const progressB = parseInt(b.currentCount || 0);
+                        return progressB - progressA;
+
+                    default:
+                        return 0;
                 }
-
-                // If status is identical, sort by rating descending
-                const ratingA = (a.rating === "Unrated" || !a.rating) ? 0 : parseInt(a.rating);
-                const ratingB = (b.rating === "Unrated" || !b.rating) ? 0 : parseInt(b.rating);
-
-                return ratingB - ratingA;
             });
 
             // 3. Handle Empty State
@@ -128,6 +150,7 @@ export const UI = {
                         <div>
                             <span class="status-badge">${book.status || 'Reading'}</span>
                             <h3>${book.title}</h3>
+                            ${book.author ? `<p class="card-author">by ${book.author}</p>` : ''}
                         </div>
                         <button class="fav-btn ${book.isFavorite ? 'active' : ''}" data-id="${book.id}">
                             ${book.isFavorite ? '★' : '☆'}
@@ -140,6 +163,7 @@ export const UI = {
                             ${urlHTML} 
                         </div>
                     </div>
+                    ${book.notes ? `<div class="card-notes">${book.notes}</div>` : ''}
                 `;
                 container.appendChild(card);
             });
@@ -150,21 +174,25 @@ export const UI = {
         const elements = {
             rating: document.getElementById('rating'),
             title: document.getElementById('title'),
+            author: document.getElementById('author'),
             status: document.getElementById('status'),
             id: document.getElementById('book-id'),
             type: document.getElementById('tracking-type'),
             val: document.getElementById('tracking-value'),
             url: document.getElementById('url'),
+            notes: document.getElementById('notes'),
             delete: document.getElementById('delete-btn'),
             mTitle: document.getElementById('modal-title')
         };
 
         if (elements.id) elements.id.value = book.id || '';
         if (elements.title) elements.title.value = book.title || '';
+        if (elements.author) elements.author.value = book.author || '';
         if (elements.status) elements.status.value = book.status || 'Reading';
         if (elements.type) elements.type.value = book.trackingType || 'chapter';
         if (elements.val) elements.val.value = book.currentCount || '';
         if (elements.url) elements.url.value = book.url || '';
+        if (elements.notes) elements.notes.value = book.notes || '';
         
         if (elements.rating) {
             elements.rating.value = (book.rating === null || book.rating === undefined) ? "Unrated" : book.rating;
@@ -178,18 +206,22 @@ export const UI = {
         const statusElement = document.querySelector('#sync-status strong');
         const subtextElement = document.querySelector('.status-subtext');
         const loginBtn = document.getElementById('google-login-btn');
+        const logoutBtn = document.getElementById('google-logout-btn');
         
         if (isAuthenticated) {
             if (statusElement) {
                 statusElement.textContent = "Cloud Synced";
-                statusElement.style.color = "#4CAF50"; 
+                const successColor = getComputedStyle(document.documentElement)
+                    .getPropertyValue('--success')
+                    .trim();
+                statusElement.style.color = successColor || "#4CAF50";
             }
             if (subtextElement) subtextElement.style.display = 'none';
             if (loginBtn) {
-                loginBtn.textContent = "Account Connected";
-                loginBtn.style.pointerEvents = 'none';
-                loginBtn.style.opacity = '0.7';
-                loginBtn.style.filter = 'grayscale(0.5)';
+                loginBtn.style.display = 'none';
+            }
+            if (logoutBtn) {
+                logoutBtn.style.display = 'block';
             }
         } else {
             if (statusElement) {
@@ -198,10 +230,10 @@ export const UI = {
             }
             if (subtextElement) subtextElement.style.display = 'block';
             if (loginBtn) {
-                loginBtn.textContent = "Connect Google Drive";
-                loginBtn.style.pointerEvents = 'auto';
-                loginBtn.style.opacity = '1';
-                loginBtn.style.filter = 'none';
+                loginBtn.style.display = 'block';
+            }
+            if (logoutBtn) {
+                logoutBtn.style.display = 'none';
             }
         }
     }

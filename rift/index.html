@@ -32,18 +32,26 @@
             </div>
             
             <div class="data-grid">
-                <button id="export-btn" class="secondary-action-btn">
-                    <span class="icon">📤</span> Export JSON
+                <button id="export-trigger" class="secondary-action-btn">
+                    <span class="icon">📤</span> Export
                 </button>
                 <button id="import-trigger" class="secondary-action-btn">
-                    <span class="icon">📥</span> Import JSON
+                    <span class="icon">📥</span> Import
                 </button>
-                <input type="file" id="import-file" accept=".json" style="display: none;">
+                <input type="file" id="import-file" accept=".json,.csv,.md,.markdown" style="display: none;">
+            </div>
+
+            <div class="theme-actions">
+                <button id="theme-trigger" class="secondary-action-btn">
+                    <span class="icon">🎨</span> Customize Theme
+                </button>
             </div>
 
             <div class="account-actions">
-                <button id="google-login-btn">Connect Google Drive</button>
-                <button type="button" id="close-account-modal">Close</button>
+                <button type="button" id="close-account-modal" class="ghost-btn">Close</button>
+                <div style="flex: 1;"></div>
+                <button id="google-login-btn" class="primary-btn">Connect Google Drive</button>
+                <button id="google-logout-btn" class="danger-btn" style="display: none;">Disconnect</button>
             </div>
         </div>
     </div>
@@ -61,6 +69,18 @@
         <button id="open-modal" class="add-btn" aria-label="Add New Entry">+</button>
     </nav>
 
+    <div class="sort-controls">
+        <label for="sort-select">Sort by:</label>
+        <select id="sort-select" aria-label="Sort books by">
+            <option value="status-rating">Status → Rating</option>
+            <option value="rating-desc">Rating (High to Low)</option>
+            <option value="title-asc">Title (A-Z)</option>
+            <option value="date-added">Recently Added</option>
+            <option value="author-asc">Author (A-Z)</option>
+            <option value="progress-desc">Progress (High to Low)</option>
+        </select>
+    </div>
+
     <div id="library"></div>
 
     <div id="modal-overlay" class="modal-overlay">
@@ -70,6 +90,8 @@
                 <input type="hidden" id="book-id">
                 
                 <input type="text" id="title" placeholder="Book Title" maxlength="64" required>
+                
+                <input type="text" id="author" placeholder="Author (Optional)" maxlength="64">
                 
                 <select id="status">
                     <option value="Reading">Reading</option>
@@ -97,6 +119,8 @@
 
                 <input type="url" id="url" placeholder="Source URL (e.g., https://...)" aria-label="Book source link">
 
+                <textarea id="notes" placeholder="Personal notes (optional)" maxlength="500" style="resize: vertical; min-height: 80px;"></textarea>
+
                 <div class="modal-actions">
                     <button type="button" id="close-modal">Cancel</button>
                     <button type="button" id="delete-btn" class="danger-btn" style="display: none;">Delete Book</button>
@@ -112,7 +136,18 @@
             <p class="muted-text">This will permanently remove this book from your library.</p>
             <div class="modal-actions">
                 <button type="button" id="cancel-delete">Cancel</button>
-                <button type="button" id="confirm-delete-btn" class="confirm-btn danger-bg">Delete</button>
+                <button type="button" id="confirm-delete-btn" class="danger-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="disconnect-confirm-modal" class="modal-overlay">
+        <div class="modal-content delete-confirm-content">
+            <h3 class="danger-text">Disconnect from Google Drive?</h3>
+            <p class="muted-text">Your library will remain on this device. You can reconnect anytime.</p>
+            <div class="modal-actions">
+                <button type="button" id="cancel-disconnect">Cancel</button>
+                <button type="button" id="confirm-disconnect-btn" class="danger-btn">Disconnect</button>
             </div>
         </div>
     </div>
@@ -131,29 +166,176 @@
         </div>
     </div>
     
-    <div id="sync-modal" class="modal-overlay">
+    <div id="export-format-modal" class="modal-overlay">
+        <div class="modal-content delete-confirm-content">
+            <h3>Choose Export Format</h3>
+            <p class="muted-text">Select how you'd like to export your library:</p>
+            <div class="format-options">
+                <button id="export-json-btn" class="format-btn">
+                    <span class="format-icon">📄</span>
+                    <strong>JSON</strong>
+                    <p>Full backup, can be imported later</p>
+                </button>
+                <button id="export-csv-btn" class="format-btn">
+                    <span class="format-icon">📊</span>
+                    <strong>CSV</strong>
+                    <p>Open in Excel or Sheets</p>
+                </button>
+                <button id="export-md-btn" class="format-btn">
+                    <span class="format-icon">📝</span>
+                    <strong>Markdown</strong>
+                    <p>Readable text format</p>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="theme-modal" class="modal-overlay theme-advanced-collapsed">
         <div class="modal-content">
+            <h2>Theme</h2>
+            <p class="theme-subtext">Customize every color token used across Rift.</p>
+            <div class="theme-settings">
+                <div class="theme-grid">
+                    <label class="theme-field" for="theme-accent">
+                        <span>Accent</span>
+                        <input type="color" id="theme-accent" data-theme-key="accent" value="#8b5cf6" aria-label="Accent color">
+                    </label>
+                    <label class="theme-field" for="theme-accent-glow">
+                        <span>Accent Glow</span>
+                        <input type="color" id="theme-accent-glow" data-theme-key="accentGlow" value="#6d28d9" aria-label="Accent glow color">
+                    </label>
+                    <label class="theme-field" for="theme-text-on-accent">
+                        <span>Text on Accent</span>
+                        <input type="color" id="theme-text-on-accent" data-theme-key="textOnAccent" value="#ffffff" aria-label="Text on accent color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-bg-deep">
+                        <span>Background Deep</span>
+                        <input type="color" id="theme-bg-deep" data-theme-key="bgDeep" value="#121214" aria-label="Deep background color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-bg-surface">
+                        <span>Background Surface</span>
+                        <input type="color" id="theme-bg-surface" data-theme-key="bgSurface" value="#1e1e22" aria-label="Surface background color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-bg-focus">
+                        <span>Background Focus</span>
+                        <input type="color" id="theme-bg-focus" data-theme-key="bgFocus" value="#1a1a1e" aria-label="Focus background color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-bg-elevated">
+                        <span>Elevated Surface</span>
+                        <input type="color" id="theme-bg-elevated" data-theme-key="bgElevated" value="#252529" aria-label="Elevated surface color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-bg-elevated-hover">
+                        <span>Elevated Hover</span>
+                        <input type="color" id="theme-bg-elevated-hover" data-theme-key="bgElevatedHover" value="#2d2d33" aria-label="Elevated hover color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-bg-elevated-active">
+                        <span>Elevated Active</span>
+                        <input type="color" id="theme-bg-elevated-active" data-theme-key="bgElevatedActive" value="#2a2a2f" aria-label="Elevated active color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-text-main">
+                        <span>Text Main</span>
+                        <input type="color" id="theme-text-main" data-theme-key="textMain" value="#e2e8f0" aria-label="Main text color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-text-muted">
+                        <span>Text Muted</span>
+                        <input type="color" id="theme-text-muted" data-theme-key="textMuted" value="#94a3b8" aria-label="Muted text color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-border-color">
+                        <span>Border</span>
+                        <input type="color" id="theme-border-color" data-theme-key="borderColor" value="#2d2d33" aria-label="Border color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-success">
+                        <span>Success</span>
+                        <input type="color" id="theme-success" data-theme-key="success" value="#4caf50" aria-label="Success color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-danger">
+                        <span>Danger</span>
+                        <input type="color" id="theme-danger" data-theme-key="danger" value="#dc2626" aria-label="Danger color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-danger-dark">
+                        <span>Danger Dark</span>
+                        <input type="color" id="theme-danger-dark" data-theme-key="dangerDark" value="#b91c1c" aria-label="Danger hover color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-favorite">
+                        <span>Favorite</span>
+                        <input type="color" id="theme-favorite" data-theme-key="favorite" value="#f43f5e" aria-label="Favorite color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-rating">
+                        <span>Rating</span>
+                        <input type="color" id="theme-rating" data-theme-key="rating" value="#fbbf24" aria-label="Rating color">
+                    </label>
+                    <label class="theme-field" data-advanced="true" for="theme-rating-strong">
+                        <span>Rating Strong</span>
+                        <input type="color" id="theme-rating-strong" data-theme-key="ratingStrong" value="#ffcc00" aria-label="Rating strong color">
+                    </label>
+                </div>
+            </div>
+            <div class="theme-toggle">
+                <button type="button" id="theme-advanced-toggle" class="ghost-btn" aria-pressed="false">
+                    Show advanced
+                </button>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="cancel-theme" class="ghost-btn">Cancel</button>
+                <button type="button" id="reset-theme" class="secondary-btn">Reset</button>
+                <button type="button" id="save-theme" class="submit-btn">Save Theme</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="import-format-modal" class="modal-overlay">
+        <div class="modal-content delete-confirm-content">
+            <h3>Choose Import Format</h3>
+            <p class="muted-text">Select the format of the file you're importing:</p>
+            <div class="format-options">
+                <button id="import-json-btn" class="format-btn">
+                    <span class="format-icon">📄</span>
+                    <strong>JSON</strong>
+                    <p>Full backup file</p>
+                </button>
+                <button id="import-csv-btn" class="format-btn">
+                    <span class="format-icon">📊</span>
+                    <strong>CSV</strong>
+                    <p>Spreadsheet file</p>
+                </button>
+                <button id="import-md-btn" class="format-btn">
+                    <span class="format-icon">📝</span>
+                    <strong>Markdown</strong>
+                    <p>Text file</p>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="sync-modal" class="modal-overlay">
+        <div class="modal-content sync-modal-content">
             <div class="modal-header">
-                <h2 id="sync-modal-title">Data Sync Conflict</h2>
+                <h2 id="sync-modal-title">⚠️ Data Conflict Detected</h2>
+                <p class="conflict-subtitle">Your local and cloud data are different. Choose which version to keep:</p>
+                <div class="timestamp-info">
+                    <span class="timestamp-icon">☁️</span>
+                    <span class="timestamp-label">Cloud data last updated:</span>
+                    <span class="timestamp-value" id="cloud-timestamp"></span>
+                </div>
             </div>
             <div class="modal-body">
-                <p class="modal-description">We found a difference between your local library and your cloud backup. Which one should we keep?</p>
-                
                 <div class="sync-options">
-                    <button id="use-cloud-btn" class="sync-button">
+                    <button id="use-cloud-btn" class="sync-button sync-button-cloud" disabled>
                         <div class="sync-icon">☁️</div>
                         <div class="sync-info">
-                            <strong>Cloud Data</strong>
-                            <p>Keep the version stored in Google Drive.</p>
+                            <strong>Keep Cloud Data</strong>
+                            <p>Replace your local library with the cloud version from Google Drive.</p>
                         </div>
+                        <div class="sync-countdown"></div>
                     </button>
                     
-                    <button id="use-local-btn" class="sync-button">
-                        <div class="sync-icon">📱</div>
+                    <button id="use-local-btn" class="sync-button sync-button-local" disabled>
+                        <div class="sync-icon">💾</div>
                         <div class="sync-info">
-                            <strong>Local Data</strong>
-                            <p>Keep the version on this device and update the cloud.</p>
+                            <strong>Keep Local Data</strong>
+                            <p>Keep your current library and update the cloud backup.</p>
                         </div>
+                        <div class="sync-countdown"></div>
                     </button>
                 </div>
             </div>

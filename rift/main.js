@@ -10,10 +10,14 @@ import { DriveService } from './logic/drive.js';
 import { state } from './logic/state.js';
 import { getElements } from './logic/selectors.js';
 import { Events } from './logic/events.js'; 
+import { ThemeService } from './logic/theme.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Retrieve centralized DOM references
     const elements = getElements();
+
+    // --- THEME INITIALIZATION ---
+    ThemeService.init();
     
     // --- SERVICE INITIALIZATION ---
     // Prepare external integrations (e.g., Google Drive API client)

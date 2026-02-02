@@ -9,6 +9,8 @@ export const DriveService = {
     SCOPES: 'https://www.googleapis.com/auth/drive.appdata',
     tokenClient: null,
     accessToken: null,
+    autoSyncInterval: null,
+    AUTO_SYNC_INTERVAL: 5 * 60 * 1000, // 5 minutes in milliseconds
 
     /**
      * Initializes the Google Identity client and restores existing sessions.
@@ -28,11 +30,12 @@ export const DriveService = {
         if (session && session.token && Date.now() < (session.expiry - 300000)) {
             this.accessToken = session.token;
             UI.updateSyncStatus(true);
+            this.startAutoSync();
             if (onReady) onReady();
         } else if (session) {
             // If we HAD a session but it's expired, try to recover it silently
             this.requestSilentToken()
-                .then(() => { if (onReady) onReady(); })
+                .then(() => { this.startAutoSync(); if (onReady) onReady(); })
                 .catch(() => { console.log("Could not auto-restore session."); });
         }
     },
@@ -50,11 +53,45 @@ export const DriveService = {
         }));
 
         UI.updateSyncStatus(true);
+        this.startAutoSync();
         
         // Trigger background sync initialization
         import('./appController.js').then(m => m.AppController.initCloudSync());
         
         if (onReady) onReady();
+    },
+
+    /**
+     * Starts periodic auto-sync to Google Drive (every 5 minutes)
+     */
+    startAutoSync: function() {
+        // Clear existing interval to prevent duplicates
+        if (this.autoSyncInterval) {
+            clearInterval(this.autoSyncInterval);
+        }
+
+        // Auto-sync every 5 minutes when user is authenticated
+        this.autoSyncInterval = setInterval(() => {
+            if (this.accessToken) {
+                import('./appController.js').then(m => {
+                    m.AppController.sync();
+                    console.log("[Auto-Sync] Syncing to Google Drive...");
+                }).catch(err => console.error("Auto-sync failed:", err));
+            }
+        }, this.AUTO_SYNC_INTERVAL);
+
+        console.log("[Auto-Sync] Background sync started (every 5 minutes)");
+    },
+
+    /**
+     * Stops the auto-sync interval
+     */
+    stopAutoSync: function() {
+        if (this.autoSyncInterval) {
+            clearInterval(this.autoSyncInterval);
+            this.autoSyncInterval = null;
+            console.log("[Auto-Sync] Background sync stopped");
+        }
     },
 
     /**
@@ -119,6 +156,7 @@ export const DriveService = {
     logout: function() {
         localStorage.removeItem('google_drive_session');
         this.accessToken = null;
+        this.stopAutoSync();
         UI.updateSyncStatus(false);
     },
 
@@ -137,9 +175,9 @@ export const DriveService = {
     /**
      * Uploads story data to Google Drive.
      */
-    saveStories: async function(books) {
+    saveStories: async function(payload) {
         const fileId = await this.getFileId();
-        const content = JSON.stringify(books);
+        const content = JSON.stringify(payload);
 
         if (fileId) {
             return await this.fetchDrive(
@@ -182,17 +220,36 @@ export const DriveService = {
     },
 
     /**
-     * Downloads story data from Google Drive.
+     * Downloads story data from Google Drive and returns with metadata.
+     * @returns {Promise<{data: Array, modifiedTime: string}|Array>} Stories with optional metadata or empty array
      */
     loadStories: async function() {
         const fileId = await this.getFileId();
         if (!fileId) return [];
 
-        const fileRes = await this.fetchDrive(
-            `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`
-        );
-        
-        if (!fileRes.ok) return [];
-        return await fileRes.json();
+        try {
+            // Fetch metadata to get the modified time
+            const metadataRes = await this.fetchDrive(
+                `https://www.googleapis.com/drive/v3/files/${fileId}?fields=modifiedTime`
+            );
+            const metadata = metadataRes.ok ? await metadataRes.json() : {};
+
+            // Fetch the actual file content
+            const fileRes = await this.fetchDrive(
+                `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`
+            );
+            
+            if (!fileRes.ok) return [];
+            const data = await fileRes.json();
+            
+            // Return data with metadata if available
+            if (metadata.modifiedTime) {
+                return { data, modifiedTime: metadata.modifiedTime };
+            }
+            return data;
+        } catch (error) {
+            console.error("Error loading stories:", error);
+            return [];
+        }
     }
 };

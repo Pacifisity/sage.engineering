@@ -1,23 +1,89 @@
-/* ==========================================================================
-   DESIGN TOKENS & SYSTEM VARIABLES
-   ========================================================================== */
+/* ========================================================================== */
+/* TABLE OF CONTENTS */
+/* 1. Design Tokens & System Variables                                        */
+/* 2. Global Reset & Base Styles                                               */
+/* 3. Header & Search                                                         */
+/* 4. Navigation & Filters                                                    */
+/* 5. Sort Controls                                                           */
+/* 6. Library Grid                                                            */
+/* 7. Book Cards (Structure)                                                  */
+/* 8. Book Cards (Interactions & Stats)                                       */
+/* 9. Rating & Stars                                                          */
+/* 10. External Link Badge                                                    */
+/* 11. Modal Foundation                                                       */
+/* 12. Sync Conflict Modal                                                    */
+/* 13. Format Selection Modal                                                 */
+/* 14. Forms & Inputs                                                         */
+/* 15. Buttons (Core)                                                         */
+/* 16. Danger Dialogs                                                         */
+/* 17. Account & Cloud                                                        */
+/* 18. Sync Button Locked State                                               */
+/* 19. Animations                                                             */
+/* ========================================================================== */
+
+/* ========================================================================== */
+/* 1. DESIGN TOKENS & SYSTEM VARIABLES                                        */
+/* ========================================================================== */
 :root {
     /* Semantic Color Palette */
     --bg-deep: #121214;
     --bg-surface: #1e1e22;
+    --bg-focus: #1a1a1e;
+    --bg-elevated: #252529;
+    --bg-elevated-hover: #2d2d33;
+    --bg-elevated-active: #2a2a2f;
+
     --accent-primary: #8b5cf6;
     --accent-glow: #6d28d9;
+    --accent-primary-rgb: 139, 92, 246;
+
+    --text-on-accent: #ffffff;
     --text-main: #e2e8f0;
+    --text-main-rgb: 226, 232, 240;
     --text-muted: #94a3b8;
     --border-color: #2d2d33;
-    
+
+    --success: #4CAF50;
+    --danger: #dc2626;
+    --danger-dark: #b91c1c;
+    --danger-rgb: 220, 38, 38;
+    --danger-soft: rgba(220, 38, 38, 0.12);
+    --favorite: #f43f5e;
+    --favorite-rgb: 244, 63, 94;
+    --rating: #fbbf24;
+    --rating-strong: #ffcc00;
+    --rating-rgb: 255, 204, 0;
+
+    --overlay-bg: rgba(0, 0, 0, 0.8);
+    --overlay-bg-transparent: rgba(0, 0, 0, 0);
+    --surface-hover: rgba(255, 255, 255, 0.05);
+    --accent-ring: rgba(var(--accent-primary-rgb), 0.1);
+
     /* Effects & Elevation */
-    --shadow-purple: 0 4px 14px 0 rgba(139, 92, 246, 0.2);
+    --shadow-purple: 0 4px 14px 0 rgba(var(--accent-primary-rgb), 0.2);
 }
 
-/* ==========================================================================
-   GLOBAL RESET & BASE STYLES
-   ========================================================================== */
+
+.secondary-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+    color: var(--text-main);
+    border-color: var(--text-muted);
+    background: var(--surface-hover);
+}
+/* ========================================================================== */
+/* 2. GLOBAL RESET & BASE STYLES                                              */
+/* ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -43,9 +109,9 @@ body {
     padding: 20px;
 }
 
-/* ==========================================================================
-   HEADER & SEARCH ARCHITECTURE
-   ========================================================================== */
+/* ========================================================================== */
+/* 3. HEADER & SEARCH                                                         */
+/* ========================================================================== */
 .header-controls {
     display: flex;
     align-items: center;
@@ -98,32 +164,30 @@ body {
     user-select: text;
     -webkit-user-select: text;
 
-    /* 1. DEFAULT STATE: Regular border all around */
+    /* Default State */
     border: 1px solid var(--border-color);
     box-shadow: none;
 }
 
-#search::placeholder { 
-    color: var(--text-muted); 
+#search::placeholder {
+    color: var(--text-muted);
 }
 
-/* 2. HOVER STATE: Purple left and right borders only */
 #search:hover {
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4), 
-                inset 0 0 5px rgba(139, 92, 246, 0.2);
+    box-shadow: 0 0 15px rgba(var(--accent-primary-rgb), 0.4),
+                inset 0 0 5px rgba(var(--accent-primary-rgb), 0.2);
 }
 
-/* 3. FOCUS STATE: Full neon glow and full primary border */
 #search:focus {
-    background: #1a1a1e;
+    background: var(--bg-focus);
     border: 1px solid var(--accent-primary);
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4), 
-                inset 0 0 5px rgba(139, 92, 246, 0.2);
+    box-shadow: 0 0 15px rgba(var(--accent-primary-rgb), 0.4),
+                inset 0 0 5px rgba(var(--accent-primary-rgb), 0.2);
 }
 
-/* ==========================================================================
-   NAVIGATION & CATEGORY FILTERS
-   ========================================================================== */
+/* ========================================================================== */
+/* 4. NAVIGATION & FILTERS                                                    */
+/* ========================================================================== */
 nav {
     display: flex;
     align-items: center;
@@ -139,7 +203,7 @@ nav {
     gap: 12px;
     padding: 4px;
     position: relative;
-    overflow-x: auto; 
+    overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
 
@@ -160,7 +224,6 @@ nav {
     );
 }
 
-/* Ensure the scrollbar stays invisible in Chrome/Safari */
 .filter-container::-webkit-scrollbar {
     display: none;
 }
@@ -169,7 +232,7 @@ nav {
     flex-shrink: 0;
     background: transparent;
     border: none;
-    padding: 10px 18px; 
+    padding: 10px 18px;
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text-muted);
@@ -180,22 +243,21 @@ nav {
     white-space: nowrap;
 }
 
-.filter-btn:hover { color: #fff; }
+.filter-btn:hover { color: var(--text-main); }
 
 .filter-btn.active {
     color: var(--accent-primary);
-    pointer-events: none; 
+    pointer-events: none;
     cursor: default;
 }
 
-/* Dynamic JS-driven highlight bar */
 .nav-indicator {
     position: absolute;
     bottom: 6px;
-    left: 0; 
+    left: 0;
     height: 1.5px;
     background: linear-gradient(90deg, transparent, var(--accent-primary) 20%, var(--accent-primary) 80%, transparent);
-    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 2px 10px rgba(var(--accent-primary-rgb), 0.3);
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     pointer-events: none;
     opacity: 0.8;
@@ -204,7 +266,7 @@ nav {
 .add-btn {
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
-    color: var(--accent-primary); 
+    color: var(--accent-primary);
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -225,19 +287,66 @@ nav {
     filter: brightness(1.2);
 }
 
-/* ==========================================================================
-   LIBRARY GRID & BOOK CARDS
-   ========================================================================== */
+/* ========================================================================== */
+/* 5. SORT CONTROLS                                                           */
+/* ========================================================================== */
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: var(--bg-surface);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.sort-controls label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+#sort-select {
+    flex: 1;
+    background: var(--bg-deep);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: inherit;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+#sort-select:hover {
+    border-color: var(--accent-primary);
+}
+
+#sort-select:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+/* ========================================================================== */
+/* 6. LIBRARY GRID                                                            */
+/* ========================================================================== */
 #library {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
     padding: 10px;
-    overflow-x: hidden; 
+    overflow-x: hidden;
     position: relative;
-    min-height: 400px; 
+    min-height: 400px;
 }
 
+/* ========================================================================== */
+/* 7. BOOK CARDS (STRUCTURE)                                                  */
+/* ========================================================================== */
 .book-card {
     background: var(--bg-surface);
     min-height: 200px;
@@ -250,7 +359,7 @@ nav {
     align-items: flex-start;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    
+
     /* Optimization for "Flight" animations */
     will-change: transform, opacity;
     backface-visibility: hidden;
@@ -276,6 +385,15 @@ nav {
 .card-header h3 {
     font-size: 1.1rem;
     color: var(--text-main);
+    margin-bottom: 4px;
+    word-break: break-word;
+}
+
+.card-author {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0;
     font-weight: 600;
     max-width: 80%;
 }
@@ -287,15 +405,31 @@ nav {
     font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
-    background: rgba(139, 92, 246, 0.1);
+    background: rgba(var(--accent-primary-rgb), 0.1);
     color: var(--accent-primary);
     border: 1px solid var(--accent-primary);
     margin-bottom: 8px;
 }
 
-/* ==========================================================================
-   CARD INTERACTIVE ELEMENTS
-   ========================================================================== */
+.card-notes {
+    margin-top: 12px;
+    padding: 10px;
+    background: rgba(var(--accent-primary-rgb), 0.06);
+    border-left: 3px solid var(--accent-primary);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    word-break: break-word;
+    white-space: pre-wrap;
+    max-height: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ========================================================================== */
+/* 8. BOOK CARDS (INTERACTIONS & STATS)                                       */
+/* ========================================================================== */
 .fav-btn {
     background: transparent;
     border: none;
@@ -307,8 +441,8 @@ nav {
 }
 
 .fav-btn.active {
-    color: #f43f5e;
-    filter: drop-shadow(0 0 5px rgba(244, 63, 94, 0.4));
+    color: var(--favorite);
+    filter: drop-shadow(0 0 5px rgba(var(--favorite-rgb), 0.4));
 }
 
 .fav-btn:hover { transform: scale(1.2); }
@@ -327,13 +461,15 @@ nav {
     justify-content: space-between;
 }
 
-/* --- Rating & Star Logic --- */
+/* ========================================================================== */
+/* 9. RATING & STARS                                                          */
+/* ========================================================================== */
 .rating-display {
     display: flex;
     align-items: center;
-    width: 100%; 
+    width: 100%;
     margin-top: 8px;
-    color: #fbbf24;
+    color: var(--rating);
     letter-spacing: 2px;
     font-size: 0.9rem;
 }
@@ -345,15 +481,17 @@ nav {
 }
 
 .stars-filled {
-    color: #ffcc00; 
-    text-shadow: 0 0 5px rgba(255, 204, 0, 0.3);
+    color: var(--rating-strong);
+    text-shadow: 0 0 5px rgba(var(--rating-rgb), 0.3);
 }
 
 .stars-empty {
-    color: rgba(255, 255, 255, 0.1);
+    color: rgba(var(--text-main-rgb), 0.1);
 }
 
-/* --- External Link Badge --- */
+/* ========================================================================== */
+/* 10. EXTERNAL LINK BADGE                                                    */
+/* ========================================================================== */
 .url-link {
     display: inline-flex;
     align-items: center;
@@ -362,8 +500,8 @@ nav {
     width: 28px;
     height: 28px;
     border-radius: 6px;
-    background: rgba(139, 92, 246, 0.15);
-    border: 1px solid rgba(139, 92, 246, 0.4);
+    background: rgba(var(--accent-primary-rgb), 0.15);
+    border: 1px solid rgba(var(--accent-primary-rgb), 0.4);
     transition: all 0.2s ease;
     margin-left: auto; /* Aligns to far right */
 }
@@ -380,141 +518,269 @@ nav {
     transform: translateY(-1px);
 }
 
-/* ==========================================================================
-   MODAL FOUNDATION
-   ========================================================================== */
+/* ========================================================================== */
+/* 11. MODAL FOUNDATION                                                       */
+/* ========================================================================== */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    display: flex; 
+    display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.7); /* Slightly lighter for better contrast */
+    background: var(--overlay-bg-transparent);
     z-index: 1000;
-    
+
     /* Performance: promote to own layer */
-    will-change: opacity, visibility;
+    will-change: background;
     opacity: 0;
-    visibility: hidden; 
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
+    transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.35s;
 }
 
 .modal-overlay.active {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    /* Reduced blur for smoother animation performance */
-    backdrop-filter: blur(2px);
-    background: rgba(0, 0, 0, 0.8);
+    background: var(--overlay-bg);
+    transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear;
 }
 
 .modal-content {
     background: var(--bg-surface);
     padding: 30px;
     border-radius: 20px;
-    border: 1px solid var(--accent-primary); 
-    
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    
+    border: 1px solid var(--accent-primary);
+
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+
     width: 90%;
-    max-width: 450px; 
-    
-    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
-    
+    max-width: 450px;
+
+    transform: scale(0.85) translateY(20px);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
     /* Text rendering fix */
     -webkit-font-smoothing: antialiased;
 }
 
 .modal-overlay.active .modal-content {
-    transform: scale(1);
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
 }
 
-.modal-content h2 { 
-    margin-bottom: 20px; 
-    color: var(--accent-primary); 
+.modal-content h2 {
+    margin-bottom: 20px;
+    color: var(--accent-primary);
     font-size: 1.6rem;
     letter-spacing: -0.5px;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 15px;
 }
 
-/* ==========================================================================
-   CONFLICT SPECIFIC STYLES
-   ========================================================================== */
-.modal-description {
+/* ========================================================================== */
+/* 12. SYNC CONFLICT MODAL                                                    */
+/* ========================================================================== */
+.sync-modal-content {
+    max-width: 520px;
+}
+
+.conflict-subtitle {
     color: var(--text-muted);
-    line-height: 1.6;
-    margin-bottom: 20px;
-    font-size: 1rem;
+    margin: 0;
+    margin-top: 8px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.timestamp-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: rgba(var(--accent-primary-rgb), 0.08);
+    border: 1px solid rgba(var(--accent-primary-rgb), 0.2);
+    border-radius: 8px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.timestamp-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.timestamp-label {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.timestamp-value {
+    color: var(--accent-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-left: auto;
 }
 
 .sync-options {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 10px;
+    gap: 16px;
+    margin-top: 24px;
 }
 
 .sync-button {
     appearance: none;
     -webkit-appearance: none;
-    
-    background: #252529; 
-    
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
+
+    background: var(--bg-elevated);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
     width: 100%;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
     padding: 20px;
+    position: relative;
+    overflow: hidden;
 
-    transition: background-color 0.05s linear, border-color 0.05s linear;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-family: inherit;
+}
+
+.sync-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.sync-button:not(:disabled):hover {
+    background: var(--bg-elevated-hover);
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.sync-button:not(:disabled):active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.sync-button.ready {
+    border-color: var(--accent-primary);
+    background: var(--bg-elevated-active);
 }
 
 .sync-button strong {
     display: block;
     color: var(--text-main);
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 600;
-    margin-bottom: 4px;
-    pointer-events: none; 
+    margin-bottom: 6px;
+    pointer-events: none;
 }
 
 .sync-button p {
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin: 0;
     line-height: 1.4;
     pointer-events: none;
 }
 
-.sync-button:hover {
-    background: #2d2d33;
-    border-color: var(--accent-primary);
-}
-
-.sync-button:active {
-    background: #33333a;
-}
-
 .sync-icon {
-    font-size: 2rem;
+    font-size: 2.2rem;
     flex-shrink: 0;
     text-shadow: none;
-    color: var(--accent-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: float 3s ease-in-out infinite;
 }
 
-/* ==========================================================================
-   FORM & INPUT CONTROLS
-   ========================================================================== */
+.sync-info {
+    flex: 1;
+    text-align: left;
+}
+
+.sync-countdown {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-primary), transparent);
+    border-radius: 0;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+/* ========================================================================== */
+/* 13. FORMAT SELECTION MODAL                                                 */
+/* ========================================================================== */
+.format-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.format-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.format-btn:hover {
+    background: var(--bg-elevated-hover);
+    border-color: var(--accent-primary);
+    box-shadow: 0 4px 12px rgba(var(--accent-primary-rgb), 0.2);
+}
+
+.format-btn:active {
+    transform: translateY(1px);
+}
+
+.format-icon {
+    font-size: 1.8rem;
+}
+
+.format-btn strong {
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.format-btn p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin: 0;
+    line-height: 1.3;
+}
+
+/* ========================================================================== */
+/* 14. FORMS & INPUTS                                                         */
+/* ========================================================================== */
 #book-form { display: flex; flex-direction: column; gap: 15px; }
 
 #book-form h2 { margin-bottom: 20px; color: var(--accent-primary); }
 
-#book-form input, 
+#book-form input,
 #book-form select {
     background: var(--bg-deep);
     border: 1px solid var(--border-color);
@@ -524,34 +790,69 @@ nav {
     font-family: inherit;
 }
 
+#book-form textarea {
+    background: var(--bg-deep);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 10px;
+    border-radius: 5px;
+    font-family: inherit;
+    resize: vertical;
+}
+
 .input-group { display: flex; gap: 10px; }
 .input-group input { width: 50%; }
 
-.modal-actions { 
-    display: flex; 
-    justify-content: flex-end; 
-    align-items: center; 
-    gap: 12px; 
-    margin-top: 20px; 
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
 }
 
-/* Button Variants */
-.submit-btn {
+/* ========================================================================== */
+/* 15. BUTTONS (CORE)                                                         */
+/* ========================================================================== */
+/* Purple primary actions */
+.submit-btn,
+.primary-btn,
+#google-login-btn {
     background: var(--accent-primary);
-    color: white;
+    color: var(--text-on-accent);
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
     cursor: pointer;
     font-weight: 600;
+    font-family: inherit;
+    transition: all 0.2s ease;
 }
 
-/* Update your existing CSS block to include the new ID */
-#close-modal, 
+.submit-btn:hover,
+.primary-btn:hover,
+#google-login-btn:hover {
+    background: var(--accent-glow);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--accent-primary-rgb), 0.3);
+}
+
+.submit-btn:active,
+.primary-btn:active,
+#google-login-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.submit-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+#close-modal,
 #close-account-modal,
-#cancel-delete, 
+#cancel-delete,
+#cancel-disconnect,
 #cancel-import,
-.cancel-btn {
+.ghost-btn {
     background: transparent;
     color: var(--text-muted);
     border: none;
@@ -560,74 +861,81 @@ nav {
     transition: color 0.2s;
 }
 
-#close-modal:hover, 
+#close-modal:hover,
 #close-account-modal:hover,
-#cancel-delete:hover, 
+#cancel-delete:hover,
+#cancel-disconnect:hover,
 #cancel-import:hover,
-.cancel-btn:hover { 
-    color: var(--text-main); 
+.ghost-btn:hover {
+    color: var(--text-main);
+}
+
+/* Red danger actions */
+#delete-btn,
+#confirm-delete-btn,
+#confirm-import-btn,
+.danger-btn {
+    background: var(--danger);
+    color: var(--text-on-accent);
+    border: 1px solid var(--danger);
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+#delete-btn:hover,
+#confirm-delete-btn:hover,
+#confirm-import-btn:hover,
+.danger-btn:hover {
+    background: var(--danger-dark);
+    border-color: var(--danger-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--danger-rgb), 0.3);
+}
+
+#delete-btn:active,
+#confirm-delete-btn:active,
+#confirm-import-btn:active,
+.danger-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 #delete-btn {
-    background: rgba(255, 77, 77, 0.1);
-    color: #ff4d4d;
-    border: 1px solid #ff4d4d;
     padding: 10px 15px;
     border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
     margin-right: auto;
-    transition: all 0.2s ease;
 }
 
-#delete-btn:hover {
-    background: #ff4d4d;
-    color: white;
-}
-
-/* ==========================================================================
-   DANGER DIALOGS (Confirm Delete/Import)
-   ========================================================================== */
+/* ========================================================================== */
+/* 16. DANGER DIALOGS (CONFIRM DELETE/IMPORT)                                 */
+/* ========================================================================== */
 .delete-confirm-content {
-    border: 1px solid rgba(255, 77, 77, 0.5) !important;
+    border: 1px solid rgba(var(--danger-rgb), 0.5) !important;
     text-align: center;
 }
 
-.delete-confirm-content h3 { 
-    color: #ff4d4d !important; 
-    margin-bottom: 10px; 
+.delete-confirm-content h3 {
+    color: var(--danger) !important;
+    margin-bottom: 10px;
 }
 
-#confirm-delete-btn, 
+#confirm-delete-btn,
 #confirm-import-btn {
-    background: #ff4d4d;
-    color: white;
-    border: none;
     padding: 10px 20px;
     border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
 }
 
-#confirm-delete-btn:hover, 
-#confirm-import-btn:hover {
-    background: #ff3333;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
-}
-
-/* ==========================================================================
-   ACCOUNT & CLOUD INTERFACE (Themed to match Form Controls)
-   ========================================================================== */
-
+/* ========================================================================== */
+/* 17. ACCOUNT & CLOUD INTERFACE                                              */
+/* ========================================================================== */
 #account-modal .modal-content {
     display: flex;
     flex-direction: column;
     gap: 20px; /* Matched to form gap */
 }
 
-/* Status box styled like an input group background */
 .account-status {
     padding: 15px;
     background: var(--bg-deep); /* Matches #book-form input background */
@@ -641,63 +949,77 @@ nav {
     margin-top: 4px;
 }
 
-/* Grid for Export/Import buttons */
 .data-grid {
-    display: flex; 
-    gap: 10px; /* Matches .input-group gap */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
     width: 100%;
 }
 
+.theme-actions {
+    margin-top: 10px;
+}
+
 .secondary-action-btn {
-    flex: 1; /* Equal width columns */
     background: transparent;
     border: 1px solid var(--border-color);
     color: var(--text-muted);
-    padding: 10px; /* Matches form input padding */
-    border-radius: 5px; /* Matches form input radius */
-    font-size: 0.9rem;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     transition: all 0.2s ease;
 }
 
 .secondary-action-btn:hover {
     color: var(--text-main);
     border-color: var(--text-muted);
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--surface-hover);
 }
 
-/* Bottom Action Row (Cancel/Connect) */
-.account-actions { 
-    display: flex; 
-    justify-content: flex-end; 
-    align-items: center; 
-    gap: 12px; 
-    margin-top: 20px; /* Matches .modal-actions margin */
+.account-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
 }
 
-/* Styled exactly like .submit-btn */
-#google-login-btn {
-    background: var(--accent-primary);
-    color: white;
+.primary-btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.danger-btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.ghost-btn {
+    background: transparent;
+    color: var(--text-muted);
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 20px;
     cursor: pointer;
     font-weight: 600;
     font-family: inherit;
-    transition: filter 0.2s;
+    transition: all 0.2s ease;
+    border-radius: 8px;
 }
 
-#google-login-btn:hover {
-    filter: brightness(1.1);
+.ghost-btn:hover {
+    color: var(--text-main);
+    background: var(--surface-hover);
 }
 
-/* Styled exactly like #close-modal */
 #close-account-modal {
     background: transparent;
     color: var(--text-muted);
@@ -705,29 +1027,87 @@ nav {
     cursor: pointer;
     font-weight: 600;
     transition: color 0.2s;
-    order: -1; /* Moves "Close" to the left, like "Cancel" in forms */
 }
 
 #close-account-modal:hover {
     color: var(--text-main);
 }
 
-/* ==========================================================================
-   SYNC BUTTON WITH LOCKED STATE & PROGRESS INDICATOR
-   ========================================================================== */
+#google-login-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+/* Theme Customization */
+.theme-subtext {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: -8px;
+    margin-bottom: 16px;
+}
+
+.theme-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+#theme-modal.theme-advanced-collapsed [data-advanced="true"] {
+    display: none;
+}
+
+.theme-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-deep);
+}
+
+.theme-field span {
+    font-size: 0.9rem;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+#theme-modal input[type="color"] {
+    width: 44px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.theme-toggle {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+/* ========================================================================== */
+/* 18. SYNC BUTTON LOCKED STATE                                               */
+/* ========================================================================== */
 .sync-btn {
     transition: opacity 0.8s ease-in-out, background-color 0.4s ease;
     position: relative;
     overflow: hidden;
 }
 
-/* The "Locked" state */
 .sync-btn.btn-locked {
     opacity: 0.4;
     cursor: not-allowed;
 }
 
-/* Subtle progress line at the very bottom */
 .sync-btn.btn-locked::after {
     content: '';
     position: absolute;
@@ -743,11 +1123,25 @@ nav {
     width: 100%;
 }
 
-/* ==========================================================================
-   DIRECTIONAL FLIGHT ANIMATIONS
-   ========================================================================== */
+/* ========================================================================== */
+/* 19. ANIMATIONS                                                             */
+/* ========================================================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-/* Entrance Flights */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+}
+
 @keyframes flyInRight {
     from { opacity: 0; transform: translateX(100vw); }
     to { opacity: 1; transform: translateX(0); }
@@ -758,7 +1152,6 @@ nav {
     to { opacity: 1; transform: translateX(0); }
 }
 
-/* Exit Flights */
 @keyframes flyOutRight {
     from { opacity: 1; transform: translateX(0); }
     to { opacity: 0; transform: translateX(100vw); }
@@ -769,7 +1162,6 @@ nav {
     to { opacity: 0; transform: translateX(-100vw); }
 }
 
-/* Animation Utilities */
 .fly-in-right { animation: flyInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 .fly-in-left { animation: flyInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 .fly-out-right { animation: flyOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important; }

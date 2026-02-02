@@ -13,10 +13,12 @@ export const FormHandler = {
             // Existing ID indicates an 'Update' operation; lack of ID triggers 'Create' via timestamp.
             id: elements.bookIdInput.value ? parseInt(elements.bookIdInput.value) : Date.now(),
             title: elements.titleInput.value.trim(),
+            author: elements.authorInput.value.trim(),
             url: elements.urlInput.value.trim(),
             status: elements.statusInput.value,
             trackingType: elements.typeInput.value,
             currentCount: parseInt(elements.countInput.value) || 0,
+            notes: elements.notesInput.value.trim(),
             
             // Map empty selection to null for rating consistency
             rating: elements.ratingInput.value === "" ? null : parseInt(elements.ratingInput.value, 10),
@@ -34,11 +36,13 @@ export const FormHandler = {
     setFormData(book, elements) {
         elements.bookIdInput.value = book.id;
         elements.titleInput.value = book.title;
+        elements.authorInput.value = book.author || '';
         elements.urlInput.value = book.url;
         elements.statusInput.value = book.status;
         elements.typeInput.value = book.trackingType;
         elements.countInput.value = book.currentCount;
         elements.ratingInput.value = book.rating;
+        elements.notesInput.value = book.notes || '';
     },
 
     /**
