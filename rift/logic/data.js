@@ -281,16 +281,27 @@ export const DataService = {
                     const books = [];
                     let id = Date.now();
                     let currentStatus = 'Reading';
+                    let currentBook = null;
 
                     const lines = content.split('\n');
-                    
-                    lines.forEach((line) => {
+
+                    const normalizeTrackingType = (label) => {
+                        if (!label) return 'chapter';
+                        const cleaned = label.toLowerCase().trim();
+                        if (cleaned.startsWith('page')) return 'page';
+                        return 'chapter';
+                    };
+
+                    lines.forEach((rawLine) => {
+                        const line = rawLine.trimEnd();
+
                         // Check for status header (## Status)
                         if (line.startsWith('## ')) {
                             const status = line.replace('## ', '').trim();
                             if (['Reading', 'Plan to Read', 'Completed', 'Dropped'].includes(status)) {
                                 currentStatus = status;
                             }
+                            currentBook = null;
                             return;
                         }
 
@@ -312,13 +323,60 @@ export const DataService = {
                                 };
 
                                 // Extract author if present (by Author Name)
-                                const authorMatch = line.match(/by\s+([^(\n]+)/);
+                                const authorMatch = line.match(/\*\*\s*by\s+([^\n]+)/i) || line.match(/by\s+([^\n]+)/i);
                                 if (authorMatch) {
                                     book.author = authorMatch[1].trim();
                                 }
 
                                 books.push(book);
+                                currentBook = book;
                             }
+                            return;
+                        }
+
+                        // Parse details for the most recent book
+                        if (!currentBook) return;
+
+                        const detailLine = line.replace(/^[-*]\s+/, '');
+                        if (!detailLine.startsWith('Rating:') &&
+                            !detailLine.startsWith('Progress:') &&
+                            !detailLine.startsWith('Notes:') &&
+                            !detailLine.startsWith('[Source]') &&
+                            !detailLine.includes('Favorite')) {
+                            return;
+                        }
+
+                        if (detailLine.startsWith('Rating:')) {
+                            const stars = detailLine.match(/Rating:\s*([★☆]+)/);
+                            if (stars && stars[1]) {
+                                const filled = (stars[1].match(/★/g) || []).length;
+                                currentBook.rating = filled > 0 ? filled : 'Unrated';
+                            }
+                            return;
+                        }
+
+                        if (detailLine.startsWith('Progress:')) {
+                            const progressMatch = detailLine.match(/Progress:\s*(\d+)\s+([A-Za-z]+)/);
+                            if (progressMatch) {
+                                currentBook.currentCount = parseInt(progressMatch[1], 10) || 0;
+                                currentBook.trackingType = normalizeTrackingType(progressMatch[2]);
+                            }
+                            return;
+                        }
+
+                        if (detailLine.startsWith('Notes:')) {
+                            currentBook.notes = detailLine.replace('Notes:', '').trim();
+                            return;
+                        }
+
+                        const sourceMatch = detailLine.match(/\[Source\]\(([^)]+)\)/);
+                        if (sourceMatch) {
+                            currentBook.url = sourceMatch[1].trim();
+                            return;
+                        }
+
+                        if (detailLine.includes('Favorite')) {
+                            currentBook.isFavorite = true;
                         }
                     });
 

@@ -565,6 +565,13 @@ nav {
     -webkit-font-smoothing: antialiased;
 }
 
+#theme-modal .modal-content {
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
 .modal-overlay.active .modal-content {
     transform: scale(1) translateY(0);
     opacity: 1;
