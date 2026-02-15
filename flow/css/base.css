@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap");
+
+:root {
+  color-scheme: dark;
+  --bg: #09090f;
+  --bg-soft: #0f111a;
+  --panel: #141626;
+  --border: #25273a;
+  --text: #f3f2ff;
+  --muted: #a4a4c4;
+  --accent: #a36bff;
+  --accent-2: #6d3cff;
+  --accent-3: #d2b8ff;
+  --danger: #ff76c6;
+  --shadow: 0 16px 44px rgba(0, 0, 0, 0.4);
+  --radius: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "DM Sans", "Segoe UI", sans-serif;
+  background: radial-gradient(circle at 12% 8%, rgba(111, 55, 255, 0.25), transparent 45%),
+    radial-gradient(circle at 85% 12%, rgba(163, 107, 255, 0.22), transparent 50%),
+    linear-gradient(150deg, var(--bg), #0b0b15 60%);
+  color: var(--text);
+}
+
+.app {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 18px 40px;
+  display: grid;
+  gap: 20px;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  background: var(--panel);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.view {
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  padding: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  min-height: 320px;
+  animation: fadeIn 0.35s ease;
+}
+
+.hidden {
+  display: none;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 720px) {
+  .topbar {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .topbar .primary-btn {
+    grid-column: 1 / -1;
+  }
+
+  .nav {
+    justify-content: flex-start;
+  }
+
+  .panel {
+    left: 12px;
+    right: 12px;
+  }
+}

@@ -1,0 +1,86 @@
+export const STORAGE_KEY = "flow.tasks.v2";
+
+export const priorityWeight = {
+  high: 3,
+  medium: 2,
+  low: 1
+};
+
+export const priorityLabel = {
+  high: "High",
+  medium: "Medium",
+  low: "Low"
+};
+
+export function loadTasks() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) {
+    return [];
+  }
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+export function saveTasks(tasks) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks, null, 2));
+}
+
+export function normalizeTask(task) {
+  const createdAt = task.createdAt || Date.now();
+  const updatedAt = task.updatedAt || createdAt;
+  return {
+    id: task.id || crypto.randomUUID(),
+    name: task.name || "Untitled",
+    priority: task.priority || "medium",
+    startDate: task.startDate || null,
+    dueDate: task.dueDate || null,
+    createdAt,
+    updatedAt,
+    completed: Boolean(task.completed)
+  };
+}
+
+function toDate(value) {
+  return value ? new Date(value + "T00:00:00") : null;
+}
+
+function daysBetween(a, b) {
+  const ms = 24 * 60 * 60 * 1000;
+  return Math.floor((b - a) / ms);
+}
+
+export function getScore(task) {
+  const now = new Date();
+  const start = toDate(task.startDate);
+  const due = toDate(task.dueDate);
+
+  const priorityScore = priorityWeight[task.priority] * 50;
+
+  let urgencyScore = 0;
+  if (due) {
+    const daysUntilDue = daysBetween(now, due);
+    urgencyScore = daysUntilDue <= 0 ? 120 : Math.max(0, 70 - daysUntilDue * 4);
+  } else {
+    urgencyScore = 10;
+  }
+
+  let ageScore = 0;
+  if (start) {
+    const daysSinceStart = Math.max(0, daysBetween(start, now));
+    ageScore = Math.min(30, daysSinceStart * 1.5);
+    if (start > now) {
+      ageScore -= 15;
+    }
+  }
+
+  return priorityScore + urgencyScore + ageScore;
+}
+
+export function isAvailable(task) {
+  const start = toDate(task.startDate);
+  return !start || start <= new Date();
+}

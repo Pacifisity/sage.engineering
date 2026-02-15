@@ -1,0 +1,26 @@
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .panel,
+  .modal,
+  .icon-btn,
+  .secondary-btn,
+  .ghost-btn,
+  .primary-btn,
+  .pill-btn,
+  .muted-btn,
+  .auth-btn {
+    animation: none;
+    transition: none;
+  }
+}

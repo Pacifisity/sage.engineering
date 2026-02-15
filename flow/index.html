@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flow</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components/buttons.css" />
+    <link rel="stylesheet" href="css/components/inputs.css" />
+    <link rel="stylesheet" href="css/components/cards.css" />
+    <link rel="stylesheet" href="css/components/overlays.css" />
+    <link rel="stylesheet" href="css/components/motion.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <button id="profileBtn" class="icon-btn" aria-label="Profile and data">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+          </svg>
+        </button>
+        <nav class="nav">
+          <button class="nav-btn active" data-view="tasks">Tasks</button>
+          <button class="nav-btn" data-view="backlog">Log</button>
+        </nav>
+        <button id="addTaskBtn" class="primary-btn">Add task</button>
+      </header>
+
+      <section id="tasksView" class="view">
+        <div class="search-row">
+          <input id="searchInput" class="search-input" type="search" placeholder="Search tasks" />
+        </div>
+        <div id="tasksList" class="list"></div>
+      </section>
+
+      <section id="backlogView" class="view hidden">
+        <div class="search-row">
+          <input id="backlogSearchInput" class="search-input" type="search" placeholder="Search log" />
+        </div>
+        <div id="backlogList" class="list"></div>
+      </section>
+    </div>
+
+    <div id="profilePanel" class="panel hidden" role="dialog" aria-label="Data tools">
+      <div class="panel-actions">
+        <button id="googleBtn" class="auth-btn auth-signin">Sign in</button>
+        <button id="exportBtn" class="secondary-btn">Export JSON</button>
+        <button id="importBtn" class="secondary-btn">Import JSON</button>
+        <input id="importFile" type="file" accept="application/json" hidden />
+      </div>
+    </div>
+
+    <div id="modalBackdrop" class="modal-backdrop hidden" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <header class="modal-header">
+          <h2 id="modalTitle">Task</h2>
+          <button id="closeModal" class="ghost-btn" aria-label="Close">×</button>
+        </header>
+        <form id="taskForm" class="modal-form">
+          <label class="field">
+            <span>Task name</span>
+            <input id="taskName" name="name" type="text" maxlength="120" required />
+          </label>
+          <label class="field">
+            <span>Priority</span>
+            <select id="taskPriority" name="priority">
+              <option value="high">High</option>
+              <option value="medium" selected>Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Start date</span>
+            <input id="taskStart" name="startDate" type="date" />
+          </label>
+          <label class="field">
+            <span>Due date</span>
+            <input id="taskDue" name="dueDate" type="date" />
+          </label>
+          <div class="modal-actions">
+            <button type="button" id="deleteTaskBtn" class="muted-btn">Delete task</button>
+            <button type="submit" class="primary-btn">Save task</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

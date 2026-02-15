@@ -1,0 +1,36 @@
+.search-row {
+  display: flex;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.search-input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #0b0b14;
+  color: var(--text);
+  padding: 9px 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: rgba(163, 107, 255, 0.6);
+  box-shadow: 0 0 0 3px rgba(163, 107, 255, 0.2);
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+}
+
+.field input,
+.field select {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #0b0b14;
+  color: var(--text);
+  padding: 8px 10px;
+}
