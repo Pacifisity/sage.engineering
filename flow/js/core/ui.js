@@ -24,8 +24,9 @@ export function fillForm(form, task) {
   form.taskPriority.value = task ? task.priority : "medium";
   if (task) {
     form.taskStart.value = task.startDate || "";
+    form.taskDue.value = task.dueDate || "";
   } else {
     form.taskStart.value = new Date().toISOString().slice(0, 10);
+    form.taskDue.value = "";
   }
-  form.taskDue.value = task ? task.dueDate || "" : "";
 }

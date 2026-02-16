@@ -16,7 +16,12 @@ export function createTaskManager(dom, onChange) {
   const modal = createTaskModal(dom);
 
   function sortedTasks(list) {
-    return [...list].sort((a, b) => getScore(b) - getScore(a));
+    return [...list].sort((a, b) => {
+      const scoreDiff = getScore(b) - getScore(a);
+      if (scoreDiff !== 0) return scoreDiff;
+      // Tiebreaker: older tasks first
+      return a.createdAt - b.createdAt;
+    });
   }
 
   function renderAll() {

@@ -44,6 +44,22 @@
   align-items: flex-end;
 }
 
+@media (max-width: 480px) {
+  .card-actions {
+    flex-direction: row;
+    gap: 4px;
+    align-items: stretch;
+  }
+
+  .card-actions .pill-btn,
+  .card-actions .muted-btn {
+    flex: 1;
+    min-width: 0;
+    padding: 6px 8px;
+    font-size: 0.8rem;
+  }
+}
+
 .card-meta {
   display: flex;
   flex-wrap: wrap;

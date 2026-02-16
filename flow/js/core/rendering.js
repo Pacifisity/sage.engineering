@@ -110,7 +110,8 @@ export function renderSchedule(containers, tasks) {
   const sortedTasks = [...tasks].sort((a, b) => {
     const scoreDiff = getScore(b) - getScore(a);
     if (scoreDiff !== 0) return scoreDiff;
-    return a.name.localeCompare(b.name);
+    // Tiebreaker: older tasks first
+    return a.createdAt - b.createdAt;
   });
 
   let rowIndex = 0;

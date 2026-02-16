@@ -9,7 +9,10 @@
   box-shadow: var(--shadow);
   z-index: 5;
   min-width: 240px;
+  max-width: calc(100vw - 48px);
   animation: rise 0.25s ease;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .panel-actions {
@@ -169,10 +172,42 @@
   .merge-options {
     grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 620px) {
   .sync-summary {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    width: min(90vw, 520px);
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .sync-modal {
+    width: min(90vw, 560px);
+  }
+
+  .merge-modal {
+    width: min(90vw, 680px);
+  }
+
+  .modal-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .modal-header .ghost-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .panel {
+    max-width: calc(100vw - 32px);
+    width: auto;
+    min-width: auto;
   }
 }
