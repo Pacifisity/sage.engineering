@@ -70,6 +70,21 @@ function updateQuoteToggleButtonState() {
   dom.quoteToggleBtn.textContent = isDisabled ? "Enable quotes" : "Disable quotes";
 }
 
+function positionProfilePanel() {
+  if (!dom.profileBtn || !dom.profilePanel || dom.profilePanel.classList.contains("hidden")) {
+    return;
+  }
+  const buttonRect = dom.profileBtn.getBoundingClientRect();
+  const panelWidth = dom.profilePanel.offsetWidth || 240;
+  const gap = 10;
+  const minLeft = 12;
+  const maxLeft = Math.max(minLeft, window.innerWidth - panelWidth - 12);
+  const left = Math.min(Math.max(buttonRect.left, minLeft), maxLeft);
+  dom.profilePanel.style.left = `${left}px`;
+  dom.profilePanel.style.top = `${buttonRect.bottom + gap}px`;
+  dom.profilePanel.style.right = "auto";
+}
+
 function setAuthButtonState(signedIn) {
   if (!dom.googleBtn) {
     return;
@@ -480,7 +495,11 @@ if (dom.breakStart) {
 
 if (dom.profileBtn) {
   dom.profileBtn.addEventListener("click", () => {
-    toggleHidden(dom.profilePanel, dom.profilePanel.classList.contains("hidden"));
+    const shouldShow = dom.profilePanel.classList.contains("hidden");
+    toggleHidden(dom.profilePanel, shouldShow);
+    if (shouldShow) {
+      requestAnimationFrame(positionProfilePanel);
+    }
   });
 }
 
@@ -573,6 +592,7 @@ updateFocusTimerDisplay();
 
 window.addEventListener("resize", () => {
   taskManager.renderAll();
+  positionProfilePanel();
 });
 
 googleSync.initGoogle();
