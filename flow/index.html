@@ -21,7 +21,8 @@
           </svg>
         </button>
         <nav class="nav">
-          <button class="nav-btn active" data-view="tasks">Tasks</button>
+          <button class="nav-btn active" data-view="focus">Focus</button>
+          <button class="nav-btn" data-view="tasks">Tasks</button>
           <button class="nav-btn" data-view="backlog">Log</button>
           <button class="nav-btn" data-view="schedule">Schedule</button>
         </nav>
@@ -53,6 +54,30 @@
             <div id="scheduleGrid" class="schedule-grid"></div>
           </div>
         </div>
+      </section>
+
+      <section id="focusView" class="view">
+        <div class="focus-shell">
+          <div class="focus-panel">
+            <div class="focus-label">Most important</div>
+            <div id="focusTask" class="focus-task"></div>
+          </div>
+          <div class="focus-timer">
+            <div id="focusTimerDisplay" class="focus-timer-display">00:00</div>
+            <div class="focus-timer-actions">
+              <button id="focusTimerReset" class="muted-btn">Reset</button>
+            </div>
+          </div>
+          <div class="focus-panel focus-break">
+            <div class="focus-label">Focus rhythm</div>
+            <div class="focus-break-note">Focus for 50 minutes, then reward yourself with a break.</div>
+            <div class="focus-break-actions">
+              <button id="focusStart" class="pill-btn">Start focus 50</button>
+              <button id="breakStart" class="secondary-btn">Start break 10</button>
+            </div>
+          </div>
+        </div>
+        <div id="focusQuote" class="focus-quote" aria-live="polite"></div>
       </section>
     </div>
 
@@ -97,6 +122,43 @@
             <button type="submit" class="primary-btn">Save task</button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <div id="syncModalBackdrop" class="modal-backdrop hidden" aria-hidden="true">
+      <div class="modal sync-modal" role="dialog" aria-modal="true" aria-labelledby="syncModalTitle">
+        <header class="modal-header">
+          <h2 id="syncModalTitle">Resolve data difference</h2>
+        </header>
+        <div class="sync-summary">
+          <div class="sync-block">
+            <div class="sync-label">Local</div>
+            <div id="syncLocalSummary" class="sync-details"></div>
+          </div>
+          <div class="sync-block">
+            <div class="sync-label">Cloud</div>
+            <div id="syncCloudSummary" class="sync-details"></div>
+          </div>
+        </div>
+        <div class="sync-actions">
+          <button id="syncKeepLocal" class="secondary-btn">Keep local</button>
+          <button id="syncMerge" class="ghost-btn">Merge</button>
+          <button id="syncUseCloud" class="primary-btn">Use cloud</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mergeModalBackdrop" class="modal-backdrop hidden" aria-hidden="true">
+      <div class="modal merge-modal" role="dialog" aria-modal="true" aria-labelledby="mergeModalTitle">
+        <header class="modal-header">
+          <h2 id="mergeModalTitle">Resolve date conflicts</h2>
+          <button id="mergeClose" class="ghost-btn" aria-label="Close">×</button>
+        </header>
+        <div id="mergeList" class="merge-list"></div>
+        <div class="merge-actions">
+          <button id="mergeCancel" class="secondary-btn">Cancel</button>
+          <button id="mergeApply" class="primary-btn">Apply merge</button>
+        </div>
       </div>
     </div>
 

@@ -82,6 +82,126 @@ select {
   gap: 12px;
 }
 
+
+.focus-shell {
+  background: var(--panel);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 22px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr) minmax(0, 1fr);
+  box-shadow: var(--shadow);
+}
+
+.focus-label {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.focus-task {
+  display: grid;
+  gap: 10px;
+}
+
+.focus-task-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.focus-task-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.focus-task-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.focus-timer {
+  display: grid;
+  gap: 12px;
+  align-content: center;
+  justify-items: center;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(15, 17, 26, 0.6);
+}
+
+.focus-timer-display {
+  font-size: 2.8rem;
+  font-weight: 700;
+  font-family: "Space Mono", "DM Sans", sans-serif;
+}
+
+.focus-timer-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.focus-panel {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.focus-break-note {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.focus-break-actions {
+  display: grid;
+  gap: 10px;
+  align-items: start;
+}
+
+.focus-break-actions .pill-btn,
+.focus-break-actions .secondary-btn {
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+}
+
+.focus-quote {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(163, 107, 255, 0.18);
+  background: rgba(15, 17, 26, 0.55);
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  display: grid;
+  gap: 6px;
+}
+
+.focus-quote strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.focus-quote-source {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.focus-quote-source a {
+  color: var(--accent-3);
+  text-decoration: none;
+}
+
+.focus-quote-source a:hover {
+  text-decoration: underline;
+}
+
 .schedule-scroll {
   overflow: visible;
   padding-bottom: 6px;
@@ -373,5 +493,14 @@ select {
   .schedule-days,
   .schedule-grid {
     gap: 8px;
+  }
+
+  .focus-shell {
+    padding: 18px;
+    grid-template-columns: 1fr;
+  }
+
+  .focus-timer {
+    order: 1;
   }
 }

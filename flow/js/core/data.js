@@ -30,12 +30,13 @@ export function saveTasks(tasks) {
 }
 
 export function normalizeTask(task) {
-  const createdAt = task.createdAt || Date.now();
-  const updatedAt = task.updatedAt || createdAt;
+  const now = Date.now();
+  const createdAt = task.createdAt != null ? task.createdAt : now;
+  const updatedAt = task.updatedAt != null ? task.updatedAt : createdAt;
   return {
-    id: task.id || crypto.randomUUID(),
-    name: task.name || "Untitled",
-    priority: task.priority || "medium",
+    id: task.id != null && task.id !== "" ? task.id : crypto.randomUUID(),
+    name: task.name != null && task.name !== "" ? task.name : "Untitled",
+    priority: task.priority != null && task.priority !== "" ? task.priority : "medium",
     startDate: task.startDate || null,
     dueDate: task.dueDate || null,
     createdAt,

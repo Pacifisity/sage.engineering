@@ -109,6 +109,22 @@ export function renderBacklog(container, tasks) {
   });
 }
 
+export function renderFocus(container, task) {
+  container.innerHTML = "";
+  if (!task) {
+    container.innerHTML = '<div class="empty">No focus task right now.</div>';
+    return;
+  }
+  container.innerHTML = `
+    <div class="focus-task-title priority-${task.priority}">${task.name}</div>
+    <div class="focus-task-meta">${formatCountdown(task.dueDate)}</div>
+    <div class="focus-task-actions">
+      <button class="pill-btn" data-focus-complete="${task.id}">Mark completed</button>
+      <button class="muted-btn" data-focus-edit="${task.id}">Edit</button>
+    </div>
+  `;
+}
+
 function formatDateLabel(dateValue) {
   if (!dateValue) {
     return "Not set";
@@ -257,6 +273,9 @@ export function setActiveView(viewName, views, buttons) {
   if (views.schedule) {
     views.schedule.classList.toggle("hidden", viewName !== "schedule");
   }
+  if (views.focus) {
+    views.focus.classList.toggle("hidden", viewName !== "focus");
+  }
   buttons.forEach((button) => {
     button.classList.toggle("active", button.dataset.view === viewName);
   });
@@ -270,6 +289,10 @@ export function toggleHidden(element, shouldShow) {
 export function fillForm(form, task) {
   form.taskName.value = task ? task.name : "";
   form.taskPriority.value = task ? task.priority : "medium";
-  form.taskStart.value = task ? task.startDate || "" : "";
+  if (task) {
+    form.taskStart.value = task.startDate || "";
+  } else {
+    form.taskStart.value = new Date().toISOString().slice(0, 10);
+  }
   form.taskDue.value = task ? task.dueDate || "" : "";
 }

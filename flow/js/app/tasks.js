@@ -5,7 +5,7 @@ import {
   normalizeTask,
   saveTasks
 } from "../core/data.js";
-import { fillForm, renderBacklog, renderSchedule, renderTasks } from "../core/ui.js";
+import { fillForm, renderBacklog, renderFocus, renderSchedule, renderTasks } from "../core/ui.js";
 
 export function createTaskManager(dom, onChange) {
   let tasks = loadTasks().map(normalizeTask);
@@ -36,6 +36,12 @@ export function createTaskManager(dom, onChange) {
         grid: dom.scheduleGrid,
         weekOffset: dom.scheduleWeekOffset || 0
       }, tasks.filter((task) => !task.completed));
+    }
+    if (dom.focusTask) {
+      const focusCandidate = sortedTasks(
+        tasks.filter((task) => isAvailable(task) && !task.completed)
+      )[0];
+      renderFocus(dom.focusTask, focusCandidate || null);
     }
   }
 
@@ -161,6 +167,20 @@ export function createTaskManager(dom, onChange) {
     }
   }
 
+  function handleFocusClick(event) {
+    const completeId = event.target.getAttribute("data-focus-complete");
+    const editId = event.target.getAttribute("data-focus-edit");
+    if (completeId) {
+      completeTask(completeId);
+    }
+    if (editId) {
+      const task = tasks.find((item) => item.id === editId);
+      if (task) {
+        openModal(task);
+      }
+    }
+  }
+
   function setSearchQuery(value) {
     searchQuery = value.trim().toLowerCase();
     renderAll();
@@ -172,10 +192,15 @@ export function createTaskManager(dom, onChange) {
   }
 
   function setTasks(list, shouldSync = false) {
+    console.log('[TASKS] setTasks called with', list.length, 'tasks, shouldSync:', shouldSync);
+    console.log('[TASKS] Before normalize:', JSON.stringify(list[0]));
     tasks = list.map(normalizeTask);
+    console.log('[TASKS] After normalize:', JSON.stringify(tasks[0]));
     saveTasks(tasks);
+    console.log('[TASKS] Saved to localStorage');
     renderAll();
     if (shouldSync && onChange) {
+      console.log('[TASKS] Triggering onChange (scheduleSync)');
       onChange();
     }
   }
@@ -191,6 +216,7 @@ export function createTaskManager(dom, onChange) {
     handleTaskFormSubmit,
     handleTasksListClick,
     handleBacklogListClick,
+    handleFocusClick,
     handleDeleteFromModal,
     setSearchQuery,
     setBacklogSearchQuery,

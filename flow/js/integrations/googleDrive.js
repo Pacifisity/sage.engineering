@@ -5,6 +5,8 @@ const FILE_NAME = "flow-tasks.json";
 
 let tokenClient = null;
 let accessToken = "";
+let tokenExpiryTime = null;
+let refreshTimerId = null;
 let statusHandler = () => {};
 let authHandler = () => {};
 
@@ -12,6 +14,44 @@ function setStatus(message) {
   if (statusHandler) {
     statusHandler(message);
   }
+}
+
+function scheduleTokenRefresh() {
+  // Clear any existing refresh timer
+  if (refreshTimerId) {
+    clearTimeout(refreshTimerId);
+    refreshTimerId = null;
+  }
+
+  if (!tokenExpiryTime) {
+    return;
+  }
+
+  const now = Date.now();
+  const timeUntilExpiry = tokenExpiryTime - now;
+  
+  // Refresh 5 minutes before expiry (or immediately if less than 5 minutes remain)
+  const refreshBuffer = 5 * 60 * 1000; // 5 minutes in milliseconds
+  const timeUntilRefresh = Math.max(0, timeUntilExpiry - refreshBuffer);
+
+  refreshTimerId = setTimeout(() => {
+    if (accessToken && tokenClient) {
+      // Request new token silently
+      tokenClient.requestAccessToken({ prompt: "" });
+    }
+  }, timeUntilRefresh);
+}
+
+function setTokenAndScheduleRefresh(token, expiresIn = 3600) {
+  accessToken = token;
+  // expiresIn is in seconds, convert to milliseconds
+  tokenExpiryTime = Date.now() + (expiresIn * 1000);
+  
+  // Persist to localStorage
+  localStorage.setItem("googleAccessToken", token);
+  localStorage.setItem("googleTokenExpiry", tokenExpiryTime.toString());
+  
+  scheduleTokenRefresh();
 }
 
 export function initGoogleDrive(onStatus, onAuth) {
@@ -25,12 +65,37 @@ export function initGoogleDrive(onStatus, onAuth) {
     scope: SCOPES,
     callback: (response) => {
       if (response && response.access_token) {
-        accessToken = response.access_token;
+        const expiresIn = response.expires_in || 3600; // Default to 1 hour if not provided
+        setTokenAndScheduleRefresh(response.access_token, expiresIn);
         setStatus("Signed in");
         authHandler(true);
       }
     }
   });
+  
+  // Try to restore token from localStorage
+  const storedToken = localStorage.getItem("googleAccessToken");
+  const storedExpiry = localStorage.getItem("googleTokenExpiry");
+  
+  if (storedToken && storedExpiry) {
+    const expiryTime = parseInt(storedExpiry, 10);
+    const now = Date.now();
+    
+    // If token is still valid (not expired)
+    if (expiryTime > now) {
+      accessToken = storedToken;
+      tokenExpiryTime = expiryTime;
+      scheduleTokenRefresh();
+      setStatus("Signed in");
+      authHandler(true);
+      return true;
+    } else {
+      // Token expired, clear it
+      localStorage.removeItem("googleAccessToken");
+      localStorage.removeItem("googleTokenExpiry");
+    }
+  }
+  
   setStatus("Not signed in");
   return true;
 }
@@ -55,10 +120,54 @@ export function signOut() {
   }
   const token = accessToken;
   accessToken = "";
+  tokenExpiryTime = null;
+  
+  // Clear localStorage
+  localStorage.removeItem("googleAccessToken");
+  localStorage.removeItem("googleTokenExpiry");
+  
+  // Clear the refresh timer
+  if (refreshTimerId) {
+    clearTimeout(refreshTimerId);
+    refreshTimerId = null;
+  }
+  
   window.google.accounts.oauth2.revoke(token, () => {
     setStatus("Signed out");
     authHandler(false);
   });
+}
+
+async function refreshTokenIfNeeded() {
+  // If token is expired or about to expire, try to refresh
+  const now = Date.now();
+  if (tokenExpiryTime && now >= tokenExpiryTime - (60 * 1000)) { // Within 1 minute of expiry
+    return new Promise((resolve) => {
+      if (!tokenClient) {
+        resolve(false);
+        return;
+      }
+      // Store original callback
+      const originalCallback = tokenClient.callback;
+      // Temporarily override to wait for refresh
+      const tempCallback = (response) => {
+        if (response && response.access_token) {
+          const expiresIn = response.expires_in || 3600;
+          setTokenAndScheduleRefresh(response.access_token, expiresIn);
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+        // Restore original callback
+        if (originalCallback) {
+          tokenClient.callback = originalCallback;
+        }
+      };
+      tokenClient.callback = tempCallback;
+      tokenClient.requestAccessToken({ prompt: "" });
+    });
+  }
+  return true;
 }
 
 async function findFileId() {
@@ -76,10 +185,13 @@ async function findFileId() {
 
 async function uploadContent(content) {
   const fileId = await findFileId();
-  const metadata = {
-    name: FILE_NAME,
-    parents: ["appDataFolder"]
-  };
+  
+  // Only include parents when creating a new file (POST)
+  // For updates (PATCH), parents field is not allowed
+  const metadata = fileId 
+    ? { name: FILE_NAME }
+    : { name: FILE_NAME, parents: ["appDataFolder"] };
+    
   const boundary = `flow_${Date.now()}`;
   const body =
     `--${boundary}\r\n` +
@@ -104,21 +216,38 @@ async function uploadContent(content) {
   });
 
   if (!response.ok) {
-    throw new Error("Unable to save file");
+    const errorText = await response.text();
+    console.error('[DRIVE] Upload failed:', response.status, response.statusText);
+    console.error('[DRIVE] Error response:', errorText);
+    throw new Error(`Unable to save file: ${response.status} ${response.statusText} - ${errorText}`);
   }
 }
 
 export async function saveToDrive(payload) {
   if (!accessToken) {
+    console.error('[DRIVE] No access token');
     setStatus("Sign in to save");
     return false;
   }
+  
+  console.log('[DRIVE] saveToDrive - payload has', payload.length, 'tasks');
+  console.log('[DRIVE] Access token exists:', accessToken ? 'yes' : 'no');
+  console.log('[DRIVE] Token expiry:', tokenExpiryTime ? new Date(tokenExpiryTime).toLocaleString() : 'not set');
+  
+  // Refresh token if needed
+  const refreshed = await refreshTokenIfNeeded();
+  console.log('[DRIVE] Token refresh check:', refreshed);
+  
   try {
     await uploadContent(JSON.stringify(payload, null, 2));
+    console.log('[DRIVE] Save successful');
     setStatus("Saved to Google Drive");
     return true;
   } catch (error) {
-    setStatus("Save failed");
+    console.error('[DRIVE] Save failed:', error);
+    console.error('[DRIVE] Error message:', error.message);
+    console.error('[DRIVE] Error stack:', error.stack);
+    setStatus("Save failed: " + error.message);
     return false;
   }
 }
@@ -128,6 +257,10 @@ export async function loadFromDrive() {
     setStatus("Sign in to load");
     return null;
   }
+  
+  // Refresh token if needed
+  await refreshTokenIfNeeded();
+  
   try {
     const fileId = await findFileId();
     if (!fileId) {

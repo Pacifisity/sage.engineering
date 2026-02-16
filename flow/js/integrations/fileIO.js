@@ -28,17 +28,17 @@ export function setupFileHandlers({
       importFile.click();
     });
 
-    importFile.addEventListener("change", (event) => {
+    importFile.addEventListener("change", async (event) => {
       const file = event.target.files[0];
       if (!file) {
         return;
       }
       const reader = new FileReader();
-      reader.onload = () => {
+      reader.onload = async () => {
         try {
           const incoming = JSON.parse(reader.result);
           if (Array.isArray(incoming) && onImport) {
-            onImport(incoming);
+            await onImport(incoming);
           }
         } catch (error) {
           alert("Invalid JSON file.");

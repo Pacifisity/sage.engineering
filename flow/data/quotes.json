@@ -1,0 +1,1832 @@
+[
+  {
+    "day": 1,
+    "quote": "Start with the smallest possible step, then take the next one.",
+    "author": "Flow"
+  },
+  {
+    "day": 2,
+    "quote": "Done is built from tiny starts.",
+    "author": "Flow"
+  },
+  {
+    "day": 3,
+    "quote": "Momentum beats motivation when you move in minutes.",
+    "author": "Flow"
+  },
+  {
+    "day": 4,
+    "quote": "You do not need a perfect plan to make progress today.",
+    "author": "Flow"
+  },
+  {
+    "day": 5,
+    "quote": "Make the first two minutes so easy you cannot say no.",
+    "author": "Flow"
+  },
+  {
+    "day": 6,
+    "quote": "Finish a small thing, then the next small thing.",
+    "author": "Flow"
+  },
+  {
+    "day": 7,
+    "quote": "Clarity follows action, not the other way around.",
+    "author": "Flow"
+  },
+  {
+    "day": 8,
+    "quote": "Focus is a choice you can remake every minute.",
+    "author": "Flow"
+  },
+  {
+    "day": 9,
+    "quote": "Progress counts even when it is quiet.",
+    "author": "Flow"
+  },
+  {
+    "day": 10,
+    "quote": "Start now, refine later.",
+    "author": "Flow"
+  },
+  {
+    "day": 11,
+    "quote": "The best time to start was yesterday. The next best time is now.",
+    "author": "Flow"
+  },
+  {
+    "day": 12,
+    "quote": "Perfection is the enemy of done.",
+    "author": "Flow"
+  },
+  {
+    "day": 13,
+    "quote": "One task at a time. One breath at a time.",
+    "author": "Flow"
+  },
+  {
+    "day": 14,
+    "quote": "Small wins stack into big results.",
+    "author": "Flow"
+  },
+  {
+    "day": 15,
+    "quote": "You cannot fail if you never stop trying.",
+    "author": "Flow"
+  },
+  {
+    "day": 16,
+    "quote": "Discipline today builds freedom tomorrow.",
+    "author": "Flow"
+  },
+  {
+    "day": 17,
+    "quote": "Break it down until it feels easy.",
+    "author": "Flow"
+  },
+  {
+    "day": 18,
+    "quote": "Consistency outworks intensity.",
+    "author": "Flow"
+  },
+  {
+    "day": 19,
+    "quote": "The work you avoid today waits for you tomorrow.",
+    "author": "Flow"
+  },
+  {
+    "day": 20,
+    "quote": "Rest is productive. Burnout is not.",
+    "author": "Flow"
+  },
+  {
+    "day": 21,
+    "quote": "Your future self will thank you for starting today.",
+    "author": "Flow"
+  },
+  {
+    "day": 22,
+    "quote": "Procrastination ends the moment you begin.",
+    "author": "Flow"
+  },
+  {
+    "day": 23,
+    "quote": "Five minutes of action beats five hours of worry.",
+    "author": "Flow"
+  },
+  {
+    "day": 24,
+    "quote": "Every expert was once a beginner.",
+    "author": "Flow"
+  },
+  {
+    "day": 25,
+    "quote": "The path clears as you walk it.",
+    "author": "Flow"
+  },
+  {
+    "day": 26,
+    "quote": "Trust the process, even when progress feels invisible.",
+    "author": "Flow"
+  },
+  {
+    "day": 27,
+    "quote": "Doubt thrives in waiting. Action kills it.",
+    "author": "Flow"
+  },
+  {
+    "day": 28,
+    "quote": "Make today count, even if it is just a little.",
+    "author": "Flow"
+  },
+  {
+    "day": 29,
+    "quote": "Motion creates clarity.",
+    "author": "Flow"
+  },
+  {
+    "day": 30,
+    "quote": "You do not need permission to start.",
+    "author": "Flow"
+  },
+  {
+    "day": 31,
+    "quote": "Today's effort compounds into tomorrow's results.",
+    "author": "Flow"
+  },
+  {
+    "day": 32,
+    "quote": "Progress is not linear, but it is inevitable if you persist.",
+    "author": "Flow"
+  },
+  {
+    "day": 33,
+    "quote": "The obstacle is the path forward.",
+    "author": "Flow"
+  },
+  {
+    "day": 34,
+    "quote": "Good enough today beats perfect never.",
+    "author": "Flow"
+  },
+  {
+    "day": 35,
+    "quote": "Momentum is built one decision at a time.",
+    "author": "Flow"
+  },
+  {
+    "day": 36,
+    "quote": "Do the next right thing.",
+    "author": "Flow"
+  },
+  {
+    "day": 37,
+    "quote": "Finishing is more valuable than perfecting.",
+    "author": "Flow"
+  },
+  {
+    "day": 38,
+    "quote": "Effort always matters, even when results lag behind.",
+    "author": "Flow"
+  },
+  {
+    "day": 39,
+    "quote": "Stop waiting for the perfect moment. Start now.",
+    "author": "Flow"
+  },
+  {
+    "day": 40,
+    "quote": "Little by little becomes a lot.",
+    "author": "Flow"
+  },
+  {
+    "day": 41,
+    "quote": "Courage is not the absence of fear. It is action despite it.",
+    "author": "Flow"
+  },
+  {
+    "day": 42,
+    "quote": "You are closer than you think.",
+    "author": "Flow"
+  },
+  {
+    "day": 43,
+    "quote": "Small steps in the right direction still move you forward.",
+    "author": "Flow"
+  },
+  {
+    "day": 44,
+    "quote": "The work will not do itself, but you can.",
+    "author": "Flow"
+  },
+  {
+    "day": 45,
+    "quote": "Quiet improvement is still improvement.",
+    "author": "Flow"
+  },
+  {
+    "day": 46,
+    "quote": "Choose progress over perfection.",
+    "author": "Flow"
+  },
+  {
+    "day": 47,
+    "quote": "A little effort every day creates extraordinary results.",
+    "author": "Flow"
+  },
+  {
+    "day": 48,
+    "quote": "Your only competition is yesterday's version of yourself.",
+    "author": "Flow"
+  },
+  {
+    "day": 49,
+    "quote": "Wins do not need to be loud to be real.",
+    "author": "Flow"
+  },
+  {
+    "day": 50,
+    "quote": "Keep going. You are building something.",
+    "author": "Flow"
+  },
+  {
+    "day": 51,
+    "quote": "The only way out is through.",
+    "author": "Flow"
+  },
+  {
+    "day": 52,
+    "quote": "Decisions shape days. Days shape years.",
+    "author": "Flow"
+  },
+  {
+    "day": 53,
+    "quote": "When motivation fades, discipline carries you.",
+    "author": "Flow"
+  },
+  {
+    "day": 54,
+    "quote": "Start before you are ready.",
+    "author": "Flow"
+  },
+  {
+    "day": 55,
+    "quote": "The first version does not need to be the final one.",
+    "author": "Flow"
+  },
+  {
+    "day": 56,
+    "quote": "Build the habit, results follow.",
+    "author": "Flow"
+  },
+  {
+    "day": 57,
+    "quote": "Excellence is a direction, not a destination.",
+    "author": "Flow"
+  },
+  {
+    "day": 58,
+    "quote": "Action dissolves fear faster than thought.",
+    "author": "Flow"
+  },
+  {
+    "day": 59,
+    "quote": "What you do today matters.",
+    "author": "Flow"
+  },
+  {
+    "day": 60,
+    "quote": "Repetition creates mastery.",
+    "author": "Flow"
+  },
+  {
+    "day": 61,
+    "quote": "Stumbling forward is still forward.",
+    "author": "Flow"
+  },
+  {
+    "day": 62,
+    "quote": "Do not let perfect be the enemy of started.",
+    "author": "Flow"
+  },
+  {
+    "day": 63,
+    "quote": "Great things are built one small act at a time.",
+    "author": "Flow"
+  },
+  {
+    "day": 64,
+    "quote": "You are capable of more than you think.",
+    "author": "Flow"
+  },
+  {
+    "day": 65,
+    "quote": "The magic is in showing up.",
+    "author": "Flow"
+  },
+  {
+    "day": 66,
+    "quote": "Slow progress beats no progress.",
+    "author": "Flow"
+  },
+  {
+    "day": 67,
+    "quote": "You have everything you need to begin.",
+    "author": "Flow"
+  },
+  {
+    "day": 68,
+    "quote": "The hardest part is starting. You already started today.",
+    "author": "Flow"
+  },
+  {
+    "day": 69,
+    "quote": "Small, consistent effort defeats grand plans with no action.",
+    "author": "Flow"
+  },
+  {
+    "day": 70,
+    "quote": "Build momentum, then ride it.",
+    "author": "Flow"
+  },
+  {
+    "day": 71,
+    "quote": "One step is infinitely more than zero.",
+    "author": "Flow"
+  },
+  {
+    "day": 72,
+    "quote": "The way forward starts here.",
+    "author": "Flow"
+  },
+  {
+    "day": 73,
+    "quote": "Be patient with slow results. Nature does not rush.",
+    "author": "Flow"
+  },
+  {
+    "day": 74,
+    "quote": "Resistance is loudest before the breakthrough.",
+    "author": "Flow"
+  },
+  {
+    "day": 75,
+    "quote": "Act now, adjust later.",
+    "author": "Flow"
+  },
+  {
+    "day": 76,
+    "quote": "Commitment is deciding once instead of a thousand times.",
+    "author": "Flow"
+  },
+  {
+    "day": 77,
+    "quote": "You cannot steer a parked car. Start moving.",
+    "author": "Flow"
+  },
+  {
+    "day": 78,
+    "quote": "Wins are won in minutes, not marathons.",
+    "author": "Flow"
+  },
+  {
+    "day": 79,
+    "quote": "The task is easier once you stop avoiding it.",
+    "author": "Flow"
+  },
+  {
+    "day": 80,
+    "quote": "Let done be done.",
+    "author": "Flow"
+  },
+  {
+    "day": 81,
+    "quote": "Your next action defines your next result.",
+    "author": "Flow"
+  },
+  {
+    "day": 82,
+    "quote": "Energy flows where attention goes.",
+    "author": "Flow"
+  },
+  {
+    "day": 83,
+    "quote": "Habits built in private show results in public.",
+    "author": "Flow"
+  },
+  {
+    "day": 84,
+    "quote": "Every single day is a fresh start.",
+    "author": "Flow"
+  },
+  {
+    "day": 85,
+    "quote": "Do not compare your chapter one to someone's chapter twenty.",
+    "author": "Flow"
+  },
+  {
+    "day": 86,
+    "quote": "Tiny gains compound into massive change.",
+    "author": "Flow"
+  },
+  {
+    "day": 87,
+    "quote": "Today's discomfort becomes tomorrow's strength.",
+    "author": "Flow"
+  },
+  {
+    "day": 88,
+    "quote": "Waiting for perfect ruins good.",
+    "author": "Flow"
+  },
+  {
+    "day": 89,
+    "quote": "Progress is a collection of small choices.",
+    "author": "Flow"
+  },
+  {
+    "day": 90,
+    "quote": "Push through the middle. That's where most people quit.",
+    "author": "Flow"
+  },
+  {
+    "day": 91,
+    "quote": "Mastery is just repetition with intention.",
+    "author": "Flow"
+  },
+  {
+    "day": 92,
+    "quote": "Your effort is never wasted.",
+    "author": "Flow"
+  },
+  {
+    "day": 93,
+    "quote": "Make time or make excuses, not both.",
+    "author": "Flow"
+  },
+  {
+    "day": 94,
+    "quote": "Even slow motion is better than standing still.",
+    "author": "Flow"
+  },
+  {
+    "day": 95,
+    "quote": "Struggle is part of the story, not the end.",
+    "author": "Flow"
+  },
+  {
+    "day": 96,
+    "quote": "Confidence comes from proof. Proof comes from trying.",
+    "author": "Flow"
+  },
+  {
+    "day": 97,
+    "quote": "Your best work is built on your worst drafts.",
+    "author": "Flow"
+  },
+  {
+    "day": 98,
+    "quote": "You do not need to see the whole staircase to take the first step.",
+    "author": "Flow"
+  },
+  {
+    "day": 99,
+    "quote": "Trust the climb.",
+    "author": "Flow"
+  },
+  {
+    "day": 100,
+    "quote": "One hundred days of effort stacks into transformation.",
+    "author": "Flow"
+  },
+  {
+    "day": 101,
+    "quote": "Keep moving. Keep building.",
+    "author": "Flow"
+  },
+  {
+    "day": 102,
+    "quote": "Action breeds clarity. Clarity breeds confidence.",
+    "author": "Flow"
+  },
+  {
+    "day": 103,
+    "quote": "Your limits expand when you test them.",
+    "author": "Flow"
+  },
+  {
+    "day": 104,
+    "quote": "Growth happens in the uncomfortable zones.",
+    "author": "Flow"
+  },
+  {
+    "day": 105,
+    "quote": "Every setback is setup for a comeback.",
+    "author": "Flow"
+  },
+  {
+    "day": 106,
+    "quote": "Winners are just losers who kept going.",
+    "author": "Flow"
+  },
+  {
+    "day": 107,
+    "quote": "You are writing your story with every decision.",
+    "author": "Flow"
+  },
+  {
+    "day": 108,
+    "quote": "Patience and persistence go hand in hand.",
+    "author": "Flow"
+  },
+  {
+    "day": 109,
+    "quote": "Make the next hour count.",
+    "author": "Flow"
+  },
+  {
+    "day": 110,
+    "quote": "Failure is data. Use it and move forward.",
+    "author": "Flow"
+  },
+  {
+    "day": 111,
+    "quote": "The work you do in private shows up in results.",
+    "author": "Flow"
+  },
+  {
+    "day": 112,
+    "quote": "Clarity is the reward of action.",
+    "author": "Flow"
+  },
+  {
+    "day": 113,
+    "quote": "Small seeds grow tall trees.",
+    "author": "Flow"
+  },
+  {
+    "day": 114,
+    "quote": "Discipline bridges the gap between goals and achievement.",
+    "author": "Flow"
+  },
+  {
+    "day": 115,
+    "quote": "The next step is always the most important one.",
+    "author": "Flow"
+  },
+  {
+    "day": 116,
+    "quote": "Your future starts with what you do right now.",
+    "author": "Flow"
+  },
+  {
+    "day": 117,
+    "quote": "Momentum multiplies effort.",
+    "author": "Flow"
+  },
+  {
+    "day": 118,
+    "quote": "Stay the course even when progress seems invisible.",
+    "author": "Flow"
+  },
+  {
+    "day": 119,
+    "quote": "Consistency beats perfection.",
+    "author": "Flow"
+  },
+  {
+    "day": 120,
+    "quote": "Make today a stepping stone, not a stumbling block.",
+    "author": "Flow"
+  },
+  {
+    "day": 121,
+    "quote": "Every action has a ripple effect.",
+    "author": "Flow"
+  },
+  {
+    "day": 122,
+    "quote": "Start small. Scale later.",
+    "author": "Flow"
+  },
+  {
+    "day": 123,
+    "quote": "What seems impossible becomes inevitable with time.",
+    "author": "Flow"
+  },
+  {
+    "day": 124,
+    "quote": "Keep showing up. Results follow.",
+    "author": "Flow"
+  },
+  {
+    "day": 125,
+    "quote": "The hardest climb yields the best view.",
+    "author": "Flow"
+  },
+  {
+    "day": 126,
+    "quote": "Doubt is loud. Action silences it.",
+    "author": "Flow"
+  },
+  {
+    "day": 127,
+    "quote": "You do not need more time, just more focus.",
+    "author": "Flow"
+  },
+  {
+    "day": 128,
+    "quote": "No step is wasted if you keep moving forward.",
+    "author": "Flow"
+  },
+  {
+    "day": 129,
+    "quote": "Your effort matters, even when nobody sees it.",
+    "author": "Flow"
+  },
+  {
+    "day": 130,
+    "quote": "Dreams are built with daily decisions.",
+    "author": "Flow"
+  },
+  {
+    "day": 131,
+    "quote": "Persistence is the quiet killer of resistance.",
+    "author": "Flow"
+  },
+  {
+    "day": 132,
+    "quote": "Momentum is your greatest ally.",
+    "author": "Flow"
+  },
+  {
+    "day": 133,
+    "quote": "Success is rented, not owned. Rent is due every day.",
+    "author": "Flow"
+  },
+  {
+    "day": 134,
+    "quote": "Build the life you want one task at a time.",
+    "author": "Flow"
+  },
+  {
+    "day": 135,
+    "quote": "The best way to predict the future is to build it.",
+    "author": "Flow"
+  },
+  {
+    "day": 136,
+    "quote": "Done beats perfect every time.",
+    "author": "Flow"
+  },
+  {
+    "day": 137,
+    "quote": "The obstacle reveals the opportunity.",
+    "author": "Flow"
+  },
+  {
+    "day": 138,
+    "quote": "Change happens slowly, then all at once.",
+    "author": "Flow"
+  },
+  {
+    "day": 139,
+    "quote": "Hard days build strong people.",
+    "author": "Flow"
+  },
+  {
+    "day": 140,
+    "quote": "You are building something real.",
+    "author": "Flow"
+  },
+  {
+    "day": 141,
+    "quote": "Take one breath. Take one step.",
+    "author": "Flow"
+  },
+  {
+    "day": 142,
+    "quote": "Small changes create massive results over time.",
+    "author": "Flow"
+  },
+  {
+    "day": 143,
+    "quote": "You are stronger than your excuses.",
+    "author": "Flow"
+  },
+  {
+    "day": 144,
+    "quote": "What you start today will thank you tomorrow.",
+    "author": "Flow"
+  },
+  {
+    "day": 145,
+    "quote": "Great results are just small efforts repeated.",
+    "author": "Flow"
+  },
+  {
+    "day": 146,
+    "quote": "The journey of a thousand miles begins with one step.",
+    "author": "Flow"
+  },
+  {
+    "day": 147,
+    "quote": "Progress is progress, no matter the pace.",
+    "author": "Flow"
+  },
+  {
+    "day": 148,
+    "quote": "Believe in the process even when you cannot see the outcome.",
+    "author": "Flow"
+  },
+  {
+    "day": 149,
+    "quote": "Difficult roads lead to beautiful destinations.",
+    "author": "Flow"
+  },
+  {
+    "day": 150,
+    "quote": "Halfway there. Keep pushing.",
+    "author": "Flow"
+  },
+  {
+    "day": 151,
+    "quote": "The second half starts now.",
+    "author": "Flow"
+  },
+  {
+    "day": 152,
+    "quote": "Make the rest of the year your best.",
+    "author": "Flow"
+  },
+  {
+    "day": 153,
+    "quote": "Every sunrise is an invitation to try again.",
+    "author": "Flow"
+  },
+  {
+    "day": 154,
+    "quote": "The fight is won in the small moments.",
+    "author": "Flow"
+  },
+  {
+    "day": 155,
+    "quote": "Trust yourself and keep going.",
+    "author": "Flow"
+  },
+  {
+    "day": 156,
+    "quote": "You are doing better than you think.",
+    "author": "Flow"
+  },
+  {
+    "day": 157,
+    "quote": "Momentum compounds.",
+    "author": "Flow"
+  },
+  {
+    "day": 158,
+    "quote": "Showing up is half the battle.",
+    "author": "Flow"
+  },
+  {
+    "day": 159,
+    "quote": "Keep going, you are closer than yesterday.",
+    "author": "Flow"
+  },
+  {
+    "day": 160,
+    "quote": "Small wins add up to big victories.",
+    "author": "Flow"
+  },
+  {
+    "day": 161,
+    "quote": "Your effort will speak for itself.",
+    "author": "Flow"
+  },
+  {
+    "day": 162,
+    "quote": "Forward is forward.",
+    "author": "Flow"
+  },
+  {
+    "day": 163,
+    "quote": "Steady beats flashy.",
+    "author": "Flow"
+  },
+  {
+    "day": 164,
+    "quote": "Stay focused. Stay consistent.",
+    "author": "Flow"
+  },
+  {
+    "day": 165,
+    "quote": "Make this day count.",
+    "author": "Flow"
+  },
+  {
+    "day": 166,
+    "quote": "You have what it takes.",
+    "author": "Flow"
+  },
+  {
+    "day": 167,
+    "quote": "Be relentless.",
+    "author": "Flow"
+  },
+  {
+    "day": 168,
+    "quote": "Keep building.",
+    "author": "Flow"
+  },
+  {
+    "day": 169,
+    "quote": "Stay the course.",
+    "author": "Flow"
+  },
+  {
+    "day": 170,
+    "quote": "Progress is inevitable if you persist.",
+    "author": "Flow"
+  },
+  {
+    "day": 171,
+    "quote": "Every day is a chance to level up.",
+    "author": "Flow"
+  },
+  {
+    "day": 172,
+    "quote": "You are in control of your effort.",
+    "author": "Flow"
+  },
+  {
+    "day": 173,
+    "quote": "Push through the resistance.",
+    "author": "Flow"
+  },
+  {
+    "day": 174,
+    "quote": "Consistency is your superpower.",
+    "author": "Flow"
+  },
+  {
+    "day": 175,
+    "quote": "The future depends on what you do today.",
+    "author": "Flow"
+  },
+  {
+    "day": 176,
+    "quote": "Keep grinding. It is working.",
+    "author": "Flow"
+  },
+  {
+    "day": 177,
+    "quote": "Daily effort creates monthly miracles.",
+    "author": "Flow"
+  },
+  {
+    "day": 178,
+    "quote": "Go one more round.",
+    "author": "Flow"
+  },
+  {
+    "day": 179,
+    "quote": "Persistence beats resistance.",
+    "author": "Flow"
+  },
+  {
+    "day": 180,
+    "quote": "Halfway through the year. Finish strong.",
+    "author": "Flow"
+  },
+  {
+    "day": 181,
+    "quote": "What you build today lasts beyond today.",
+    "author": "Flow"
+  },
+  {
+    "day": 182,
+    "quote": "Small wins fuel big wins.",
+    "author": "Flow"
+  },
+  {
+    "day": 183,
+    "quote": "Nothing worth having comes easy.",
+    "author": "Flow"
+  },
+  {
+    "day": 184,
+    "quote": "Success loves the persistent.",
+    "author": "Flow"
+  },
+  {
+    "day": 185,
+    "quote": "The hard parts are where growth lives.",
+    "author": "Flow"
+  },
+  {
+    "day": 186,
+    "quote": "Keep your head down and work.",
+    "author": "Flow"
+  },
+  {
+    "day": 187,
+    "quote": "You are tougher than your toughest day.",
+    "author": "Flow"
+  },
+  {
+    "day": 188,
+    "quote": "Stay hungry. Stay humble.",
+    "author": "Flow"
+  },
+  {
+    "day": 189,
+    "quote": "Fight for your goals every single day.",
+    "author": "Flow"
+  },
+  {
+    "day": 190,
+    "quote": "Make progress, not excuses.",
+    "author": "Flow"
+  },
+  {
+    "day": 191,
+    "quote": "You control the effort. The results will follow.",
+    "author": "Flow"
+  },
+  {
+    "day": 192,
+    "quote": "Let your work do the talking.",
+    "author": "Flow"
+  },
+  {
+    "day": 193,
+    "quote": "Every day is a fresh opportunity to improve.",
+    "author": "Flow"
+  },
+  {
+    "day": 194,
+    "quote": "You get what you work for, not what you wish for.",
+    "author": "Flow"
+  },
+  {
+    "day": 195,
+    "quote": "Patience and persistence win every time.",
+    "author": "Flow"
+  },
+  {
+    "day": 196,
+    "quote": "Results take time. Keep working.",
+    "author": "Flow"
+  },
+  {
+    "day": 197,
+    "quote": "Trust your grind.",
+    "author": "Flow"
+  },
+  {
+    "day": 198,
+    "quote": "The harder you work, the luckier you get.",
+    "author": "Flow"
+  },
+  {
+    "day": 199,
+    "quote": "Commitment is doing the thing you said you would do long after the mood has left you.",
+    "author": "Flow"
+  },
+  {
+    "day": 200,
+    "quote": "Two hundred days strong. Keep building.",
+    "author": "Flow"
+  },
+  {
+    "day": 201,
+    "quote": "Do not stop when you are tired. Stop when you are done.",
+    "author": "Flow"
+  },
+  {
+    "day": 202,
+    "quote": "Grind in silence. Let success make the noise.",
+    "author": "Flow"
+  },
+  {
+    "day": 203,
+    "quote": "Fall seven times, stand up eight.",
+    "author": "Flow"
+  },
+  {
+    "day": 204,
+    "quote": "The only bad workout is the one that did not happen.",
+    "author": "Flow"
+  },
+  {
+    "day": 205,
+    "quote": "The difference between who you are and who you want to be is what you do.",
+    "author": "Flow"
+  },
+  {
+    "day": 206,
+    "quote": "The goal is not to be perfect. The goal is to be better.",
+    "author": "Flow"
+  },
+  {
+    "day": 207,
+    "quote": "Work while they sleep. Learn while they party. Save while they spend.",
+    "author": "Flow"
+  },
+  {
+    "day": 208,
+    "quote": "Your dedication will pay off.",
+    "author": "Flow"
+  },
+  {
+    "day": 209,
+    "quote": "No shortcuts. Just hard work.",
+    "author": "Flow"
+  },
+  {
+    "day": 210,
+    "quote": "The struggle you are in today is developing the strength you need tomorrow.",
+    "author": "Flow"
+  },
+  {
+    "day": 211,
+    "quote": "Stay focused. Stay fierce.",
+    "author": "Flow"
+  },
+  {
+    "day": 212,
+    "quote": "Push harder than yesterday if you want a different tomorrow.",
+    "author": "Flow"
+  },
+  {
+    "day": 213,
+    "quote": "The pain you feel today will be the strength you feel tomorrow.",
+    "author": "Flow"
+  },
+  {
+    "day": 214,
+    "quote": "Wake up with determination. Go to bed with satisfaction.",
+    "author": "Flow"
+  },
+  {
+    "day": 215,
+    "quote": "You did not come this far to only come this far.",
+    "author": "Flow"
+  },
+  {
+    "day": 216,
+    "quote": "Keep going. Greatness takes time.",
+    "author": "Flow"
+  },
+  {
+    "day": 217,
+    "quote": "A little progress each day adds up to big results.",
+    "author": "Flow"
+  },
+  {
+    "day": 218,
+    "quote": "Champions keep playing until they get it right.",
+    "author": "Flow"
+  },
+  {
+    "day": 219,
+    "quote": "It does not matter how slowly you go as long as you do not stop.",
+    "author": "Flow"
+  },
+  {
+    "day": 220,
+    "quote": "One more day. One more rep. One more step.",
+    "author": "Flow"
+  },
+  {
+    "day": 221,
+    "quote": "Make your sweat your best accessory.",
+    "author": "Flow"
+  },
+  {
+    "day": 222,
+    "quote": "The secret of getting ahead is getting started.",
+    "author": "Flow"
+  },
+  {
+    "day": 223,
+    "quote": "Success is the sum of small efforts repeated day in and day out.",
+    "author": "Flow"
+  },
+  {
+    "day": 224,
+    "quote": "Do not wish for it. Work for it.",
+    "author": "Flow"
+  },
+  {
+    "day": 225,
+    "quote": "Your only limit is you.",
+    "author": "Flow"
+  },
+  {
+    "day": 226,
+    "quote": "You are one workout away from a good mood.",
+    "author": "Flow"
+  },
+  {
+    "day": 227,
+    "quote": "Believe in yourself and all that you are.",
+    "author": "Flow"
+  },
+  {
+    "day": 228,
+    "quote": "Get comfortable being uncomfortable.",
+    "author": "Flow"
+  },
+  {
+    "day": 229,
+    "quote": "The time will pass anyway. Make it count.",
+    "author": "Flow"
+  },
+  {
+    "day": 230,
+    "quote": "Excuses do not burn calories.",
+    "author": "Flow"
+  },
+  {
+    "day": 231,
+    "quote": "Sore today, strong tomorrow.",
+    "author": "Flow"
+  },
+  {
+    "day": 232,
+    "quote": "Train insane or remain the same.",
+    "author": "Flow"
+  },
+  {
+    "day": 233,
+    "quote": "Be stronger than your strongest excuse.",
+    "author": "Flow"
+  },
+  {
+    "day": 234,
+    "quote": "Your body can stand almost anything. It is your mind you have to convince.",
+    "author": "Flow"
+  },
+  {
+    "day": 235,
+    "quote": "The pain is temporary. The pride is forever.",
+    "author": "Flow"
+  },
+  {
+    "day": 236,
+    "quote": "Stay patient and trust the journey.",
+    "author": "Flow"
+  },
+  {
+    "day": 237,
+    "quote": "Success is not owned. It is rented, and rent is due every day.",
+    "author": "Flow"
+  },
+  {
+    "day": 238,
+    "quote": "Motivation gets you started. Habit keeps you going.",
+    "author": "Flow"
+  },
+  {
+    "day": 239,
+    "quote": "Hustle until your haters ask if you are hiring.",
+    "author": "Flow"
+  },
+  {
+    "day": 240,
+    "quote": "Great things never came from comfort zones.",
+    "author": "Flow"
+  },
+  {
+    "day": 241,
+    "quote": "If it does not challenge you, it does not change you.",
+    "author": "Flow"
+  },
+  {
+    "day": 242,
+    "quote": "Sweat is magic. Cover yourself in it daily to grant your wishes.",
+    "author": "Flow"
+  },
+  {
+    "day": 243,
+    "quote": "Do something today that your future self will thank you for.",
+    "author": "Flow"
+  },
+  {
+    "day": 244,
+    "quote": "Make your goals bigger than your excuses.",
+    "author": "Flow"
+  },
+  {
+    "day": 245,
+    "quote": "Do not count the days. Make the days count.",
+    "author": "Flow"
+  },
+  {
+    "day": 246,
+    "quote": "Goals without action are just dreams.",
+    "author": "Flow"
+  },
+  {
+    "day": 247,
+    "quote": "Work hard in silence. Let your success be your noise.",
+    "author": "Flow"
+  },
+  {
+    "day": 248,
+    "quote": "The best project you will ever work on is you.",
+    "author": "Flow"
+  },
+  {
+    "day": 249,
+    "quote": "Strength grows in the moments when you think you cannot go on but you keep going anyway.",
+    "author": "Flow"
+  },
+  {
+    "day": 250,
+    "quote": "You are what you repeatedly do. Excellence is not an act, but a habit.",
+    "author": "Flow"
+  },
+  {
+    "day": 251,
+    "quote": "The mind is the limit. Push past it.",
+    "author": "Flow"
+  },
+  {
+    "day": 252,
+    "quote": "Today I will do what others won't so tomorrow I can accomplish what others can't.",
+    "author": "Flow"
+  },
+  {
+    "day": 253,
+    "quote": "Never give up on a dream just because of the time it will take to accomplish it.",
+    "author": "Flow"
+  },
+  {
+    "day": 254,
+    "quote": "Action is the foundational key to all success.",
+    "author": "Flow"
+  },
+  {
+    "day": 255,
+    "quote": "If you want something you have never had, you must be willing to do something you have never done.",
+    "author": "Flow"
+  },
+  {
+    "day": 256,
+    "quote": "Your life does not get better by chance. It gets better by change.",
+    "author": "Flow"
+  },
+  {
+    "day": 257,
+    "quote": "The fight is won or lost far away from witnesses. It is won behind the lines, in the gym, and out there on the road, long before I dance under those lights.",
+    "author": "Flow"
+  },
+  {
+    "day": 258,
+    "quote": "A champion is someone who gets up when they cannot.",
+    "author": "Flow"
+  },
+  {
+    "day": 259,
+    "quote": "Discipline is choosing between what you want now and what you want most.",
+    "author": "Flow"
+  },
+  {
+    "day": 260,
+    "quote": "It is never too late to be what you might have been.",
+    "author": "Flow"
+  },
+  {
+    "day": 261,
+    "quote": "The harder the battle, the sweeter the victory.",
+    "author": "Flow"
+  },
+  {
+    "day": 262,
+    "quote": "Doubt kills more dreams than failure ever will.",
+    "author": "Flow"
+  },
+  {
+    "day": 263,
+    "quote": "Your limitation is only your imagination.",
+    "author": "Flow"
+  },
+  {
+    "day": 264,
+    "quote": "Do it now. Sometimes later becomes never.",
+    "author": "Flow"
+  },
+  {
+    "day": 265,
+    "quote": "The best revenge is massive success.",
+    "author": "Flow"
+  },
+  {
+    "day": 266,
+    "quote": "When you feel like quitting, think about why you started.",
+    "author": "Flow"
+  },
+  {
+    "day": 267,
+    "quote": "Be the energy you want to attract.",
+    "author": "Flow"
+  },
+  {
+    "day": 268,
+    "quote": "Success does not just find you. You have to go out and get it.",
+    "author": "Flow"
+  },
+  {
+    "day": 269,
+    "quote": "If people are doubting how far you can go, go so far that you cannot hear them anymore.",
+    "author": "Flow"
+  },
+  {
+    "day": 270,
+    "quote": "Train like a beast. Look like a beauty.",
+    "author": "Flow"
+  },
+  {
+    "day": 271,
+    "quote": "Do not stop until you are proud.",
+    "author": "Flow"
+  },
+  {
+    "day": 272,
+    "quote": "You are your only limit.",
+    "author": "Flow"
+  },
+  {
+    "day": 273,
+    "quote": "Sometimes later becomes never. Do it now.",
+    "author": "Flow"
+  },
+  {
+    "day": 274,
+    "quote": "Dream bigger. Do bigger.",
+    "author": "Flow"
+  },
+  {
+    "day": 275,
+    "quote": "Take the risk or lose the chance.",
+    "author": "Flow"
+  },
+  {
+    "day": 276,
+    "quote": "Stop wishing. Start doing.",
+    "author": "Flow"
+  },
+  {
+    "day": 277,
+    "quote": "Do not be afraid to fail. Be afraid not to try.",
+    "author": "Flow"
+  },
+  {
+    "day": 278,
+    "quote": "The key to success is to start before you are ready.",
+    "author": "Flow"
+  },
+  {
+    "day": 279,
+    "quote": "Dream it. Believe it. Build it.",
+    "author": "Flow"
+  },
+  {
+    "day": 280,
+    "quote": "You are capable of amazing things.",
+    "author": "Flow"
+  },
+  {
+    "day": 281,
+    "quote": "Be stubborn about your goals and flexible about your methods.",
+    "author": "Flow"
+  },
+  {
+    "day": 282,
+    "quote": "Big things often have small beginnings.",
+    "author": "Flow"
+  },
+  {
+    "day": 283,
+    "quote": "Everything you can imagine is real.",
+    "author": "Flow"
+  },
+  {
+    "day": 284,
+    "quote": "Strive for progress, not perfection.",
+    "author": "Flow"
+  },
+  {
+    "day": 285,
+    "quote": "If you cannot do great things, do small things in a great way.",
+    "author": "Flow"
+  },
+  {
+    "day": 286,
+    "quote": "One day or day one. You decide.",
+    "author": "Flow"
+  },
+  {
+    "day": 287,
+    "quote": "You miss one hundred percent of the shots you do not take.",
+    "author": "Flow"
+  },
+  {
+    "day": 288,
+    "quote": "Remember why you started.",
+    "author": "Flow"
+  },
+  {
+    "day": 289,
+    "quote": "Nothing will work unless you do.",
+    "author": "Flow"
+  },
+  {
+    "day": 290,
+    "quote": "You do not have to be extreme, just consistent.",
+    "author": "Flow"
+  },
+  {
+    "day": 291,
+    "quote": "It is going to be hard, but hard does not mean impossible.",
+    "author": "Flow"
+  },
+  {
+    "day": 292,
+    "quote": "Never underestimate the power of showing up.",
+    "author": "Flow"
+  },
+  {
+    "day": 293,
+    "quote": "Someday is not a day of the week.",
+    "author": "Flow"
+  },
+  {
+    "day": 294,
+    "quote": "You are braver than you believe, stronger than you seem, and smarter than you think.",
+    "author": "Flow"
+  },
+  {
+    "day": 295,
+    "quote": "Your dreams do not have an expiration date. Take a deep breath and try again.",
+    "author": "Flow"
+  },
+  {
+    "day": 296,
+    "quote": "Even the smallest step in the right direction can turn out to be the biggest step of your life.",
+    "author": "Flow"
+  },
+  {
+    "day": 297,
+    "quote": "Success is not for the lazy.",
+    "author": "Flow"
+  },
+  {
+    "day": 298,
+    "quote": "Prove them wrong.",
+    "author": "Flow"
+  },
+  {
+    "day": 299,
+    "quote": "Work until your idols become your rivals.",
+    "author": "Flow"
+  },
+  {
+    "day": 300,
+    "quote": "Three hundred days of progress. Do not stop now.",
+    "author": "Flow"
+  },
+  {
+    "day": 301,
+    "quote": "Be the person your dog thinks you are.",
+    "author": "Flow"
+  },
+  {
+    "day": 302,
+    "quote": "Do not compare yourself to others. Compare yourself to who you were yesterday.",
+    "author": "Flow"
+  },
+  {
+    "day": 303,
+    "quote": "Fall in love with the process and the results will come.",
+    "author": "Flow"
+  },
+  {
+    "day": 304,
+    "quote": "Your attitude determines your direction.",
+    "author": "Flow"
+  },
+  {
+    "day": 305,
+    "quote": "Be so good they cannot ignore you.",
+    "author": "Flow"
+  },
+  {
+    "day": 306,
+    "quote": "Success is the best revenge.",
+    "author": "Flow"
+  },
+  {
+    "day": 307,
+    "quote": "Change your mindset. Change your life.",
+    "author": "Flow"
+  },
+  {
+    "day": 308,
+    "quote": "If you do what is easy, your life will be hard. If you do what is hard, your life will be easy.",
+    "author": "Flow"
+  },
+  {
+    "day": 309,
+    "quote": "The only way to do great work is to love what you do.",
+    "author": "Flow"
+  },
+  {
+    "day": 310,
+    "quote": "Do not wait for the perfect moment. Take the moment and make it perfect.",
+    "author": "Flow"
+  },
+  {
+    "day": 311,
+    "quote": "You are stronger than you know.",
+    "author": "Flow"
+  },
+  {
+    "day": 312,
+    "quote": "Your time is limited. Do not waste it.",
+    "author": "Flow"
+  },
+  {
+    "day": 313,
+    "quote": "Winners never quit and quitters never win.",
+    "author": "Flow"
+  },
+  {
+    "day": 314,
+    "quote": "You are closer to your goal than you were yesterday.",
+    "author": "Flow"
+  },
+  {
+    "day": 315,
+    "quote": "The future belongs to those who believe in the beauty of their dreams.",
+    "author": "Flow"
+  },
+  {
+    "day": 316,
+    "quote": "The struggle you are facing today is shaping the champion you will become tomorrow.",
+    "author": "Flow"
+  },
+  {
+    "day": 317,
+    "quote": "Be fearless in the pursuit of what sets your soul on fire.",
+    "author": "Flow"
+  },
+  {
+    "day": 318,
+    "quote": "Your dreams are not for sale.",
+    "author": "Flow"
+  },
+  {
+    "day": 319,
+    "quote": "Do not look back. You are not going that way.",
+    "author": "Flow"
+  },
+  {
+    "day": 320,
+    "quote": "Life begins at the end of your comfort zone.",
+    "author": "Flow"
+  },
+  {
+    "day": 321,
+    "quote": "Good things come to those who hustle.",
+    "author": "Flow"
+  },
+  {
+    "day": 322,
+    "quote": "Turn your wounds into wisdom.",
+    "author": "Flow"
+  },
+  {
+    "day": 323,
+    "quote": "The man on top of the mountain did not fall there.",
+    "author": "Flow"
+  },
+  {
+    "day": 324,
+    "quote": "A year from now you may wish you had started today.",
+    "author": "Flow"
+  },
+  {
+    "day": 325,
+    "quote": "Go the extra mile. It is never crowded.",
+    "author": "Flow"
+  },
+  {
+    "day": 326,
+    "quote": "You do not need to be great to start, but you need to start to be great.",
+    "author": "Flow"
+  },
+  {
+    "day": 327,
+    "quote": "Opportunities do not happen. You create them.",
+    "author": "Flow"
+  },
+  {
+    "day": 328,
+    "quote": "The grind includes Friday, Saturday, and Sunday.",
+    "author": "Flow"
+  },
+  {
+    "day": 329,
+    "quote": "The choices you make today shape the life you live tomorrow.",
+    "author": "Flow"
+  },
+  {
+    "day": 330,
+    "quote": "The body achieves what the mind believes.",
+    "author": "Flow"
+  },
+  {
+    "day": 331,
+    "quote": "Push yourself because no one else is going to do it for you.",
+    "author": "Flow"
+  },
+  {
+    "day": 332,
+    "quote": "Comfort is the enemy of achievement.",
+    "author": "Flow"
+  },
+  {
+    "day": 333,
+    "quote": "You are always one decision away from a totally different life.",
+    "author": "Flow"
+  },
+  {
+    "day": 334,
+    "quote": "Success usually comes to those who are too busy to be looking for it.",
+    "author": "Flow"
+  },
+  {
+    "day": 335,
+    "quote": "You cannot change the past, but you can create the future.",
+    "author": "Flow"
+  },
+  {
+    "day": 336,
+    "quote": "Every accomplishment starts with the decision to try.",
+    "author": "Flow"
+  },
+  {
+    "day": 337,
+    "quote": "Leave your ego at the door every morning and just do some truly great work.",
+    "author": "Flow"
+  },
+  {
+    "day": 338,
+    "quote": "Do not let yesterday take up too much of today.",
+    "author": "Flow"
+  },
+  {
+    "day": 339,
+    "quote": "Keep your face always toward the sunshine and shadows will fall behind you.",
+    "author": "Flow"
+  },
+  {
+    "day": 340,
+    "quote": "Either you run the day or the day runs you.",
+    "author": "Flow"
+  },
+  {
+    "day": 341,
+    "quote": "Do not be pushed around by the fears in your mind. Be led by the dreams in your heart.",
+    "author": "Flow"
+  },
+  {
+    "day": 342,
+    "quote": "Your positive action combined with positive thinking results in success.",
+    "author": "Flow"
+  },
+  {
+    "day": 343,
+    "quote": "The only impossible journey is the one you never begin.",
+    "author": "Flow"
+  },
+  {
+    "day": 344,
+    "quote": "Success is not how high you have climbed, but how you make a positive difference to the world.",
+    "author": "Flow"
+  },
+  {
+    "day": 345,
+    "quote": "Believe you can and you are halfway there.",
+    "author": "Flow"
+  },
+  {
+    "day": 346,
+    "quote": "What we achieve inwardly will change outer reality.",
+    "author": "Flow"
+  },
+  {
+    "day": 347,
+    "quote": "You can waste your lives drawing lines. Or you can live your life crossing them.",
+    "author": "Flow"
+  },
+  {
+    "day": 348,
+    "quote": "To handle yourself, use your head. To handle others, use your heart.",
+    "author": "Flow"
+  },
+  {
+    "day": 349,
+    "quote": "Things work out best for those who make the best of how things work out.",
+    "author": "Flow"
+  },
+  {
+    "day": 350,
+    "quote": "You learn more from failure than from success. Do not let it stop you.",
+    "author": "Flow"
+  },
+  {
+    "day": 351,
+    "quote": "If you are working on something that you really care about, you do not have to be pushed. The vision pulls you.",
+    "author": "Flow"
+  },
+  {
+    "day": 352,
+    "quote": "People who are crazy enough to think they can change the world are the ones who do.",
+    "author": "Flow"
+  },
+  {
+    "day": 353,
+    "quote": "Failure will never overtake me if my determination to succeed is strong enough.",
+    "author": "Flow"
+  },
+  {
+    "day": 354,
+    "quote": "Entrepreneurs are great at dealing with uncertainty. Be bad at it and you are going to fail.",
+    "author": "Flow"
+  },
+  {
+    "day": 355,
+    "quote": "We may encounter many defeats but we must not be defeated.",
+    "author": "Flow"
+  },
+  {
+    "day": 356,
+    "quote": "Knowing is not enough; we must apply. Wishing is not enough; we must do.",
+    "author": "Flow"
+  },
+  {
+    "day": 357,
+    "quote": "Whether you think you can or think you cannot, you are right.",
+    "author": "Flow"
+  },
+  {
+    "day": 358,
+    "quote": "Security is mostly a superstition. Life is either a daring adventure or nothing.",
+    "author": "Flow"
+  },
+  {
+    "day": 359,
+    "quote": "The one who has confidence in himself gains the confidence of others.",
+    "author": "Flow"
+  },
+  {
+    "day": 360,
+    "quote": "The only limit to our realization of tomorrow is our doubts of today.",
+    "author": "Flow"
+  },
+  {
+    "day": 361,
+    "quote": "The question is not who is going to let me; it is who is going to stop me.",
+    "author": "Flow"
+  },
+  {
+    "day": 362,
+    "quote": "When everything seems to be going against you, remember that the airplane takes off against the wind, not with it.",
+    "author": "Flow"
+  },
+  {
+    "day": 363,
+    "quote": "It is never too late to be what you might have been.",
+    "author": "Flow"
+  },
+  {
+    "day": 364,
+    "quote": "If you are not willing to risk the usual, you will have to settle for the ordinary.",
+    "author": "Flow"
+  },
+  {
+    "day": 365,
+    "quote": "One year complete. Start the next one stronger.",
+    "author": "Flow"
+  },
+  {
+    "day": 366,
+    "quote": "Leap forward. Make this extra day extraordinary.",
+    "author": "Flow"
+  }
+]
