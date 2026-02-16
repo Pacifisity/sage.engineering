@@ -112,7 +112,7 @@ export function renderBacklog(container, tasks) {
 export function renderFocus(container, task) {
   container.innerHTML = "";
   if (!task) {
-    container.innerHTML = '<div class="empty">No focus task right now.</div>';
+    container.innerHTML = '<div class="empty">Nothing scheduled, what\'s next?</div>';
     return;
   }
   container.innerHTML = `
