@@ -4,7 +4,7 @@ import {
   loadFromDrive,
   requestSignIn,
   saveToDrive,
-  signOut
+  signOutFromDrive
 } from "../integrations/googleDrive.js";
 import { normalizeTask } from "../core/data.js";
 
@@ -170,7 +170,7 @@ export function createGoogleSync({ getTasks, setTasks, renderAll, setAuthState, 
 
   function handleAuthClick() {
     if (isSignedIn()) {
-      signOut();
+      signOutFromDrive();
       didInitialSync = false;
       updateAuthState();
     } else {

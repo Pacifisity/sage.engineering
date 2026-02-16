@@ -5,13 +5,15 @@ import {
   normalizeTask,
   saveTasks
 } from "../core/data.js";
-import { fillForm, renderBacklog, renderFocus, renderSchedule, renderTasks } from "../core/ui.js";
+import { renderBacklog, renderFocus, renderSchedule, renderTasks } from "../core/ui.js";
+import { createTaskModal } from "./taskModal.js";
 
 export function createTaskManager(dom, onChange) {
   let tasks = loadTasks().map(normalizeTask);
-  let editingId = null;
   let searchQuery = "";
   let backlogSearchQuery = "";
+
+  const modal = createTaskModal(dom);
 
   function sortedTasks(list) {
     return [...list].sort((a, b) => getScore(b) - getScore(a));
@@ -28,47 +30,27 @@ export function createTaskManager(dom, onChange) {
       filtered.filter((task) => isAvailable(task) && !task.completed)
     );
     renderTasks(dom.tasksList, available);
+
     const backlog = [...backlogFiltered].sort((a, b) => b.createdAt - a.createdAt);
     renderBacklog(dom.backlogList, backlog);
+
     if (dom.scheduleGrid && dom.scheduleDays) {
-      renderSchedule({
-        days: dom.scheduleDays,
-        grid: dom.scheduleGrid,
-        weekOffset: dom.scheduleWeekOffset || 0
-      }, tasks.filter((task) => !task.completed));
+      renderSchedule(
+        {
+          days: dom.scheduleDays,
+          grid: dom.scheduleGrid,
+          weekOffset: dom.scheduleWeekOffset || 0
+        },
+        tasks.filter((task) => !task.completed)
+      );
     }
+
     if (dom.focusTask) {
       const focusCandidate = sortedTasks(
         tasks.filter((task) => isAvailable(task) && !task.completed)
       )[0];
       renderFocus(dom.focusTask, focusCandidate || null);
     }
-  }
-
-  function openModal(task) {
-    editingId = task ? task.id : null;
-    dom.modalTitle.textContent = task ? "Edit task" : "New task";
-    fillForm(
-      {
-        taskName: dom.taskName,
-        taskPriority: dom.taskPriority,
-        taskStart: dom.taskStart,
-        taskDue: dom.taskDue
-      },
-      task
-    );
-    if (dom.deleteTaskBtn) {
-      dom.deleteTaskBtn.classList.toggle("hidden", !editingId);
-    }
-    dom.modalBackdrop.classList.remove("hidden");
-    dom.modalBackdrop.setAttribute("aria-hidden", "false");
-    dom.taskName.focus();
-  }
-
-  function closeModalWindow() {
-    dom.modalBackdrop.classList.add("hidden");
-    dom.modalBackdrop.setAttribute("aria-hidden", "true");
-    editingId = null;
   }
 
   function persist(nextTasks, shouldSync = true) {
@@ -80,12 +62,10 @@ export function createTaskManager(dom, onChange) {
     }
   }
 
-  function upsertTask(data) {
+  function upsertTask(editingId, data) {
     if (editingId) {
       const updated = tasks.map((task) =>
-        task.id === editingId
-          ? { ...task, ...data, updatedAt: Date.now() }
-          : task
+        task.id === editingId ? { ...task, ...data, updatedAt: Date.now() } : task
       );
       persist(updated);
       return;
@@ -110,26 +90,25 @@ export function createTaskManager(dom, onChange) {
 
   function completeTask(id) {
     const updated = tasks.map((task) =>
-      task.id === id
-        ? { ...task, completed: !task.completed, updatedAt: Date.now() }
-        : task
+      task.id === id ? { ...task, completed: !task.completed, updatedAt: Date.now() } : task
     );
     persist(updated);
   }
 
+  function openModal(task) {
+    modal.open(task, upsertTask, deleteTask);
+  }
+
+  function closeModalWindow() {
+    modal.close();
+  }
+
   function handleTaskFormSubmit(event) {
-    event.preventDefault();
-    const payload = {
-      name: dom.taskName.value.trim(),
-      priority: dom.taskPriority.value,
-      startDate: dom.taskStart.value || null,
-      dueDate: dom.taskDue.value || null
-    };
-    if (!payload.name) {
-      return;
-    }
-    upsertTask(payload);
-    closeModalWindow();
+    modal.handleSubmit(event);
+  }
+
+  function handleDeleteFromModal() {
+    modal.handleDelete();
   }
 
   function handleTasksListClick(event) {
@@ -160,13 +139,6 @@ export function createTaskManager(dom, onChange) {
     }
   }
 
-  function handleDeleteFromModal() {
-    if (editingId) {
-      deleteTask(editingId);
-      closeModalWindow();
-    }
-  }
-
   function handleFocusClick(event) {
     const completeId = event.target.getAttribute("data-focus-complete");
     const editId = event.target.getAttribute("data-focus-edit");
@@ -192,15 +164,15 @@ export function createTaskManager(dom, onChange) {
   }
 
   function setTasks(list, shouldSync = false) {
-    console.log('[TASKS] setTasks called with', list.length, 'tasks, shouldSync:', shouldSync);
-    console.log('[TASKS] Before normalize:', JSON.stringify(list[0]));
+    console.log("[TASKS] setTasks called with", list.length, "tasks, shouldSync:", shouldSync);
+    console.log("[TASKS] Before normalize:", JSON.stringify(list[0]));
     tasks = list.map(normalizeTask);
-    console.log('[TASKS] After normalize:', JSON.stringify(tasks[0]));
+    console.log("[TASKS] After normalize:", JSON.stringify(tasks[0]));
     saveTasks(tasks);
-    console.log('[TASKS] Saved to localStorage');
+    console.log("[TASKS] Saved to localStorage");
     renderAll();
     if (shouldSync && onChange) {
-      console.log('[TASKS] Triggering onChange (scheduleSync)');
+      console.log("[TASKS] Triggering onChange (scheduleSync)");
       onChange();
     }
   }
