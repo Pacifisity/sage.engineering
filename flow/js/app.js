@@ -18,6 +18,11 @@ const dom = {
   navButtons: Array.from(document.querySelectorAll(".nav-btn")),
   tasksView: document.getElementById("tasksView"),
   backlogView: document.getElementById("backlogView"),
+  scheduleView: document.getElementById("scheduleView"),
+  scheduleDays: document.getElementById("scheduleDays"),
+  scheduleGrid: document.getElementById("scheduleGrid"),
+  schedulePrev: document.getElementById("schedulePrev"),
+  scheduleNext: document.getElementById("scheduleNext"),
   modalBackdrop: document.getElementById("modalBackdrop"),
   closeModal: document.getElementById("closeModal"),
   taskForm: document.getElementById("taskForm"),
@@ -46,6 +51,24 @@ const googleSync = createGoogleSync({
   setAuthState: setAuthButtonState
 });
 
+let scheduleWeekOffset = 0;
+dom.scheduleWeekOffset = scheduleWeekOffset;
+
+function animateSchedule(direction) {
+  if (!dom.scheduleGrid) {
+    return;
+  }
+  dom.scheduleGrid.classList.remove("animate-week", "animate-left", "animate-right");
+  void dom.scheduleGrid.offsetWidth;
+  dom.scheduleGrid.classList.add("animate-week");
+  if (direction === "left") {
+    dom.scheduleGrid.classList.add("animate-left");
+  }
+  if (direction === "right") {
+    dom.scheduleGrid.classList.add("animate-right");
+  }
+}
+
 if (dom.addTaskBtn) {
   dom.addTaskBtn.addEventListener("click", () => taskManager.openModal());
 }
@@ -67,9 +90,32 @@ if (dom.navButtons.length) {
     button.addEventListener("click", () => {
       setActiveView(button.dataset.view, {
         tasks: dom.tasksView,
-        backlog: dom.backlogView
+        backlog: dom.backlogView,
+        schedule: dom.scheduleView
       }, dom.navButtons);
+      if (button.dataset.view === "schedule") {
+        taskManager.renderAll();
+        animateSchedule();
+      }
     });
+  });
+}
+
+if (dom.schedulePrev) {
+  dom.schedulePrev.addEventListener("click", () => {
+    scheduleWeekOffset -= 1;
+    dom.scheduleWeekOffset = scheduleWeekOffset;
+    taskManager.renderAll();
+    animateSchedule("right");
+  });
+}
+
+if (dom.scheduleNext) {
+  dom.scheduleNext.addEventListener("click", () => {
+    scheduleWeekOffset += 1;
+    dom.scheduleWeekOffset = scheduleWeekOffset;
+    taskManager.renderAll();
+    animateSchedule("left");
   });
 }
 
@@ -140,7 +186,15 @@ setupFileHandlers({
 });
 
 taskManager.renderAll();
-setActiveView("tasks", { tasks: dom.tasksView, backlog: dom.backlogView }, dom.navButtons);
+setActiveView("tasks", {
+  tasks: dom.tasksView,
+  backlog: dom.backlogView,
+  schedule: dom.scheduleView
+}, dom.navButtons);
 setAuthButtonState(false);
+
+window.addEventListener("resize", () => {
+  taskManager.renderAll();
+});
 
 googleSync.initGoogle();

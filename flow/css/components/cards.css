@@ -18,6 +18,18 @@
   font-weight: 600;
 }
 
+.card-title.priority-high {
+  color: #ff9cf5;
+}
+
+.card-title.priority-medium {
+  color: #c3a5ff;
+}
+
+.card-title.priority-low {
+  color: #9aa5ff;
+}
+
 .card-header {
   display: flex;
   align-items: center;
@@ -40,24 +52,6 @@
   font-size: 0.85rem;
 }
 
-.badge {
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 0.76rem;
-  border: 1px solid var(--border);
-}
-
-.badge.high {
-  color: #ff9cf5;
-}
-
-.badge.medium {
-  color: #c3a5ff;
-}
-
-.badge.low {
-  color: #9aa5ff;
-}
 
 .empty {
   text-align: center;

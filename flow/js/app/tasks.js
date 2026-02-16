@@ -5,7 +5,7 @@ import {
   normalizeTask,
   saveTasks
 } from "../core/data.js";
-import { fillForm, renderBacklog, renderTasks } from "../core/ui.js";
+import { fillForm, renderBacklog, renderSchedule, renderTasks } from "../core/ui.js";
 
 export function createTaskManager(dom, onChange) {
   let tasks = loadTasks().map(normalizeTask);
@@ -30,6 +30,13 @@ export function createTaskManager(dom, onChange) {
     renderTasks(dom.tasksList, available);
     const backlog = [...backlogFiltered].sort((a, b) => b.createdAt - a.createdAt);
     renderBacklog(dom.backlogList, backlog);
+    if (dom.scheduleGrid && dom.scheduleDays) {
+      renderSchedule({
+        days: dom.scheduleDays,
+        grid: dom.scheduleGrid,
+        weekOffset: dom.scheduleWeekOffset || 0
+      }, tasks.filter((task) => !task.completed));
+    }
   }
 
   function openModal(task) {

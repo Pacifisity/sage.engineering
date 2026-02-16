@@ -19,7 +19,9 @@
   .primary-btn,
   .pill-btn,
   .muted-btn,
-  .auth-btn {
+  .auth-btn,
+  .schedule-grid,
+  .schedule-row {
     animation: none;
     transition: none;
   }

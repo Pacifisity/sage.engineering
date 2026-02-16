@@ -23,6 +23,7 @@
         <nav class="nav">
           <button class="nav-btn active" data-view="tasks">Tasks</button>
           <button class="nav-btn" data-view="backlog">Log</button>
+          <button class="nav-btn" data-view="schedule">Schedule</button>
         </nav>
         <button id="addTaskBtn" class="primary-btn">Add task</button>
       </header>
@@ -39,6 +40,19 @@
           <input id="backlogSearchInput" class="search-input" type="search" placeholder="Search log" />
         </div>
         <div id="backlogList" class="list"></div>
+      </section>
+
+      <section id="scheduleView" class="view hidden">
+        <div class="schedule-scroll">
+          <div class="schedule-header">
+            <button id="schedulePrev" class="schedule-nav-btn" aria-label="Previous week">&lt;</button>
+            <div id="scheduleDays" class="schedule-days"></div>
+            <button id="scheduleNext" class="schedule-nav-btn" aria-label="Next week">&gt;</button>
+          </div>
+          <div class="schedule-body">
+            <div id="scheduleGrid" class="schedule-grid"></div>
+          </div>
+        </div>
       </section>
     </div>
 

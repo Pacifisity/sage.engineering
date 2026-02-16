@@ -82,6 +82,264 @@ select {
   gap: 12px;
 }
 
+.schedule-scroll {
+  overflow: visible;
+  padding-bottom: 6px;
+}
+
+.schedule-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 10px;
+}
+
+.schedule-nav-btn {
+  --schedule-header-height: 38px;
+  width: 36px;
+  height: var(--schedule-header-height);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(20, 22, 38, 0.8);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.schedule-nav-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(163, 107, 255, 0.45);
+}
+
+.schedule-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0 16px;
+}
+
+.schedule-day-label {
+  min-height: var(--schedule-header-height, 38px);
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(20, 22, 38, 0.7);
+  border: 1px solid var(--border);
+  font-weight: 600;
+  text-align: center;
+}
+
+.schedule-body {
+  display: grid;
+}
+
+.schedule-grid {
+  display: grid;
+  gap: 10px;
+  padding: 0 16px;
+}
+
+.schedule-grid.animate-week {
+  animation: scheduleShift 0.45s ease;
+}
+
+.schedule-grid.animate-left {
+  animation-name: scheduleShiftLeft;
+}
+
+.schedule-grid.animate-right {
+  animation-name: scheduleShiftRight;
+}
+
+@keyframes scheduleShift {
+  from {
+    opacity: 0.2;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scheduleShiftLeft {
+  from {
+    opacity: 0.15;
+    transform: translateX(28px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes scheduleShiftRight {
+  from {
+    opacity: 0.15;
+    transform: translateX(-28px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.schedule-grid.animate-left .schedule-row,
+.schedule-grid.animate-right .schedule-row {
+  animation-duration: 0.45s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+  animation-delay: calc(var(--row-index, 0) * 30ms);
+}
+
+.schedule-grid.animate-left .schedule-row {
+  animation-name: scheduleRowInLeft;
+}
+
+.schedule-grid.animate-right .schedule-row {
+  animation-name: scheduleRowInRight;
+}
+
+@keyframes scheduleRowInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scheduleRowInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.schedule-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.schedule-span {
+  border-radius: 12px;
+  padding: 8px 16px;
+  background: rgba(90, 196, 255, 0.16);
+  display: grid;
+  gap: 2px;
+  position: relative;
+  --priority-color: rgba(90, 196, 255, 0.9);
+  --priority-fill: rgba(90, 196, 255, 0.16);
+}
+
+.schedule-span.priority-high {
+  background: rgba(255, 156, 245, 0.18);
+  --priority-color: rgba(255, 156, 245, 0.95);
+  --priority-fill: rgba(255, 156, 245, 0.18);
+}
+
+.schedule-span.priority-medium {
+  background: rgba(195, 165, 255, 0.18);
+  --priority-color: rgba(195, 165, 255, 0.95);
+  --priority-fill: rgba(195, 165, 255, 0.18);
+}
+
+.schedule-span.priority-low {
+  background: rgba(154, 165, 255, 0.18);
+  --priority-color: rgba(154, 165, 255, 0.95);
+  --priority-fill: rgba(154, 165, 255, 0.18);
+}
+
+.schedule-span-title {
+  font-weight: 600;
+}
+
+.schedule-span-meta {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.schedule-span.extends-left {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.schedule-span.extends-right {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.schedule-span.extends-left::before,
+.schedule-span.extends-right::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 32px;
+  pointer-events: none;
+  background: var(--priority-fill);
+}
+
+.schedule-span.extends-left::before {
+  left: -32px;
+  background: linear-gradient(90deg, transparent, var(--priority-fill));
+}
+
+.schedule-span.extends-right::after {
+  right: -32px;
+  background: linear-gradient(270deg, transparent, var(--priority-fill));
+}
+
+.schedule-item {
+  border-radius: 10px;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  font-size: 0.82rem;
+  display: grid;
+  gap: 2px;
+}
+
+.schedule-item-title {
+  font-weight: 600;
+}
+
+.schedule-item-meta {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.schedule-item.start {
+  background: rgba(163, 107, 255, 0.18);
+  border-color: rgba(163, 107, 255, 0.45);
+}
+
+.schedule-item.due {
+  background: rgba(255, 118, 198, 0.16);
+  border-color: rgba(255, 118, 198, 0.45);
+}
+
+.schedule-item.range {
+  background: rgba(90, 196, 255, 0.16);
+  border-color: rgba(90, 196, 255, 0.45);
+}
+
+.schedule-undated {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px dashed var(--border);
+  background: rgba(20, 22, 38, 0.45);
+  display: grid;
+  gap: 8px;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -110,5 +368,10 @@ select {
   .panel {
     left: 12px;
     right: 12px;
+  }
+
+  .schedule-days,
+  .schedule-grid {
+    gap: 8px;
   }
 }
