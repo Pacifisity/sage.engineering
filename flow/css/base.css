@@ -73,6 +73,10 @@ select {
   animation: fadeIn 0.35s ease;
 }
 
+#focusView {
+  min-height: 0;
+}
+
 .hidden {
   display: none;
 }
@@ -181,6 +185,45 @@ select {
   line-height: 1.5;
   display: grid;
   gap: 6px;
+}
+
+.focus-quote.hidden {
+  display: none;
+}
+
+.focus-quote-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.focus-quote-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.focus-quote-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+
+.quote-btn {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 2px 0;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  cursor: pointer;
+}
+
+.quote-btn:hover {
+  color: var(--text);
 }
 
 .focus-quote strong {

@@ -13,6 +13,7 @@ const dom = {
   importBtn: document.getElementById("importBtn"),
   importFile: document.getElementById("importFile"),
   googleBtn: document.getElementById("googleBtn"),
+  quoteToggleBtn: document.getElementById("quoteToggleBtn"),
   searchInput: document.getElementById("searchInput"),
   backlogSearchInput: document.getElementById("backlogSearchInput"),
   navButtons: Array.from(document.querySelectorAll(".nav-btn")),
@@ -51,6 +52,23 @@ const dom = {
   mergeCancel: document.getElementById("mergeCancel"),
   mergeApply: document.getElementById("mergeApply")
 };
+
+const QUOTE_DISABLED_KEY = "flow.quote.disabled";
+
+function shouldHideQuote() {
+  if (localStorage.getItem(QUOTE_DISABLED_KEY) === "true") {
+    return true;
+  }
+  return false;
+}
+
+function updateQuoteToggleButtonState() {
+  if (!dom.quoteToggleBtn) {
+    return;
+  }
+  const isDisabled = localStorage.getItem(QUOTE_DISABLED_KEY) === "true";
+  dom.quoteToggleBtn.textContent = isDisabled ? "Enable quotes" : "Disable quotes";
+}
 
 function setAuthButtonState(signedIn) {
   if (!dom.googleBtn) {
@@ -309,9 +327,24 @@ async function loadFocusQuote() {
   if (!dom.focusQuote) {
     return;
   }
+  if (shouldHideQuote()) {
+    dom.focusQuote.classList.add("hidden");
+    dom.focusQuote.innerHTML = "";
+    return;
+  }
+  dom.focusQuote.classList.remove("hidden");
+
   const setQuote = (quote, author) => {
-    const authorLine = (author && author !== "Flow") ? `<span>— ${author}</span>` : "";
-    dom.focusQuote.innerHTML = `${quote}${authorLine}`;
+    const authorLine = (author && author !== "Flow") ? `— ${author}` : "";
+    dom.focusQuote.innerHTML = `
+      <div class="focus-quote-row">
+        <div class="focus-quote-text">${quote}</div>
+        <div class="focus-quote-actions">
+          <button class="quote-btn" type="button" data-quote-action="disable" aria-label="Disable quotes">x</button>
+        </div>
+      </div>
+      ${authorLine ? `<div class="focus-quote-source">${authorLine}</div>` : ""}
+    `;
   };
   const fallbackText = () => {
     setQuote(
@@ -405,6 +438,22 @@ if (dom.focusTask) {
   });
 }
 
+if (dom.focusQuote) {
+  dom.focusQuote.addEventListener("click", (event) => {
+    const actionButton = event.target.closest("[data-quote-action]");
+    if (!actionButton) {
+      return;
+    }
+    const action = actionButton.dataset.quoteAction;
+    if (action === "disable") {
+      localStorage.setItem(QUOTE_DISABLED_KEY, "true");
+      dom.focusQuote.classList.add("hidden");
+      dom.focusQuote.innerHTML = "";
+      updateQuoteToggleButtonState();
+    }
+  });
+}
+
 if (dom.focusTimerReset) {
   dom.focusTimerReset.addEventListener("click", () => {
     stopFocusTimer();
@@ -438,6 +487,21 @@ if (dom.profileBtn) {
 if (dom.googleBtn) {
   dom.googleBtn.addEventListener("click", () => {
     googleSync.handleAuthClick();
+  });
+}
+
+if (dom.quoteToggleBtn) {
+  dom.quoteToggleBtn.addEventListener("click", () => {
+    const isDisabled = localStorage.getItem(QUOTE_DISABLED_KEY) === "true";
+    if (isDisabled) {
+      localStorage.removeItem(QUOTE_DISABLED_KEY);
+      loadFocusQuote();
+    } else {
+      localStorage.setItem(QUOTE_DISABLED_KEY, "true");
+      dom.focusQuote.classList.add("hidden");
+      dom.focusQuote.innerHTML = "";
+    }
+    updateQuoteToggleButtonState();
   });
 }
 
@@ -504,6 +568,7 @@ setActiveView("focus", {
   focus: dom.focusView
 }, dom.navButtons);
 setAuthButtonState(false);
+updateQuoteToggleButtonState();
 updateFocusTimerDisplay();
 
 window.addEventListener("resize", () => {
