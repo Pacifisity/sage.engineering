@@ -151,6 +151,17 @@ select {
   flex-wrap: wrap;
 }
 
+.focus-notes-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  align-self: end;
+  margin-top: auto;
+  margin-bottom: 8px;
+}
+
 .focus-timer {
   display: grid;
   gap: 12px;

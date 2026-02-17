@@ -1,7 +1,12 @@
 const QUOTE_DISABLED_KEY = "flow.quote.disabled";
+let currentQuote = "";
 
 export function shouldHideQuote() {
   return localStorage.getItem(QUOTE_DISABLED_KEY) === "true";
+}
+
+export function getCurrentQuote() {
+  return currentQuote;
 }
 
 export function isQuoteDisabled() {
@@ -14,6 +19,7 @@ export function enableQuotes() {
 
 export function disableQuotes() {
   localStorage.setItem(QUOTE_DISABLED_KEY, "true");
+  currentQuote = "";
 }
 
 export function updateQuoteToggleButton(btn) {
@@ -24,30 +30,25 @@ export function updateQuoteToggleButton(btn) {
   btn.textContent = isDisabled ? "Enable quotes" : "Disable quotes";
 }
 
-export async function loadFocusQuote(dom) {
+export async function loadFocusQuote(dom, onQuoteLoaded) {
   if (!dom.focusQuote) {
     return;
   }
 
+  // Hide the quote display element since quotes are now in the notes placeholder
+  dom.focusQuote.classList.add("hidden");
+  dom.focusQuote.innerHTML = "";
+
   if (shouldHideQuote()) {
-    dom.focusQuote.classList.add("hidden");
-    dom.focusQuote.innerHTML = "";
+    currentQuote = "";
+    if (onQuoteLoaded) onQuoteLoaded();
     return;
   }
 
-  dom.focusQuote.classList.remove("hidden");
-
   const setQuote = (quote, author) => {
-    const authorLine = (author && author !== "Flow") ? `— ${author}` : "";
-    dom.focusQuote.innerHTML = `
-      <div class="focus-quote-row">
-        <div class="focus-quote-text">${quote}</div>
-        <div class="focus-quote-actions">
-          <button class="quote-btn" type="button" data-quote-action="disable" aria-label="Disable quotes">x</button>
-        </div>
-      </div>
-      ${authorLine ? `<div class="focus-quote-source">${authorLine}</div>` : ""}
-    `;
+    currentQuote = quote;
+    // Quote is no longer displayed here - it's now in the notes placeholder
+    if (onQuoteLoaded) onQuoteLoaded();
   };
 
   const fallbackText = () => {

@@ -153,11 +153,12 @@ export function setupEventHandlers(dom, taskManager, googleSync, focusTimer) {
     dom.quoteToggleBtn.addEventListener("click", () => {
       if (isQuoteDisabled()) {
         enableQuotes();
-        loadFocusQuote(dom);
+        loadFocusQuote(dom, () => taskManager.renderAll());
       } else {
         disableQuotes();
         dom.focusQuote.classList.add("hidden");
         dom.focusQuote.innerHTML = "";
+        taskManager.renderAll();
       }
       updateQuoteToggleButton(dom.quoteToggleBtn);
     });

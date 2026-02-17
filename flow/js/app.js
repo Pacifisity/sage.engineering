@@ -92,6 +92,8 @@ initFocusNotes(taskManager);
 setupFocusNotesEvents();
 
 // Initialize
+googleSync.initGoogle();
+loadFocusQuote(dom, () => taskManager.renderAll());
 taskManager.renderAll();
 setActiveView(
   "focus",
@@ -106,6 +108,3 @@ setActiveView(
 setAuthButtonState(dom, false);
 updateQuoteToggleButton(dom.quoteToggleBtn);
 focusTimer.updateDisplay();
-
-googleSync.initGoogle();
-loadFocusQuote(dom);

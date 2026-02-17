@@ -77,17 +77,19 @@ export function renderFocus(container, task) {
     <div class="focus-task-actions">
       <button class="pill-btn" data-focus-complete="${task.id}">Mark completed</button>
     </div>
+    <div class="focus-notes-label">NOTES</div>
   `;
 }
 
-export function renderFocusNotes(container, task) {
+export function renderFocusNotes(container, task, quote = "") {
   if (!container) return;
   
+  const placeholder = quote || "Add notes...";
   const notesContent = task && task.notes && task.notes.trim().length > 0
     ? `<textarea id="focusNotesInput" class="focus-notes-input" 
-        placeholder="Add notes..." rows="3" data-task-id="${task.id}">${(task.notes || "").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</textarea>`
+        placeholder="${placeholder.replace(/"/g, '&quot;')}" rows="3" data-task-id="${task.id}">${(task.notes || "").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</textarea>`
     : `<textarea id="focusNotesInput" class="focus-notes-input" 
-        placeholder="Add notes..." rows="3" data-task-id="${task ? task.id : ""}"></textarea>`;
+        placeholder="${placeholder.replace(/"/g, '&quot;')}" rows="3" data-task-id="${task ? task.id : ""}"></textarea>`;
   
   container.innerHTML = notesContent;
 }

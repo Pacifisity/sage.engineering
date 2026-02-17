@@ -7,6 +7,7 @@ import {
 } from "../core/data.js";
 import { renderBacklog, renderFocus, renderSchedule, renderTasks, renderFocusNotes } from "../core/ui.js";
 import { createTaskModal } from "./taskModal.js";
+import { getCurrentQuote } from "./quoteManager.js";
 
 export function createTaskManager(dom, onChange) {
   let tasks = loadTasks().map(normalizeTask);
@@ -55,7 +56,7 @@ export function createTaskManager(dom, onChange) {
         tasks.filter((task) => isAvailable(task) && !task.completed)
       )[0];
       renderFocus(dom.focusTask, focusCandidate || null);
-      renderFocusNotes(dom.focusNotes, focusCandidate || null);
+      renderFocusNotes(dom.focusNotes, focusCandidate || null, getCurrentQuote());
     }
   }
 
