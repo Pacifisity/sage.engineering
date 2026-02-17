@@ -53,10 +53,45 @@
 
   .card-actions .pill-btn,
   .card-actions .muted-btn {
-    flex: 1;
-    min-width: 0;
+    min-width: auto;
     padding: 6px 8px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+}
+
+.card-complete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.card-complete-btn .btn-text {
+  display: inline;
+}
+
+.card-complete-btn .btn-icon {
+  display: none;
+}
+
+@media (max-width: 360px) {
+  .card-complete-btn {
+    width: 42px;
+    padding: 6px !important;
+    flex: 0 !important;
+    gap: 0;
+  }
+
+  .card-complete-btn .btn-text {
+    display: none;
+  }
+
+  .card-complete-btn .btn-icon {
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 0;
   }
 }
 

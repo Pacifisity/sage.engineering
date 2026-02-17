@@ -16,6 +16,12 @@
 
 			* {
 				box-sizing: border-box;
+				scrollbar-width: none;
+				-ms-overflow-style: none;
+			}
+
+			*::-webkit-scrollbar {
+				display: none;
 			}
 
 			html,
@@ -60,6 +66,7 @@
 				transform-origin: center;
 				transform: translateX(0) skewX(-2deg);
 				animation: throne 8s ease-in-out infinite;
+				pointer-events: none;
 			}
 
 			.mantra {
@@ -74,6 +81,7 @@
 				color: rgba(217, 184, 255, 0.8);
 				text-align: center;
 				text-shadow: 0 0 16px rgba(184, 123, 255, 0.35);
+				pointer-events: none;
 			}
 
 			.ink,
@@ -125,7 +133,10 @@
 				text-decoration: none;
 				font-size: 22px;
 				letter-spacing: 0.06em;
-				background: radial-gradient(circle at 30% 30%, rgba(217, 184, 255, 0.65), rgba(20, 0, 30, 0.5));
+				background: 
+					radial-gradient(circle at 30% 30%, rgba(217, 184, 255, 0.9), rgba(20, 0, 30, 0.95)),
+					radial-gradient(circle, rgba(10, 5, 15, 0.98), rgba(10, 5, 15, 0.98));
+				background-clip: padding-box;
 				box-shadow:
 					0 0 18px rgba(184, 123, 255, 0.45),
 					inset 0 0 12px rgba(184, 123, 255, 0.35);
@@ -216,13 +227,13 @@
 			<div class="ink"></div>
 			<div class="web"></div>
 			<div class="veil"></div>
-			<a class="portal" href="./rift" style="--x: 18%; --y: 30%; --float: 12s; --size: 70px;" aria-label="Rift">
+			<a class="portal" href="./rift" style="--x: 8%; --y: 25%; --float: 12s; --size: 70px;" aria-label="Rift">
 				<span>RIFT</span>
 			</a>
-			<a class="portal" href="./flow" style="--x: 82%; --y: 26%; --float: 14s; --size: 92px;" aria-label="Flow">
+			<a class="portal" href="./flow" style="--x: 92%; --y: 20%; --float: 14s; --size: 92px;" aria-label="Flow">
 				<span>FLOW</span>
 			</a>
-			<a class="portal" href="https://iso.sage.engineering" style="--x: 72%; --y: 70%; --float: 16s;" aria-label="Iso">
+			<a class="portal" href="https://iso.sage.engineering" style="--x: 85%; --y: 80%; --float: 16s;" aria-label="Iso">
 				<span>ISO</span>
 			</a>
 			<h1 class="title">Sage</h1>

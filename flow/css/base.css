@@ -18,11 +18,19 @@
 
 * {
   box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
   font-family: "DM Sans", "Segoe UI", sans-serif;
   background: radial-gradient(circle at 12% 8%, rgba(111, 55, 255, 0.25), transparent 45%),
     radial-gradient(circle at 85% 12%, rgba(163, 107, 255, 0.22), transparent 50%),
@@ -31,6 +39,7 @@ body {
 }
 
 .app {
+  width: 100%;
   max-width: 980px;
   margin: 0 auto;
   padding: 24px 18px 40px;
@@ -42,6 +51,13 @@ body {
   .app {
     padding: 16px 12px 32px;
     gap: 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .app {
+    padding: 12px 8px 24px;
+    gap: 12px;
   }
 }
 
@@ -64,6 +80,13 @@ body {
   }
 }
 
+@media (max-width: 360px) {
+  .topbar {
+    gap: 8px;
+    padding: 6px 8px;
+  }
+}
+
 .nav {
   display: flex;
   justify-content: center;
@@ -78,6 +101,17 @@ body {
   .nav-btn {
     padding: 8px 10px;
     font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .nav {
+    gap: 4px;
+  }
+
+  .nav-btn {
+    padding: 6px 8px;
+    font-size: 0.75rem;
   }
 }
 
@@ -123,6 +157,20 @@ select {
   box-shadow: var(--shadow);
 }
 
+@media (max-width: 480px) {
+  .focus-shell {
+    padding: 18px;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .focus-shell {
+    padding: 14px;
+    gap: 12px;
+  }
+}
+
 .focus-label {
   text-transform: uppercase;
   letter-spacing: 0.16em;
@@ -140,6 +188,12 @@ select {
   font-weight: 700;
 }
 
+@media (max-width: 360px) {
+  .focus-task-title {
+    font-size: 1.3rem;
+  }
+}
+
 .focus-task-meta {
   color: var(--muted);
   font-size: 0.9rem;
@@ -151,15 +205,49 @@ select {
   flex-wrap: wrap;
 }
 
+.focus-complete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: visible;
+}
+
+.focus-complete-btn .btn-text {
+  display: inline;
+}
+
+.focus-complete-btn .btn-icon {
+  display: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+@media (max-width: 360px) {
+  .focus-complete-btn {
+    width: 42px;
+    padding: 10px !important;
+    border-radius: 12px;
+  }
+
+  .focus-complete-btn .btn-text {
+    display: none;
+  }
+
+  .focus-complete-btn .btn-icon {
+    display: block;
+  }
+}
+
 .focus-notes-label {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  align-self: end;
-  margin-top: auto;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .focus-timer {
@@ -315,13 +403,30 @@ select {
 }
 
 .schedule-scroll {
+  background: var(--panel);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 16px;
+  box-shadow: var(--shadow);
   overflow: visible;
   padding-bottom: 6px;
 }
 
+.schedule-nav-card {
+  background: var(--panel);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: var(--shadow);
+  margin-bottom: 10px;
+}
+
 .schedule-header {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr;
   gap: 10px;
   align-items: end;
   margin-bottom: 10px;
@@ -348,7 +453,6 @@ select {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 10px;
-  padding: 0 16px;
 }
 
 .schedule-day-label {
@@ -359,6 +463,16 @@ select {
   border: 1px solid var(--border);
   font-weight: 600;
   text-align: center;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+  .schedule-day-label {
+    min-height: 32px;
+    padding: 6px 4px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
 }
 
 .schedule-body {
@@ -368,7 +482,7 @@ select {
 .schedule-grid {
   display: grid;
   gap: 10px;
-  padding: 0 16px;
+}
 }
 
 .schedule-grid.animate-week {

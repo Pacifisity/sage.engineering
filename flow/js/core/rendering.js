@@ -4,6 +4,7 @@ import {
   formatStartCountdown,
   formatDateLabel,
   formatDayLabel,
+  formatDateRangeShort,
   toLocalDateKey,
   addDays,
   getWeekStart,
@@ -24,7 +25,12 @@ export function renderTasks(container, tasks) {
       <div class="card-header">
         <div class="card-title priority-${task.priority}">${task.name}</div>
         <div class="card-actions">
-          <button class="pill-btn" data-complete="${task.id}">Mark completed</button>
+          <button class="pill-btn card-complete-btn" data-complete="${task.id}" aria-label="Mark task completed">
+            <span class="btn-text">Mark completed</span>
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            </svg>
+          </button>
           <button class="muted-btn" data-edit="${task.id}">Edit</button>
         </div>
       </div>
@@ -53,7 +59,12 @@ export function renderBacklog(container, tasks) {
       <div class="card-header">
         <div class="card-title priority-${task.priority}">${task.name}</div>
         <div class="card-actions">
-          <button class="pill-btn" data-complete="${task.id}">${completeLabel}</button>
+          <button class="pill-btn card-complete-btn" data-complete="${task.id}" aria-label="${completeLabel}">
+            <span class="btn-text">${completeLabel}</span>
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            </svg>
+          </button>
           <button class="muted-btn" data-edit="${task.id}">Edit</button>
         </div>
       </div>
@@ -75,9 +86,13 @@ export function renderFocus(container, task) {
     <div class="focus-task-title priority-${task.priority}">${task.name}</div>
     <div class="focus-task-meta">${formatCountdown(task.dueDate)}</div>
     <div class="focus-task-actions">
-      <button class="pill-btn" data-focus-complete="${task.id}">Mark completed</button>
+      <button class="pill-btn focus-complete-btn" data-focus-complete="${task.id}" aria-label="Mark task completed">
+        <span class="btn-text">Mark completed</span>
+        <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+        </svg>
+      </button>
     </div>
-    <div class="focus-notes-label">NOTES</div>
   `;
 }
 
@@ -86,9 +101,11 @@ export function renderFocusNotes(container, task, quote = "") {
   
   const placeholder = quote || "Add notes...";
   const notesContent = task && task.notes && task.notes.trim().length > 0
-    ? `<textarea id="focusNotesInput" class="focus-notes-input" 
+    ? `<div class="focus-notes-label">NOTES</div>
+       <textarea id="focusNotesInput" class="focus-notes-input" 
         placeholder="${placeholder.replace(/"/g, '&quot;')}" rows="3" data-task-id="${task.id}">${(task.notes || "").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</textarea>`
-    : `<textarea id="focusNotesInput" class="focus-notes-input" 
+    : `<div class="focus-notes-label">NOTES</div>
+       <textarea id="focusNotesInput" class="focus-notes-input" 
         placeholder="${placeholder.replace(/"/g, '&quot;')}" rows="3" data-task-id="${task ? task.id : ""}"></textarea>`;
   
   container.innerHTML = notesContent;
@@ -103,6 +120,7 @@ export function renderSchedule(containers, tasks) {
   days.innerHTML = "";
   grid.innerHTML = "";
 
+  const isMobile = window.innerWidth <= 480;
   const today = new Date();
   const weekStart = getWeekStart(today);
   const startDate = addDays(weekStart, weekOffset * 7);
@@ -115,7 +133,7 @@ export function renderSchedule(containers, tasks) {
     const key = toLocalDateKey(date);
     const label = document.createElement("div");
     label.className = "schedule-day-label";
-    label.textContent = formatDayLabel(key);
+    label.textContent = formatDayLabel(key, isMobile);
     days.appendChild(label);
   });
 
@@ -163,9 +181,14 @@ export function renderSchedule(containers, tasks) {
       span.classList.add("extends-right");
     }
     span.style.gridColumn = `${startIndex + 1} / ${endIndex + 2}`;
+    
+    const dateRangeText = isMobile 
+      ? formatDateRangeShort(startKey, endKey)
+      : `${formatDateLabel(startKey)} → ${formatDateLabel(endKey)}`;
+    
     span.innerHTML = `
       <div class="schedule-span-title">${task.name}</div>
-      <div class="schedule-span-meta">${formatDateLabel(startKey)} → ${formatDateLabel(endKey)}</div>
+      <div class="schedule-span-meta">${dateRangeText}</div>
     `;
     row.appendChild(span);
     grid.appendChild(row);

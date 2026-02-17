@@ -95,6 +95,13 @@ export function createTaskManager(dom, onChange) {
     persist(tasks.filter((task) => task.id !== id));
   }
 
+  function updateTask(id, updates) {
+    const updated = tasks.map((task) =>
+      task.id === id ? { ...task, ...updates, updatedAt: Date.now() } : task
+    );
+    persist(updated);
+  }
+
   function completeTask(id) {
     const updated = tasks.map((task) =>
       task.id === id ? { ...task, completed: !task.completed, updatedAt: Date.now() } : task
@@ -200,6 +207,7 @@ export function createTaskManager(dom, onChange) {
     setSearchQuery,
     setBacklogSearchQuery,
     setTasks,
-    getTasks
+    getTasks,
+    updateTask
   };
 }

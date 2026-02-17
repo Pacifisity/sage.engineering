@@ -65,12 +65,34 @@ export function formatDateLabel(dateValue) {
   });
 }
 
-export function formatDayLabel(dateValue) {
-  return new Date(dateValue + "T00:00:00").toLocaleDateString(undefined, {
+export function formatDayLabel(dateValue, isMobile = false) {
+  const date = new Date(dateValue + "T00:00:00");
+  if (isMobile) {
+    // Just show the day number on mobile
+    return String(date.getDate());
+  }
+  return date.toLocaleDateString(undefined, {
     weekday: "short",
     month: "short",
     day: "numeric"
   });
+}
+
+export function formatDateRangeShort(startKey, endKey) {
+  const start = new Date(startKey + "T00:00:00");
+  const end = new Date(endKey + "T00:00:00");
+  
+  const startMonth = start.toLocaleDateString(undefined, { month: "short" });
+  const startDay = start.getDate();
+  const endMonth = end.toLocaleDateString(undefined, { month: "short" });
+  const endDay = end.getDate();
+  
+  if (startMonth === endMonth) {
+    // Same month: "Jan 15-16"
+    return `${startMonth} ${startDay}-${endDay}`;
+  }
+  // Different month: "Jan 15 – Feb 16"
+  return `${startMonth} ${startDay} – ${endMonth} ${endDay}`;
 }
 
 export function toLocalDateKey(date) {

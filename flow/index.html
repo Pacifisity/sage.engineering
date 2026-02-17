@@ -44,11 +44,13 @@
       </section>
 
       <section id="scheduleView" class="view hidden">
+        <div class="schedule-nav-card">
+          <button id="schedulePrev" class="schedule-nav-btn" aria-label="Previous week">&lt;</button>
+          <button id="scheduleNext" class="schedule-nav-btn" aria-label="Next week">&gt;</button>
+        </div>
         <div class="schedule-scroll">
           <div class="schedule-header">
-            <button id="schedulePrev" class="schedule-nav-btn" aria-label="Previous week">&lt;</button>
             <div id="scheduleDays" class="schedule-days"></div>
-            <button id="scheduleNext" class="schedule-nav-btn" aria-label="Next week">&gt;</button>
           </div>
           <div class="schedule-body">
             <div id="scheduleGrid" class="schedule-grid"></div>
