@@ -110,6 +110,43 @@
 				animation: veil 16s ease-in-out infinite;
 			}
 
+			.portal {
+				position: absolute;
+				left: var(--x);
+				top: var(--y);
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: var(--size, 56px);
+				height: var(--size, 56px);
+				border-radius: 50%;
+				border: 1px solid rgba(184, 123, 255, 0.45);
+				color: rgba(217, 184, 255, 0.95);
+				text-decoration: none;
+				font-size: 22px;
+				letter-spacing: 0.06em;
+				background: radial-gradient(circle at 30% 30%, rgba(217, 184, 255, 0.65), rgba(20, 0, 30, 0.5));
+				box-shadow:
+					0 0 18px rgba(184, 123, 255, 0.45),
+					inset 0 0 12px rgba(184, 123, 255, 0.35);
+				transform: translate(-50%, -50%);
+				animation: float var(--float) ease-in-out infinite;
+				z-index: 5;
+				pointer-events: auto;
+			}
+
+			.portal:hover,
+			.portal:focus-visible {
+				box-shadow:
+					0 0 26px rgba(217, 184, 255, 0.75),
+					inset 0 0 16px rgba(217, 184, 255, 0.5);
+				transform: translate(-50%, -50%) scale(1.08);
+			}
+
+			.portal span {
+				font-family: "Cinzel", serif;
+			}
+
 			@keyframes drift {
 				0% {
 					transform: translate(-4%, -2%) scale(1);
@@ -143,6 +180,18 @@
 				}
 			}
 
+			@keyframes float {
+				0% {
+					transform: translate(-50%, -50%) translateY(0);
+				}
+				50% {
+					transform: translate(-50%, -50%) translateY(-14px);
+				}
+				100% {
+					transform: translate(-50%, -50%) translateY(0);
+				}
+			}
+
 			@keyframes throne {
 				0% {
 					transform: translateX(0) skewX(-2deg) translateY(0);
@@ -167,6 +216,15 @@
 			<div class="ink"></div>
 			<div class="web"></div>
 			<div class="veil"></div>
+			<a class="portal" href="./rift" style="--x: 18%; --y: 30%; --float: 12s; --size: 70px;" aria-label="Rift">
+				<span>RIFT</span>
+			</a>
+			<a class="portal" href="./flow" style="--x: 82%; --y: 26%; --float: 14s; --size: 92px;" aria-label="Flow">
+				<span>FLOW</span>
+			</a>
+			<a class="portal" href="https://iso.sage.engineering" style="--x: 72%; --y: 70%; --float: 16s;" aria-label="Iso">
+				<span>ISO</span>
+			</a>
 			<h1 class="title">Sage</h1>
 			<p class="mantra">
 				I dwell in a dream, by a law of my own. Within a warped mind, on an aberrant throne.
