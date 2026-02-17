@@ -1,0 +1,178 @@
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Sage</title>
+		<style>
+			@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:wght@400;500&display=swap");
+
+			:root {
+				--bg: #000000;
+				--ink: #b87bff;
+				--glow: #d9b8ff;
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				background: var(--bg);
+			}
+
+			body {
+				display: grid;
+				place-items: center;
+				font-family: "Cinzel", serif;
+			}
+
+			.stage {
+				position: relative;
+				width: 100vw;
+				height: 100vh;
+				display: grid;
+				place-items: center;
+				overflow: hidden;
+				background: radial-gradient(1200px 800px at 50% 50%, #0b0015 0%, #000000 60%);
+			}
+
+			.title {
+				position: relative;
+				z-index: 3;
+				font-size: clamp(64px, 16vw, 220px);
+				letter-spacing: 0.12em;
+				width: 100%;
+				margin: 0;
+				text-align: center;
+				color: var(--ink);
+				text-shadow:
+					0 0 12px rgba(184, 123, 255, 0.5),
+					0 0 40px rgba(184, 123, 255, 0.45),
+					0 0 80px rgba(217, 184, 255, 0.35);
+				transform-origin: center;
+				transform: translateX(0) skewX(-2deg);
+				animation: throne 8s ease-in-out infinite;
+			}
+
+			.mantra {
+				position: relative;
+				z-index: 3;
+				max-width: min(720px, 80vw);
+				margin: 16px 0 0;
+				font-family: "Cormorant Garamond", serif;
+				font-size: clamp(16px, 2.2vw, 24px);
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				color: rgba(217, 184, 255, 0.8);
+				text-align: center;
+				text-shadow: 0 0 16px rgba(184, 123, 255, 0.35);
+			}
+
+			.ink,
+			.web,
+			.veil {
+				position: absolute;
+				inset: -10%;
+				pointer-events: none;
+			}
+
+			.ink {
+				background:
+					radial-gradient(500px 300px at 20% 30%, rgba(92, 0, 140, 0.45), transparent 70%),
+					radial-gradient(600px 420px at 80% 70%, rgba(40, 0, 70, 0.55), transparent 70%),
+					radial-gradient(300px 240px at 60% 20%, rgba(120, 60, 200, 0.35), transparent 65%);
+				filter: blur(12px);
+				opacity: 0.7;
+				animation: drift 22s ease-in-out infinite;
+			}
+
+			.web {
+				background:
+					repeating-radial-gradient(circle at 50% 50%, rgba(184, 123, 255, 0.12) 0 1px, transparent 1px 90px),
+					repeating-linear-gradient(90deg, rgba(184, 123, 255, 0.08) 0 1px, transparent 1px 120px),
+					repeating-linear-gradient(0deg, rgba(184, 123, 255, 0.05) 0 1px, transparent 1px 120px);
+				opacity: 0.4;
+				animation: webshift 30s linear infinite;
+			}
+
+			.veil {
+				background: linear-gradient(120deg, rgba(10, 0, 20, 0.85) 10%, rgba(0, 0, 0, 0) 45%, rgba(90, 40, 160, 0.25) 80%);
+				mix-blend-mode: screen;
+				opacity: 0.6;
+				animation: veil 16s ease-in-out infinite;
+			}
+
+			@keyframes drift {
+				0% {
+					transform: translate(-4%, -2%) scale(1);
+				}
+				50% {
+					transform: translate(3%, 4%) scale(1.05);
+				}
+				100% {
+					transform: translate(-4%, -2%) scale(1);
+				}
+			}
+
+			@keyframes webshift {
+				0% {
+					transform: translate(0, 0);
+				}
+				100% {
+					transform: translate(60px, -40px);
+				}
+			}
+
+			@keyframes veil {
+				0% {
+					transform: translateX(-4%);
+				}
+				50% {
+					transform: translateX(4%);
+				}
+				100% {
+					transform: translateX(-4%);
+				}
+			}
+
+			@keyframes throne {
+				0% {
+					transform: translateX(0) skewX(-2deg) translateY(0);
+				}
+				50% {
+					transform: translateX(0) skewX(2deg) translateY(-6px);
+				}
+				100% {
+					transform: translateX(0) skewX(-2deg) translateY(0);
+				}
+			}
+
+			@media (max-width: 600px) {
+				.title {
+					letter-spacing: 0.08em;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main class="stage" aria-label="Sage intro">
+			<div class="ink"></div>
+			<div class="web"></div>
+			<div class="veil"></div>
+			<h1 class="title">Sage</h1>
+			<p class="mantra">
+				I dwell in a dream, by a law of my own. Within a warped mind, on an aberrant throne.
+				I have lived a thousand lives through ink and lore, and peer through the shroud of the web's open door.
+			</p>
+		</main>
+	</body>
+</html>
+
