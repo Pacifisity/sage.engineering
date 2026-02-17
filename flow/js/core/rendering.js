@@ -121,19 +121,29 @@ export function renderSchedule(containers, tasks) {
   grid.innerHTML = "";
 
   const isMobile = window.innerWidth <= 480;
+  const daysToShow = isMobile ? 3 : 7;
+  
   const today = new Date();
-  const weekStart = getWeekStart(today);
-  const startDate = addDays(weekStart, weekOffset * 7);
-  const visibleDates = Array.from({ length: 7 }, (_, index) => addDays(startDate, index));
+  const todayKey = toLocalDateKey(today);
+  const startDate = addDays(today, weekOffset * daysToShow);
+  const visibleDates = Array.from({ length: daysToShow }, (_, index) => addDays(startDate, index));
 
   const visibleStart = toStartOfDay(toLocalDateKey(startDate));
-  const visibleEnd = toStartOfDay(toLocalDateKey(visibleDates[6]));
+  const visibleEnd = toStartOfDay(toLocalDateKey(visibleDates[daysToShow - 1]));
 
-  visibleDates.forEach((date) => {
+  // Set CSS variable for number of columns
+  days.style.setProperty('--schedule-days', daysToShow);
+  grid.style.setProperty('--schedule-days', daysToShow);
+
+  visibleDates.forEach((date, index) => {
     const key = toLocalDateKey(date);
     const label = document.createElement("div");
     label.className = "schedule-day-label";
+    if (key === todayKey) {
+      label.classList.add("today");
+    }
     label.textContent = formatDayLabel(key, isMobile);
+    label.style.setProperty('--column-index', index);
     days.appendChild(label);
   });
 

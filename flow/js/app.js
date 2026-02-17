@@ -6,7 +6,7 @@ import { createFocusTimer } from "./app/focusTimer.js";
 import { loadFocusQuote, updateQuoteToggleButton } from "./app/quoteManager.js";
 import { resolveSyncConflict } from "./app/conflictUI.js";
 import { setAuthButtonState } from "./app/profilePanel.js";
-import { setupEventHandlers } from "./app/eventHandlers.js";
+import { setupEventHandlers, updateScheduleWeekLabel } from "./app/eventHandlers.js";
 import { initFocusNotes, setupFocusNotesEvents } from "./app/focusNotes.js";
 
 const dom = {
@@ -28,6 +28,7 @@ const dom = {
   scheduleView: document.getElementById("scheduleView"),
   scheduleDays: document.getElementById("scheduleDays"),
   scheduleGrid: document.getElementById("scheduleGrid"),
+  scheduleWeekLabel: document.getElementById("scheduleWeekLabel"),
   schedulePrev: document.getElementById("schedulePrev"),
   scheduleNext: document.getElementById("scheduleNext"),
   focusView: document.getElementById("focusView"),
@@ -95,8 +96,10 @@ setupFocusNotesEvents();
 googleSync.initGoogle();
 loadFocusQuote(dom, () => taskManager.renderAll());
 taskManager.renderAll();
+updateScheduleWeekLabel(dom);
+const savedView = localStorage.getItem("activeView") || "focus";
 setActiveView(
-  "focus",
+  savedView,
   {
     tasks: dom.tasksView,
     backlog: dom.backlogView,

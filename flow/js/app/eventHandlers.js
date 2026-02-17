@@ -8,6 +8,25 @@ import {
 } from "./quoteManager.js";
 import { positionProfilePanel } from "./profilePanel.js";
 import { animateSchedule } from "./scheduleAnimation.js";
+import { getWeekStart, addDays, toLocalDateKey, formatDateLabel } from "../core/dateUtils.js";
+
+export function updateScheduleWeekLabel(dom) {
+  if (!dom.scheduleWeekLabel) {
+    return;
+  }
+  
+  const isMobile = window.innerWidth <= 480;
+  const daysToShow = isMobile ? 3 : 7;
+  
+  const today = new Date();
+  const startDate = addDays(today, (dom.scheduleWeekOffset || 0) * daysToShow);
+  const endDate = addDays(startDate, daysToShow - 1);
+  
+  const startStr = formatDateLabel(toLocalDateKey(startDate));
+  const endStr = formatDateLabel(toLocalDateKey(endDate));
+  
+  dom.scheduleWeekLabel.textContent = `${startStr} – ${endStr}`;
+}
 
 export function setupEventHandlers(dom, taskManager, googleSync, focusTimer) {
   // Task management
@@ -87,6 +106,7 @@ export function setupEventHandlers(dom, taskManager, googleSync, focusTimer) {
         if (button.dataset.view === "schedule") {
           taskManager.renderAll();
           animateSchedule(dom);
+          updateScheduleWeekLabel(dom);
         }
       });
     });
@@ -98,6 +118,7 @@ export function setupEventHandlers(dom, taskManager, googleSync, focusTimer) {
       dom.scheduleWeekOffset -= 1;
       taskManager.renderAll();
       animateSchedule(dom, "right");
+      updateScheduleWeekLabel(dom);
     });
   }
 
@@ -106,6 +127,7 @@ export function setupEventHandlers(dom, taskManager, googleSync, focusTimer) {
       dom.scheduleWeekOffset += 1;
       taskManager.renderAll();
       animateSchedule(dom, "left");
+      updateScheduleWeekLabel(dom);
     });
   }
 

@@ -12,6 +12,7 @@ export function setActiveView(viewName, views, buttons) {
   buttons.forEach((button) => {
     button.classList.toggle("active", button.dataset.view === viewName);
   });
+  localStorage.setItem("activeView", viewName);
 }
 
 export function toggleHidden(element, shouldShow) {

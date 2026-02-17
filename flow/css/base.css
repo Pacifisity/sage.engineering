@@ -129,7 +129,6 @@ select {
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   min-height: 320px;
-  animation: fadeIn 0.35s ease;
 }
 
 #focusView {
@@ -408,7 +407,7 @@ select {
   border: 1px solid var(--border);
   padding: 16px;
   box-shadow: var(--shadow);
-  overflow: visible;
+  overflow: hidden;
   padding-bottom: 6px;
 }
 
@@ -418,7 +417,7 @@ select {
   border: 1px solid var(--border);
   padding: 12px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 12px;
   box-shadow: var(--shadow);
   margin-bottom: 10px;
@@ -449,9 +448,19 @@ select {
   border-color: rgba(163, 107, 255, 0.45);
 }
 
+.schedule-week-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  min-width: 120px;
+}
+
 .schedule-days {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--schedule-days, 7), minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -464,6 +473,12 @@ select {
   font-weight: 600;
   text-align: center;
   font-size: 0.9rem;
+}
+
+.schedule-day-label.today {
+  border-color: rgba(163, 107, 255, 0.6);
+  color: rgba(163, 107, 255, 1);
+  font-weight: 700;
 }
 
 @media (max-width: 480px) {
@@ -482,7 +497,6 @@ select {
 .schedule-grid {
   display: grid;
   gap: 10px;
-}
 }
 
 .schedule-grid.animate-week {
@@ -570,7 +584,7 @@ select {
 
 .schedule-row {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--schedule-days, 7), minmax(0, 1fr));
   gap: 10px;
 }
 
