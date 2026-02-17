@@ -1,4 +1,4 @@
-export { renderTasks, renderBacklog, renderFocus, renderSchedule } from "./rendering.js";
+export { renderTasks, renderBacklog, renderFocus, renderSchedule, renderFocusNotes } from "./rendering.js";
 
 export function setActiveView(viewName, views, buttons) {
   views.tasks.classList.toggle("hidden", viewName !== "tasks");
@@ -25,8 +25,10 @@ export function fillForm(form, task) {
   if (task) {
     form.taskStart.value = task.startDate || "";
     form.taskDue.value = task.dueDate || "";
+    form.taskNotes.value = task.notes || "";
   } else {
     form.taskStart.value = new Date().toISOString().slice(0, 10);
     form.taskDue.value = "";
+    form.taskNotes.value = "";
   }
 }

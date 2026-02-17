@@ -7,6 +7,7 @@ import { loadFocusQuote, updateQuoteToggleButton } from "./app/quoteManager.js";
 import { resolveSyncConflict } from "./app/conflictUI.js";
 import { setAuthButtonState } from "./app/profilePanel.js";
 import { setupEventHandlers } from "./app/eventHandlers.js";
+import { initFocusNotes, setupFocusNotesEvents } from "./app/focusNotes.js";
 
 const dom = {
   tasksList: document.getElementById("tasksList"),
@@ -31,6 +32,7 @@ const dom = {
   scheduleNext: document.getElementById("scheduleNext"),
   focusView: document.getElementById("focusView"),
   focusTask: document.getElementById("focusTask"),
+  focusNotes: document.getElementById("focusNotes"),
   focusQuote: document.getElementById("focusQuote"),
   focusTimerDisplay: document.getElementById("focusTimerDisplay"),
   focusTimerReset: document.getElementById("focusTimerReset"),
@@ -44,6 +46,7 @@ const dom = {
   taskPriority: document.getElementById("taskPriority"),
   taskStart: document.getElementById("taskStart"),
   taskDue: document.getElementById("taskDue"),
+  taskNotes: document.getElementById("taskNotes"),
   deleteTaskBtn: document.getElementById("deleteTaskBtn"),
   syncModalBackdrop: document.getElementById("syncModalBackdrop"),
   syncLocalSummary: document.getElementById("syncLocalSummary"),
@@ -85,6 +88,8 @@ setupFileHandlers({
 
 // Setup all event handlers
 setupEventHandlers(dom, taskManager, googleSync, focusTimer);
+initFocusNotes(taskManager);
+setupFocusNotesEvents();
 
 // Initialize
 taskManager.renderAll();

@@ -5,7 +5,7 @@ import {
   normalizeTask,
   saveTasks
 } from "../core/data.js";
-import { renderBacklog, renderFocus, renderSchedule, renderTasks } from "../core/ui.js";
+import { renderBacklog, renderFocus, renderSchedule, renderTasks, renderFocusNotes } from "../core/ui.js";
 import { createTaskModal } from "./taskModal.js";
 
 export function createTaskManager(dom, onChange) {
@@ -55,6 +55,7 @@ export function createTaskManager(dom, onChange) {
         tasks.filter((task) => isAvailable(task) && !task.completed)
       )[0];
       renderFocus(dom.focusTask, focusCandidate || null);
+      renderFocusNotes(dom.focusNotes, focusCandidate || null);
     }
   }
 

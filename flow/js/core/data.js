@@ -39,6 +39,7 @@ export function normalizeTask(task) {
     priority: task.priority != null && task.priority !== "" ? task.priority : "medium",
     startDate: task.startDate || null,
     dueDate: task.dueDate || null,
+    notes: task.notes || "",
     createdAt,
     updatedAt,
     completed: Boolean(task.completed)

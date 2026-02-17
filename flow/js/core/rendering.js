@@ -76,9 +76,20 @@ export function renderFocus(container, task) {
     <div class="focus-task-meta">${formatCountdown(task.dueDate)}</div>
     <div class="focus-task-actions">
       <button class="pill-btn" data-focus-complete="${task.id}">Mark completed</button>
-      <button class="muted-btn" data-focus-edit="${task.id}">Edit</button>
     </div>
   `;
+}
+
+export function renderFocusNotes(container, task) {
+  if (!container) return;
+  
+  const notesContent = task && task.notes && task.notes.trim().length > 0
+    ? `<textarea id="focusNotesInput" class="focus-notes-input" 
+        placeholder="Add notes..." rows="3" data-task-id="${task.id}">${(task.notes || "").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</textarea>`
+    : `<textarea id="focusNotesInput" class="focus-notes-input" 
+        placeholder="Add notes..." rows="3" data-task-id="${task ? task.id : ""}"></textarea>`;
+  
+  container.innerHTML = notesContent;
 }
 
 export function renderSchedule(containers, tasks) {

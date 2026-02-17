@@ -199,6 +199,39 @@ select {
   font-size: 0.9rem;
 }
 
+.focus-notes-panel {
+  grid-column: 1 / -1;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+.focus-notes-input {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #0b0b14;
+  color: var(--text);
+  padding: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  width: 100%;
+}
+
+.focus-notes-input:focus {
+  outline: none;
+  border-color: rgba(163, 107, 255, 0.6);
+  box-shadow: 0 0 0 3px rgba(163, 107, 255, 0.2);
+}
+
+.focus-notes-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+}
+
 .focus-quote {
   margin-top: 16px;
   padding: 14px 16px;
@@ -616,5 +649,15 @@ select {
 
   .schedule-span-meta {
     font-size: 0.65rem;
+  }
+
+  .focus-notes {
+    margin-top: 14px;
+    padding: 12px;
+  }
+
+  .focus-notes-input {
+    font-size: 0.9rem;
+    padding: 8px;
   }
 }

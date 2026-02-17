@@ -12,7 +12,8 @@ export function createTaskModal(dom) {
         taskName: dom.taskName,
         taskPriority: dom.taskPriority,
         taskStart: dom.taskStart,
-        taskDue: dom.taskDue
+        taskDue: dom.taskDue,
+        taskNotes: dom.taskNotes
       },
       task
     );
@@ -44,7 +45,8 @@ export function createTaskModal(dom) {
       name: dom.taskName.value.trim(),
       priority: dom.taskPriority.value,
       startDate: dom.taskStart.value || null,
-      dueDate: dom.taskDue.value || null
+      dueDate: dom.taskDue.value || null,
+      notes: dom.taskNotes.value.trim()
     };
 
     if (!payload.name) {

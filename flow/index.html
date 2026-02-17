@@ -72,10 +72,11 @@
             <div class="focus-label">Focus rhythm</div>
             <div class="focus-break-note">Focus for 50 minutes, then reward yourself with a break.</div>
             <div class="focus-break-actions">
-              <button id="focusStart" class="pill-btn">Start focus 50</button>
-              <button id="breakStart" class="secondary-btn">Start break 10</button>
+              <button id="focusStart" class="pill-btn">Start focus</button>
+              <button id="breakStart" class="secondary-btn">Start break</button>
             </div>
           </div>
+          <div id="focusNotes" class="focus-panel focus-notes-panel"></div>
         </div>
         <div id="focusQuote" class="focus-quote" aria-live="polite"></div>
       </section>
@@ -117,6 +118,10 @@
           <label class="field">
             <span>Due date</span>
             <input id="taskDue" name="dueDate" type="date" />
+          </label>
+          <label class="field">
+            <span>Notes</span>
+            <textarea id="taskNotes" name="notes" placeholder="Add notes (optional)" rows="3"></textarea>
           </label>
           <div class="modal-actions">
             <button type="button" id="deleteTaskBtn" class="muted-btn">Delete task</button>

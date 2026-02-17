@@ -27,10 +27,25 @@
 }
 
 .field input,
-.field select {
+.field select,
+.field textarea {
   border: 1px solid var(--border);
   border-radius: 10px;
   background: #0b0b14;
   color: var(--text);
   padding: 8px 10px;
+  font-family: inherit;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: rgba(163, 107, 255, 0.6);
+  box-shadow: 0 0 0 3px rgba(163, 107, 255, 0.2);
+}
+
+.field textarea {
+  resize: vertical;
+  line-height: 1.5;
 }
