@@ -1,0 +1,291 @@
+Key
+TOPIC-#.##.#
+	= Question
+		~ Possible answer
+
+	= Question
+		$ Confirmed answer
+		? Correction to answer
+
+	= Multiple answer question
+		$ Confirmed answer
+		$ Confirmed answer
+		$ Confirmed answer
+
+	= Match question
+		$ Description : Answer
+		$ Description : Answer
+		$ Description : Answer
+		$ Description : Answer
+
+Network Analyst
+———————-
+
+Network concepts
+
+NAB-1.2.1
+
+= What is One-to-One Network Address Translation (NAT)? 
+$ Maps one internal IP to one public IP
+
+= What is dynamic Network Address Translation (NAT)? 
+$ Maps a pool of internal IPs to a pool of public IPs as needed
+
+= What is port-level Network Address Translation (NAT)? 
+$ Maps multiple internal IPs to one public IP
+NAB-1.2.2 When encapsulation mismatches on LAN links, how does it impact communication between layers? 
+Answer:  Prevents communication by dropping traffic since two systems cannot process information between the different OSI layers.
+
+NAB-1.2.3
+What benefits does a router provide as a secondary network defense system 
+Answer: Additional network segmentation and filtering capabilities supporting defense-in-depth strategies
+
+NAB-1.2.3 What benefits does a Layer 3 switch provide as a secondary network defense system? 
+Answer:  Add additional network segmentation instead of relying on upstream routers.
+NAB-1.2.4
+What is the difference between link-state and distance vector routers? 
+Answer:  Distance vector routers use hop count to determine the path, whereas link-state routers use an algorithm to find the most efficient route to the destination
+NAB-1.2.15
+What is VPN and how is it typically used? 
+Answer:  Enables users of a network to securely send and receive data across public networks as if the public devices were directly connected to the private network
+NAB-1.2.17 What are differences in function and purpose between NetBIOS and Fully Qualified Domain Names (FQDN)?
+Answer:
+NetBIOS is the unique name for a host on a LAN, while FQDN is a unique name for a system used on the Internet.
+NetBIOS operates at layer 5 and DNS operates at layer 7
+
+NAB-1.2.19
+What is port redirection, especially as it pertains to firewalls and ACLs? 
+Answer:  Redirects traffic from one port to another, allowing tunneling without detection by the firewall policy.
+NAB1.2.20
+What OS can use UDP traceroute?
+Answer: Unix 
+NAB-1.2.20
+What is the relevance of UDP traceroute to C2 operations? 
+Answer: Tracks hops from a C2 server to a victim host.
+
+PPTP: Enables secure data transmission between a remote client and an internal server through VPN.
+SSH: Allows connections to a local port to be forwarded to a remote host via an encrypted channel.
+IPsec: Encrypted traffic protocol usually used between gateways or at the end station of a gateway.
+L2TP: Uses the data-link layer for a point-to-point session to enable endpoints to reside on different machines
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Host Analyst
+HAB-1.2.9
+	= In a Unix system, what directory stores user information like log-in times and locations?
+		$ var/log/wtmp
+
+	= Which command does an analyst use to view failed login attempt records and utilize the output 
+to identify potential malicious user activity?
+		$ lastb
+
+	= What does malicious user conduct look like on a system?
+		~ Not sure, but choosing Unusual patterns and the one related to analysis was wrong
+
+HAB-1.2.23
+	= Where are passwords kept on a Windows OS?
+		$ C:\Windows\System32\Config
+
+	= Where are passwords kept on a Linux OS?
+		$ etc/shadow
+		? /etc/shadow
+	
+	= How does password reuse constitute a possible vulnerability?
+$ People reuse passwords for convenience, but this allows attackers to access multiple accounts if one password is compromised.
+
+	= How does an adversary obtain account passwords?
+$ Obtaining password hashes.
+$ Hacking sites with vulnerable security practices and stealing plain-text account information.
+$ Credentials sent over unencrypted traffic.
+
+HAB-1.2.31
+= Match the following descriptions to their correct privilege levels:
+$ Used by OS and services running under Windows (not an actual account). : SYSTEM
+$ First account created at installation with broadest permissions and highest target value for adversary.	: Local Administrator
+$ Account to sign into the domain controller and access the domain resources.	: Domain Administrator
+$ Unix/Linux administrative user (superuser) with limitless powers. : root
+$ System user that is delegated root privileges. : sudoer
+
+HAB-3.1.13
+	= What is the primary purpose of assessing group memberships?
+$ Allows analysts to identify individuals within specific groups and understand the permissions or privileges associated with those groups.
+
+= Which occurs when privileges are not assigned properly?
+$ Complete system compromise
+$ Allow access to sensitive information
+$ Complete domain compromise
+
+HAB-1.2.40
+	= Match the following descriptions to their correct Windows Resource Kit tools:
+$ Terminates processes and related threads; only works on local computer. : kill
+$ Manages domains, organizational units, and interdomain relationships. : netdom
+$ Communicates with Service Controller and related services. : sc
+$ Lists information for local and remote Windows NT hosts. : srvinfo
+$ Displays a list of currently running processes on local or remote hosts. : tasklist
+$ Queries directory finding objects by type; must be run from elevated privileges. : dsquery
+
+HAB-2.1.1
+	= What are Encas’s capabilities and limitations?
+		$ Used in forensics in the recovery of evidence from hard drives, however, it is non-intuitive, proprietary, and searches and carves files with provenance.
+
+HAB-2.1.2
+	= What are Autopsy’s capabilities and limitations?
+		$ Open-source project that performs forensic analysis; however, it has limited file size processing, is less intuitive and less UX friendly.
+
+	= What are some use cases for the keyword search functions of Autopsy and Encase?
+		$ Searching for IOCs such as file names or internet URLs.
+	
+	= What are some use cases for the file carving functions of Autopsy and Encase?
+		$ Recover deleted files such as internet artifacts.
+
+	= What are FTK’s capabilities and limitations?
+		$ Allows for collecting disk and RAM images into multiple formats. Provides for scanning of IOCs and artifacts.
+
+	= How does Volatility relate to memory analysis and digital artifacts?
+		$ Open-source command-line tool that analyzes volatile data from RAM independent of the investigated system. Multiple plug-ins support a variety of techniques used to analyze RAM and artifacts.
+
+	= What are Redline’s capabilities and limitations?
+		$ Open-source endpoint security tool providing hardware investigative tools for memory and file forensics and collects, analyzes, and filters endpoint data. Customer Support is unreliable.
+
+	= What are Endgame’s the capabilities and limitations?
+		$ Identifies malicious behavior and compromised hosts by applying behavioral analysis and attack chain modeling to host data and threat intelligence. Sensor profiles are cumbersome.
+
+	= What are Carbon Black’s capabilities and limitations?
+		$ Monitors endpoint activity and processes, blocking harmful apps. Cloud integration leads to data leaks.
+
+	= What are Tanium’s capabilities and limitations?
+		$ Provides real-time endpoint monitoring, stores data locally, scans for vulnerabilities, and offers granular control over endpoints. It uses a peer-to-peer communication model for efficiency but may send some data unencrypted and requires proper configuration to avoid performance impacts.
+
+	= What are NUIX Adaptive Security’s capabilities and limitations?
+		$ Combines six technologies into a platform, allowing searchable data and live end-to-end monitoring capabilities. It is cost prohibitive.
+
+	= What are Sysmon’s capabilities and limitations?
+		$ Monitors and logs system activity to Windows Event Log and provides detailed information on process creation, network connections, and changes to file timestamps.
+
+	= What are CHROOTKIT’s primary functions of ?
+		$ Open-source tool that looks for signs of rootkits on a host.
+
+	= What are RKHunter’s primary functions?
+		$ Signature-based rootkit monitoring and analysis tool using changed file properties; however, it does not perform removal.
+
+	= What are PowerShell’s primary functions?
+		$ CLI-based shell that allows complex scripting. Uses object-based functions.
+
+	= What are Sysinternals’ primary functions?
+		$ Windows suite that monitors, manages, and troubleshoots the OS, also offers more detailed event logs with higher level monitoring.
+
+	= Match the following descriptions to their correct Windows native tools:
+		$ GUI tool enabling the views and changes to the Windows registry. : regedit
+$ Certificate tool that allows viewing of Certification Authority (CA) configuration, allows configuration of Certificate Services, and backs up and restores CA components. Also verifies certificates, key pairs, and chains. : certutil
+$ Log of application and system errors, warnings, and messages sorted by categories. : Windows Event Viewer
+$ Tool that allows the automation of predefined actions to be performed on a host including scheduled tasks. : Task Scheduler
+$ Scripting utility that allows the display and modification of network configurations on a host. : netsh
+$ Remotely starts and stops processes via an RPC server including device drivers and startup programs. : Service Control Manager
+
+	= Match the kit component to its capability:
+$ Device used to capture network traffic on solitary or multiple network segments for aggregation and analysis. Ability to conduct limited local analysis based on installed software. : Sensor (Bare Metal or Virtual)
+
+$ Hardware device used to forward network traffic to an aggregator. : Taps
+
+$ Powerful portable system capable of hosting a wide array of tools to conduct hunt operations. : Analyst Laptop
+
+$ Appliance used to tie all data for kit hardware together. : Kit Switches
+
+
+
+
+
+
+HAB-1.1.37
+	= Which defines the concept of non-repudiation and its relation to network security?
+$ The assurance that the identity of the information source is accurate to mitigate masquerading and spoofing
+
+	= Which defines the concept of authentication and its relation to network security?
+		$ The method of verifying the identity of a user by means of approved credentials
+
+	= Which defines the concept of access control and its relation to network security?
+		$ The assurance that information or resources are protected from unauthorized access
+
+= What product, concept, or principle best matches the following statement? This provides a centralized repository of articles and information that offers technical support. It empowers cyber professionals’ resources to solve complex problems
+		$ Microsoft Knowledge Base
+
+= What product, concept, or principle best matches the following statement? This is a collection of updates bug fixes and enhancements to improve the functionality stability and security of software products. It provides a consolidated and tested package of updates that simplifies the process of keeping software up to date.
+	$ Microsoft Service Packs
+
+= What product, concept, or principle best matches the following statement? This establishes guidelines and rules for creating/managing passwords to enhance security. It helps mitigate risks by promoting stronger requirements and enforcing best practices.
+		$ Password Policy Requirements
+
+	= What product, concept, or principle best matches the following statement? THis defines how a system tracks and monitors security activities within the domain environment such as user logins file access and system changes for security and compliance purposes. It provides for the generation of records of security events aiding in the detection suspicious activities investigating security incidents and ensuring regulatory compliance
+		? Soft and Hard Baseline
+
+	= What product, concept, or principle best matches the following statement? This defines specific privileges and permissions that users or groups have within the domain environment. It is critical in maintaining security and access control by assisting the enforcement of the principle of least privilege.
+		 ? User Rights Assignments
+
+	= What product, concept, or principle best matches the following statement? This configures and manages the recording of system events and activities that are not strictly related to security. It provides for the generation of records of events including errors warnings and informational messages which helps administrators diagnose issues and track system behavior
+		$ Event Log Settings
+
+	= What product, concept, or principle best matches the following statement? This is a method in which to control access to the Windows Registry. It ensures that only authorized users or groups can view and/or modify registry keys safeguarding the stability, security and integrity of the system.
+		$ Registry Permissions
+
+	= What product, concept, or principle best matches the following statement? This tracks and monitors file and folder activities such as access modifications and authorized deletions. It provides and audit trail of file system events helping to detect unauthorized access or changes, investigate data breaches and ensure compliance with regulatory requirements for data security and privacy.
+		$ File System Auditing
+
+= What product, concept, or principle best matches the following statement? THis controls access and determines what actions users or groups can perform on files and folders. They improve data security and privacy by granting appropriate permissions to only authorized users preventing unauthorized access or modifications and enforcing the principle of least privilege 
+	$ FIle and Folder Permissions
+
+= What product, concept, or principle best matches the following statement? This controls access to shared resources such as folders or printers. They regulate user access to shared resources determining the level of permissions granted for reading, writing , modifying or deleting files and ensuring secure and controlled sharing of data across the network. 
+	$ Share Permissions
+
+= What product, concept, or principle best matches the following statement? This is a method of permitting the execution of only approved or trusted applications. It enhances security by preventing the execution of malicious or unauthorized software, reducing the attack surface and mitigating the risk of malware infections and unauthorized system changes.
+	$ Application White-Listing
+
+= What product, concept, or principle best matches the following statement? This automatically collects and sends error information from Windows-Based Systems to Microsoft for analysis and troubleshooting. It provides valuable data to Microsoft for identifying and resolving software and system issues but may introduce information-sharing compliance issues on certain systems.
+		$ Windows Error Reporting
+
+	= What product, concept, or principle best matches the following statement? These enable secure and controlled information sharing between different security domains or networks. They facilitate collaboration and data exchange while maintaining strict security boundaries and preventing unauthorized access or data leakage between domains.
+		$ Cross-Domain Solutions
+
+	= What product, concept, or principle best matches the following statement? These establish standardized configurations for hardware and software components within the domain environment. They promote consistency security and compliance by defining a known and approved set of configurations used as a benchmark for system deployment management and troubleshooting. 
+		$ Hardware and Software Baselines
+
+	= What product, concept, or principle best matches the following statement? This is the principle of granting users or processes only the minimum privileges necessary to perform their tasks. It improves security by limiting potential damage caused by compromised accounts or malicious activities preventing unauthorized system changes and maintaining the integrity and confidentiality of data
+		$ Least Privilege
+
+	= Match the type of virtualization with the correct example.
+		? Wine most sandboxes: Application Virtualization
+		? Docker Containers FreeBSD Jails: Hardware Virtualization
+		? Hyper-V ESXI: Operating System Virtualization
+		? Windows Terminal Server Citrix Xenapp: Presentation Virtualization
+
+HAB-1.2.26
+	
+	= What vulnerability is outlined in this CVE report, and what is its importance or significance? CVE-2022-35744
+		? Attacker could send RAS code through Port 1723 and RCE onto host machine
+
+	= What vulnerability is outlined in this CVE report, and what is its importance or significance? CVE-2022-48479
+		$ The facial recognition TA of some products has the out-of-bounds memory read vulnerability. Successful exploitation of this vulnerability may cause exceptions of the facial recognition service
+
+	= Where are outdated Windows patches located on a system?
+		$ Use the powershell Get-Fix module
+		$ Start > Settings > Update & Security > Windows Update > Updates
+
+	= What command identifies multiple installed vers

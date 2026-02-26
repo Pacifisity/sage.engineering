@@ -1,0 +1,438 @@
+{
+  "single_choice": [
+    {
+      "id": "NAB-1.2.1-1",
+      "question": "What is One-to-One Network Address Translation (NAT)?",
+      "answer": "Maps one internal IP to one public IP"
+    },
+    {
+      "id": "NAB-1.2.1-2",
+      "question": "What is dynamic Network Address Translation (NAT)?",
+      "answer": "Maps a pool of internal IPs to a pool of public IPs as needed"
+    },
+    {
+      "id": "NAB-1.2.1-3",
+      "question": "What is port-level Network Address Translation (NAT)?",
+      "answer": "Maps multiple internal IPs to one public IP"
+    },
+    {
+      "id": "NAB-1.2.2",
+      "question": "When encapsulation mismatches on LAN links, how does it impact communication between layers?",
+      "answer": "Prevents communication by dropping traffic since two systems cannot process information between the different OSI layers."
+    },
+    {
+      "id": "NAB-1.2.3-1",
+      "question": "What benefits does a router provide as a secondary network defense system?",
+      "answer": "Additional network segmentation and filtering capabilities supporting defense-in-depth strategies"
+    },
+    {
+      "id": "NAB-1.2.3-2",
+      "question": "What benefits does a Layer 3 switch provide as a secondary network defense system?",
+      "answer": "Add additional network segmentation instead of relying on upstream routers."
+    },
+    {
+      "id": "NAB-1.2.4",
+      "question": "What is the difference between link-state and distance vector routers?",
+      "answer": "Distance vector routers use hop count to determine the path, whereas link-state routers use an algorithm to find the most efficient route to the destination"
+    },
+    {
+      "id": "NAB-1.2.15",
+      "question": "What is VPN and how is it typically used?",
+      "answer": "Enables users of a network to securely send and receive data across public networks as if the public devices were directly connected to the private network"
+    },
+    {
+      "id": "NAB-1.2.17",
+      "question": "What are differences in function and purpose between NetBIOS and Fully Qualified Domain Names (FQDN)?",
+      "answer": "NetBIOS is the unique name for a host on a LAN, while FQDN is a unique name for a system used on the Internet. NetBIOS operates at layer 5 and DNS operates at layer 7"
+    },
+    {
+      "id": "NAB-1.2.19",
+      "question": "What is port redirection, especially as it pertains to firewalls and ACLs?",
+      "answer": "Redirects traffic from one port to another, allowing tunneling without detection by the firewall policy."
+    },
+    {
+      "id": "NAB-1.2.20-1",
+      "question": "What OS can use UDP traceroute?",
+      "answer": "Unix"
+    },
+    {
+      "id": "NAB-1.2.20-2",
+      "question": "What is the relevance of UDP traceroute to C2 operations?",
+      "answer": "Tracks hops from a C2 server to a victim host."
+    },
+    {
+      "id": "HAB-1.2.9-1",
+      "question": "In a Unix system, what directory stores user information like log-in times and locations?",
+      "answer": "var/log/wtmp"
+    },
+    {
+      "id": "HAB-1.2.9-2",
+      "question": "Which command does an analyst use to view failed login attempt records and utilize the output to identify potential malicious user activity?",
+      "answer": "lastb"
+    },
+    {
+      "id": "HAB-1.2.23-1",
+      "question": "Where are passwords kept on a Windows OS?",
+      "answer": "C:\\Windows\\System32\\Config"
+    },
+    {
+      "id": "HAB-1.2.23-2",
+      "question": "Where are passwords kept on a Linux OS?",
+      "answer": "/etc/shadow"
+    },
+    {
+      "id": "HAB-1.2.23-3",
+      "question": "How does password reuse constitute a possible vulnerability?",
+      "answer": "People reuse passwords for convenience, but this allows attackers to access multiple accounts if one password is compromised."
+    },
+    {
+      "id": "HAB-1.2.26-1",
+      "question": "What vulnerability is outlined in this CVE report, and what is its importance or significance? CVE-2022-48479",
+      "answer": "The facial recognition TA of some products has the out-of-bounds memory read vulnerability. Successful exploitation of this vulnerability may cause exceptions of the facial recognition service"
+    },
+    {
+      "id": "HAB-1.2.26-2",
+      "question": "Where are outdated Windows patches located on a system?",
+      "answer": "Use the powershell Get-Fix module or Start > Settings > Update & Security > Windows Update > Updates"
+    },
+    {
+      "id": "HAB-1.2.31-1",
+      "question": "What is the primary purpose of assessing group memberships?",
+      "answer": "Allows analysts to identify individuals within specific groups and understand the permissions or privileges associated with those groups."
+    },
+    {
+      "id": "HAB-2.1.1",
+      "question": "What are Encase's capabilities and limitations?",
+      "answer": "Used in forensics in the recovery of evidence from hard drives, however, it is non-intuitive, proprietary, and searches and carves files with provenance."
+    },
+    {
+      "id": "HAB-2.1.2-1",
+      "question": "What are Autopsy's capabilities and limitations?",
+      "answer": "Open-source project that performs forensic analysis; however, it has limited file size processing, is less intuitive and less UX friendly."
+    },
+    {
+      "id": "HAB-2.1.2-2",
+      "question": "What are some use cases for the keyword search functions of Autopsy and Encase?",
+      "answer": "Searching for IOCs such as file names or internet URLs."
+    },
+    {
+      "id": "HAB-2.1.2-3",
+      "question": "What are some use cases for the file carving functions of Autopsy and Encase?",
+      "answer": "Recover deleted files such as internet artifacts."
+    },
+    {
+      "id": "HAB-2.1.2-4",
+      "question": "What are FTK's capabilities and limitations?",
+      "answer": "Allows for collecting disk and RAM images into multiple formats. Provides for scanning of IOCs and artifacts."
+    },
+    {
+      "id": "HAB-2.1.2-5",
+      "question": "How does Volatility relate to memory analysis and digital artifacts?",
+      "answer": "Open-source command-line tool that analyzes volatile data from RAM independent of the investigated system. Multiple plug-ins support a variety of techniques used to analyze RAM and artifacts."
+    },
+    {
+      "id": "HAB-2.1.2-6",
+      "question": "What are Redline's capabilities and limitations?",
+      "answer": "Open-source endpoint security tool providing hardware investigative tools for memory and file forensics and collects, analyzes, and filters endpoint data. Customer Support is unreliable."
+    },
+    {
+      "id": "HAB-2.1.2-7",
+      "question": "What are Endgame's capabilities and limitations?",
+      "answer": "Identifies malicious behavior and compromised hosts by applying behavioral analysis and attack chain modeling to host data and threat intelligence. Sensor profiles are cumbersome."
+    },
+    {
+      "id": "HAB-2.1.2-8",
+      "question": "What are Carbon Black's capabilities and limitations?",
+      "answer": "Monitors endpoint activity and processes, blocking harmful apps. Cloud integration leads to data leaks."
+    },
+    {
+      "id": "HAB-2.1.2-9",
+      "question": "What are Tanium's capabilities and limitations?",
+      "answer": "Provides real-time endpoint monitoring, stores data locally, scans for vulnerabilities, and offers granular control over endpoints. It uses a peer-to-peer communication model for efficiency but may send some data unencrypted and requires proper configuration to avoid performance impacts."
+    },
+    {
+      "id": "HAB-2.1.2-10",
+      "question": "What are NUIX Adaptive Security's capabilities and limitations?",
+      "answer": "Combines six technologies into a platform, allowing searchable data and live end-to-end monitoring capabilities. It is cost prohibitive."
+    },
+    {
+      "id": "HAB-2.1.2-11",
+      "question": "What are Sysmon's capabilities and limitations?",
+      "answer": "Monitors and logs system activity to Windows Event Log and provides detailed information on process creation, network connections, and changes to file timestamps."
+    },
+    {
+      "id": "HAB-2.1.2-12",
+      "question": "What are CHROOTKIT's primary functions?",
+      "answer": "Open-source tool that looks for signs of rootkits on a host."
+    },
+    {
+      "id": "HAB-2.1.2-13",
+      "question": "What are RKHunter's primary functions?",
+      "answer": "Signature-based rootkit monitoring and analysis tool using changed file properties; however, it does not perform removal."
+    },
+    {
+      "id": "HAB-2.1.2-14",
+      "question": "What are PowerShell's primary functions?",
+      "answer": "CLI-based shell that allows complex scripting. Uses object-based functions."
+    },
+    {
+      "id": "HAB-2.1.2-15",
+      "question": "What are Sysinternals' primary functions?",
+      "answer": "Windows suite that monitors, manages, and troubleshoots the OS, also offers more detailed event logs with higher level monitoring."
+    },
+    {
+      "id": "HAB-1.1.37-1",
+      "question": "Which defines the concept of non-repudiation and its relation to network security?",
+      "answer": "The assurance that the identity of the information source is accurate to mitigate masquerading and spoofing"
+    },
+    {
+      "id": "HAB-1.1.37-2",
+      "question": "Which defines the concept of authentication and its relation to network security?",
+      "answer": "The method of verifying the identity of a user by means of approved credentials"
+    },
+    {
+      "id": "HAB-1.1.37-3",
+      "question": "Which defines the concept of access control and its relation to network security?",
+      "answer": "The assurance that information or resources are protected from unauthorized access"
+    },
+    {
+      "id": "HAB-1.1.37-4",
+      "question": "What product, concept, or principle best matches the following statement? This provides a centralized repository of articles and information that offers technical support. It empowers cyber professionals' resources to solve complex problems",
+      "answer": "Microsoft Knowledge Base"
+    },
+    {
+      "id": "HAB-1.1.37-5",
+      "question": "What product, concept, or principle best matches the following statement? This is a collection of updates bug fixes and enhancements to improve the functionality stability and security of software products. It provides a consolidated and tested package of updates that simplifies the process of keeping software up to date.",
+      "answer": "Microsoft Service Packs"
+    },
+    {
+      "id": "HAB-1.1.37-6",
+      "question": "What product, concept, or principle best matches the following statement? This establishes guidelines and rules for creating/managing passwords to enhance security. It helps mitigate risks by promoting stronger requirements and enforcing best practices.",
+      "answer": "Password Policy Requirements"
+    },
+    {
+      "id": "HAB-1.1.37-7",
+      "question": "What product, concept, or principle best matches the following statement? This configures and manages the recording of system events and activities that are not strictly related to security. It provides for the generation of records of events including errors warnings and informational messages which helps administrators diagnose issues and track system behavior",
+      "answer": "Event Log Settings"
+    },
+    {
+      "id": "HAB-1.1.37-8",
+      "question": "What product, concept, or principle best matches the following statement? This is a method in which to control access to the Windows Registry. It ensures that only authorized users or groups can view and/or modify registry keys safeguarding the stability, security and integrity of the system.",
+      "answer": "Registry Permissions"
+    },
+    {
+      "id": "HAB-1.1.37-9",
+      "question": "What product, concept, or principle best matches the following statement? This tracks and monitors file and folder activities such as access modifications and authorized deletions. It provides and audit trail of file system events helping to detect unauthorized access or changes, investigate data breaches and ensure compliance with regulatory requirements for data security and privacy.",
+      "answer": "File System Auditing"
+    },
+    {
+      "id": "HAB-1.1.37-10",
+      "question": "What product, concept, or principle best matches the following statement? This controls access and determines what actions users or groups can perform on files and folders. They improve data security and privacy by granting appropriate permissions to only authorized users preventing unauthorized access or modifications and enforcing the principle of least privilege",
+      "answer": "File and Folder Permissions"
+    },
+    {
+      "id": "HAB-1.1.37-11",
+      "question": "What product, concept, or principle best matches the following statement? This controls access to shared resources such as folders or printers. They regulate user access to shared resources determining the level of permissions granted for reading, writing, modifying or deleting files and ensuring secure and controlled sharing of data across the network.",
+      "answer": "Share Permissions"
+    },
+    {
+      "id": "HAB-1.1.37-12",
+      "question": "What product, concept, or principle best matches the following statement? This is a method of permitting the execution of only approved or trusted applications. It enhances security by preventing the execution of malicious or unauthorized software, reducing the attack surface and mitigating the risk of malware infections and unauthorized system changes.",
+      "answer": "Application White-Listing"
+    },
+    {
+      "id": "HAB-1.1.37-13",
+      "question": "What product, concept, or principle best matches the following statement? This automatically collects and sends error information from Windows-Based Systems to Microsoft for analysis and troubleshooting. It provides valuable data to Microsoft for identifying and resolving software and system issues but may introduce information-sharing compliance issues on certain systems.",
+      "answer": "Windows Error Reporting"
+    },
+    {
+      "id": "HAB-1.1.37-14",
+      "question": "What product, concept, or principle best matches the following statement? These enable secure and controlled information sharing between different security domains or networks. They facilitate collaboration and data exchange while maintaining strict security boundaries and preventing unauthorized access or data leakage between domains.",
+      "answer": "Cross-Domain Solutions"
+    },
+    {
+      "id": "HAB-1.1.37-15",
+      "question": "What product, concept, or principle best matches the following statement? These establish standardized configurations for hardware and software components within the domain environment. They promote consistency security and compliance by defining a known and approved set of configurations used as a benchmark for system deployment management and troubleshooting.",
+      "answer": "Hardware and Software Baselines"
+    },
+    {
+      "id": "HAB-1.1.37-16",
+      "question": "What product, concept, or principle best matches the following statement? This is the principle of granting users or processes only the minimum privileges necessary to perform their tasks. It improves security by limiting potential damage caused by compromised accounts or malicious activities preventing unauthorized system changes and maintaining the integrity and confidentiality of data",
+      "answer": "Least Privilege"
+    }
+  ],
+  "multiple_answer": [
+    {
+      "id": "HAB-1.2.23-4",
+      "question": "How does an adversary obtain account passwords?",
+      "answers": [
+        "Obtaining password hashes.",
+        "Hacking sites with vulnerable security practices and stealing plain-text account information.",
+        "Credentials sent over unencrypted traffic."
+      ]
+    },
+    {
+      "id": "HAB-3.1.13-2",
+      "question": "Which occurs when privileges are not assigned properly?",
+      "answers": [
+        "Complete system compromise",
+        "Allow access to sensitive information",
+        "Complete domain compromise"
+      ]
+    }
+  ],
+  "matching": [
+    {
+      "id": "NAB-1.2.19-VPN",
+      "question": "Match the VPN technologies to their descriptions:",
+      "pairs": [
+        {
+          "description": "Enables secure data transmission between a remote client and an internal server through VPN.",
+          "answer": "PPTP"
+        },
+        {
+          "description": "Allows connections to a local port to be forwarded to a remote host via an encrypted channel.",
+          "answer": "SSH"
+        },
+        {
+          "description": "Encrypted traffic protocol usually used between gateways or at the end station of a gateway.",
+          "answer": "IPsec"
+        },
+        {
+          "description": "Uses the data-link layer for a point-to-point session to enable endpoints to reside on different machines",
+          "answer": "L2TP"
+        }
+      ]
+    },
+    {
+      "id": "HAB-1.2.31",
+      "question": "Match the following descriptions to their correct privilege levels:",
+      "pairs": [
+        {
+          "description": "Used by OS and services running under Windows (not an actual account).",
+          "answer": "SYSTEM"
+        },
+        {
+          "description": "First account created at installation with broadest permissions and highest target value for adversary.",
+          "answer": "Local Administrator"
+        },
+        {
+          "description": "Account to sign into the domain controller and access the domain resources.",
+          "answer": "Domain Administrator"
+        },
+        {
+          "description": "Unix/Linux administrative user (superuser) with limitless powers.",
+          "answer": "root"
+        },
+        {
+          "description": "System user that is delegated root privileges.",
+          "answer": "sudoer"
+        }
+      ]
+    },
+    {
+      "id": "HAB-1.2.40",
+      "question": "Match the following descriptions to their correct Windows Resource Kit tools:",
+      "pairs": [
+        {
+          "description": "Terminates processes and related threads; only works on local computer.",
+          "answer": "kill"
+        },
+        {
+          "description": "Manages domains, organizational units, and interdomain relationships.",
+          "answer": "netdom"
+        },
+        {
+          "description": "Communicates with Service Controller and related services.",
+          "answer": "sc"
+        },
+        {
+          "description": "Lists information for local and remote Windows NT hosts.",
+          "answer": "srvinfo"
+        },
+        {
+          "description": "Displays a list of currently running processes on local or remote hosts.",
+          "answer": "tasklist"
+        },
+        {
+          "description": "Queries directory finding objects by type; must be run from elevated privileges.",
+          "answer": "dsquery"
+        }
+      ]
+    },
+    {
+      "id": "HAB-2.1.2-natives",
+      "question": "Match the following descriptions to their correct Windows native tools:",
+      "pairs": [
+        {
+          "description": "GUI tool enabling the views and changes to the Windows registry.",
+          "answer": "regedit"
+        },
+        {
+          "description": "Certificate tool that allows viewing of Certification Authority (CA) configuration, allows configuration of Certificate Services, and backs up and restores CA components. Also verifies certificates, key pairs, and chains.",
+          "answer": "certutil"
+        },
+        {
+          "description": "Log of application and system errors, warnings, and messages sorted by categories.",
+          "answer": "Windows Event Viewer"
+        },
+        {
+          "description": "Tool that allows the automation of predefined actions to be performed on a host including scheduled tasks.",
+          "answer": "Task Scheduler"
+        },
+        {
+          "description": "Scripting utility that allows the display and modification of network configurations on a host.",
+          "answer": "netsh"
+        },
+        {
+          "description": "Remotely starts and stops processes via an RPC server including device drivers and startup programs.",
+          "answer": "Service Control Manager"
+        }
+      ]
+    },
+    {
+      "id": "HAB-2.1.2-kit",
+      "question": "Match the kit component to its capability:",
+      "pairs": [
+        {
+          "description": "Device used to capture network traffic on solitary or multiple network segments for aggregation and analysis. Ability to conduct limited local analysis based on installed software.",
+          "answer": "Sensor (Bare Metal or Virtual)"
+        },
+        {
+          "description": "Hardware device used to forward network traffic to an aggregator.",
+          "answer": "Taps"
+        },
+        {
+          "description": "Powerful portable system capable of hosting a wide array of tools to conduct hunt operations.",
+          "answer": "Analyst Laptop"
+        },
+        {
+          "description": "Appliance used to tie all data for kit hardware together.",
+          "answer": "Kit Switches"
+        }
+      ]
+    },
+    {
+      "id": "HAB-1.1.37-virtualization",
+      "question": "Match the type of virtualization with the correct example:",
+      "pairs": [
+        {
+          "description": "Wine most sandboxes",
+          "answer": "Application Virtualization"
+        },
+        {
+          "description": "Docker Containers FreeBSD Jails",
+          "answer": "Operating System Virtualization"
+        },
+        {
+          "description": "Hyper-V ESXI",
+          "answer": "Hardware Virtualization"
+        },
+        {
+          "description": "Windows Terminal Server Citrix Xenapp",
+          "answer": "Presentation Virtualization"
+        }
+      ]
+    }
+  ]
+}
