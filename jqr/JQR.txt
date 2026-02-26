@@ -63,10 +63,47 @@ NAB-1.2.20
 What is the relevance of UDP traceroute to C2 operations? 
 Answer: Tracks hops from a C2 server to a victim host.
 
+NAB-1.2.6 Match the below descriptions to their correct tunneling protocols
 PPTP: Enables secure data transmission between a remote client and an internal server through VPN.
 SSH: Allows connections to a local port to be forwarded to a remote host via an encrypted channel.
 IPsec: Encrypted traffic protocol usually used between gateways or at the end station of a gateway.
 L2TP: Uses the data-link layer for a point-to-point session to enable endpoints to reside on different machines
+NAB-1.2.7
+Match the below security concerns to their correct concept:
+Answer:
+Tagging, where an attacker tags a frame with two VLAN IDs (a native VLAN and a target VLAN).
+VLANs
+Possible loss of data confidentiality.
+Port-mirroring
+Switch Spoofing, where an attacker negotiates a trunk link to a legitimate switch to intercept traffic destined for another VLAN.
+Trunking
+Creating a switching loop that causes a broadcast storm (denial of service).
+Spanning Tree Protocol
+
+NAB-1.2.8
+What is port security in regards to network technologies? 
+Answer: Secures the host or network from unknown devices gaining network access using dynamic an static locking of MAC addresses.
+NAB-1.2.22
+What is a packet filter in relation to a firewall's function?
+Answer: Selectively blocks or allows data packets in and out of a network based on characteristics.
+NAB-1.2.23
+1. Match network protocols to OSI layer 
+Answer:
+Bluetooth, DSL: Data Link Layer (Layer 2) and Physical Layer (Layer 1) protocols. 
+ARP, IEEE 802.3, PPP: Data Link Layer (Layer 2) protocols. 
+IPv4, IPv6, ICMP, IGMP: Network Layer (Layer 3) protocols. 
+TCP, UDP: Transport Layer (Layer 4) protocols. 
+NetBIOS, RPC: Session Layer (Layer 5) protocols. 
+TLS, SSL, MIME: Presentation Layer (Layer 6) protocols. 
+HTTP, DHCP, SMTP: Application Layer (Layer 7) protocols.
+NAB-1.2.23
+What is the Open Systems Interconnection (OSI) model? Answer:  A hierarchical model that describes the protocols from hardware to software layer, illustrating the transformation of data passed down to the next layer.
+NAB-1.2.4
+What is the difference between routable and non-routable space? 
+Answer:  IP addresses that can be routed on the Internet, as opposed to private IP addresses that are restricted from internet routing.
+
+
+
 
 
 
@@ -210,6 +247,30 @@ $ Powerful portable system capable of hosting a wide array of tools to conduct h
 
 $ Appliance used to tie all data for kit hardware together. : Kit Switches
 
+= Question $ Ethernet, TCP/IP, and Encrypted/TLS traffic are all intercepted using packet sniffers and network monitoring software.
+= Question $ The partitioning of virtual or physical memory to store different variables or purposes.
+= Question $ Buffer overflow attacks take advantage of inadequate bounds checks, triggering writing beyond the bounds of a given memory region.
+= Question $ Uses last-in-first-out manner, where data is added or removed in the order it was placed in. Much faster and simpler than heap-based memory.
+= Question $ Also known as dynamic memory allocation, memory is allocated by programmers, usually an object. It is not as secure as stack allocation as data is accessible and visible to all threads.
+= Question $ When a load command does not specify which version of a DLL is needed, the OS searches file locations in a set order.
+= Question $ Adversary takes advantage of the OS search order with programs that ambiguously specify DLLs by preloading similarly named DLLs to a legitimate one the system looks for or redirecting to a malicious one.
+= Question $ A standard format for executables defining object code and dynamic-link libraries; used in 32- and 64-bit Windows OS.
+= Multiple answer question $ Dead-Code insertion within a legitimate program $ Compressing and/or zipping a file
+= Question $ Higher hierarchical processes explains how a malicious process was started, what resources were used, and which DLLs were accessed.
+= Question $ A process attempting to disguise its activities by using more than one handle and accessing resources not otherwise be associated with that task.
+= Question $ Background processes run independently of user sessions and provide various functionalities and features.
+= Question $ Configuring a C2 agent or other malware to run as a service.
+= Match question $ 20/21 : File Transfer Protocol (FTP) $ 22 : Secure Shell (SSH) $ 25 : Simple Message Transfer Protocol (SMTP) $ 53 : Domain Name Resolution (DNS) $ 80 : Hypertext Transfer Protocol (HTTP) $ 123 : Network Time Protocol (NTP)
+= Match question $ 135 : Remote Procedure Call (RPC) $ 139/445 : Server Message Block (SMB) $ 179 : Border Gateway Protocol (BGP) $ 443 : Hypertext Transfer Protocol Secure (HTTPS) $ 3389 : Remote Desktop Protocol (RDP)
+= Match question $ UserAssist : Key in Registry that contains a record of programs frequently executed by a user. $ BAM/DAM : Activity monitors control applications in the background. $ Recent Apps : Lists recently opened applications. $ ShimCache : Records executable file names, paths, and last modification timestamp.
+= Match question $ Jumplists : Lists recently used files or tasks associated with a program. $ Prefetch : Stores app data to improve load times. $ AmCache.hve : Registry hive file used by OS to store user system and app configurations. $ Superfetch : Analyzes RAM and resources to generate a profile of frequently used applications and preloads them during startup.
+= Match question $ smss.exe : Runs the Windows Session Manager Subsystem. $ services.exe : Manages operation of starting and stopping services. $ lsass.exe : Runs the Local Security Authority process. $ csrss.exe : Runs the Client/Server Runtime process.
+= Match question $ svchost.exe : Runs the Service Host and manages shared-service processes that load DLLs. $ winlogon.exe : Runs the authentication utility Windows Logon. $ explorer.exe : Process responsible for starting and displaying UI-like desktop taskbar, Start menu, and File Explorer.
+= Question $ WOW64 creates a 32-bit environment to allow programs to run. Drivers and DLLs must match the bit versions or errors. Performance for some programs is affected.
+= Question $ A unique identifier for a system resource.
+= Multiple answer question $ Compression (reduces file size and can mask the original file structure) $ Packing (bundles the executable into a new shell to hide its code) $ Dead-Code Insertion (adds useless code to confuse analysts and security tools)
+
+
 
 
 
@@ -288,4 +349,26 @@ HAB-1.2.26
 		$ Use the powershell Get-Fix module
 		$ Start > Settings > Update & Security > Windows Update > Updates
 
-	= What command identifies multiple installed vers
+	= What command identifies multiple installed versions of an application on a windows OS?
+		$ Get-WmiObject -Class Win32_Product
+
+	= Put the best practices to discover improperly configured host-based firewall settings on a windows device in the correct order
+		$ Retrieve firewall settings from the host
+		$ Compare retrieved firewall settings to GPO and or organizational policies
+		$ Document discrepancies for follow on actions
+
+HAB-1.2.11
+	
+	= Which registry key maintains persistence by running a script or an executable on startup on a Windows System?
+		$ HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run
+
+	= Match the term with the definition:
+		$ Mapping the extent of an organizations network and key points and/or personnel of interest : Digital Footprint
+		$ Eliciting a response from network services to identify the function : Scanning / Footprinting
+		$ Connecting to a large number of networks ports and IP addresses to see what responds : Probing
+		$ Performing an operation that allows access to a system or network : Initial Entry
+	= Match the term with the definition: 
+		$ Using a technique to elevate access rights on a system or network:
+		$ Deleting files used to detect the presence of an attacker: Removing Evidence
+		$ Finding ways to persist in an environment and increase control of a network: 
+		$ Identifying servers containing databases and stealing the data directly: Data Mining

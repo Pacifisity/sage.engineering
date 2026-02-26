@@ -1,4 +1,5 @@
 {
+  "last_updated": "2026-02-26T15:52:48",
   "single_choice": [
     {
       "id": "NAB-1.2.1-1",
@@ -31,9 +32,19 @@
       "answer": "Add additional network segmentation instead of relying on upstream routers."
     },
     {
-      "id": "NAB-1.2.4",
+      "id": "NAB-1.2.4-1",
       "question": "What is the difference between link-state and distance vector routers?",
       "answer": "Distance vector routers use hop count to determine the path, whereas link-state routers use an algorithm to find the most efficient route to the destination"
+    },
+    {
+      "id": "NAB-1.2.4-2",
+      "question": "What is the difference between routable and non-routable space?",
+      "answer": "IP addresses that can be routed on the Internet, as opposed to private IP addresses that are restricted from internet routing."
+    },
+    {
+      "id": "NAB-1.2.8",
+      "question": "What is port security in regards to network technologies?",
+      "answer": "Secures the host or network from unknown devices gaining network access using dynamic an static locking of MAC addresses."
     },
     {
       "id": "NAB-1.2.15",
@@ -61,6 +72,16 @@
       "answer": "Tracks hops from a C2 server to a victim host."
     },
     {
+      "id": "NAB-1.2.22",
+      "question": "What is a packet filter in relation to a firewall's function?",
+      "answer": "Selectively blocks or allows data packets in and out of a network based on characteristics."
+    },
+    {
+      "id": "NAB-1.2.23-osi",
+      "question": "What is the Open Systems Interconnection (OSI) model?",
+      "answer": "A hierarchical model that describes the protocols from hardware to software layer, illustrating the transformation of data passed down to the next layer."
+    },
+    {
       "id": "HAB-1.2.9-1",
       "question": "In a Unix system, what directory stores user information like log-in times and locations?",
       "answer": "var/log/wtmp"
@@ -86,17 +107,7 @@
       "answer": "People reuse passwords for convenience, but this allows attackers to access multiple accounts if one password is compromised."
     },
     {
-      "id": "HAB-1.2.26-1",
-      "question": "What vulnerability is outlined in this CVE report, and what is its importance or significance? CVE-2022-48479",
-      "answer": "The facial recognition TA of some products has the out-of-bounds memory read vulnerability. Successful exploitation of this vulnerability may cause exceptions of the facial recognition service"
-    },
-    {
-      "id": "HAB-1.2.26-2",
-      "question": "Where are outdated Windows patches located on a system?",
-      "answer": "Use the powershell Get-Fix module or Start > Settings > Update & Security > Windows Update > Updates"
-    },
-    {
-      "id": "HAB-1.2.31-1",
+      "id": "HAB-3.1.13-1",
       "question": "What is the primary purpose of assessing group memberships?",
       "answer": "Allows analysts to identify individuals within specific groups and understand the permissions or privileges associated with those groups."
     },
@@ -259,6 +270,36 @@
       "id": "HAB-1.1.37-16",
       "question": "What product, concept, or principle best matches the following statement? This is the principle of granting users or processes only the minimum privileges necessary to perform their tasks. It improves security by limiting potential damage caused by compromised accounts or malicious activities preventing unauthorized system changes and maintaining the integrity and confidentiality of data",
       "answer": "Least Privilege"
+    },
+    {
+      "id": "HAB-1.1.37-17",
+      "question": "What product, concept, or principle best matches the following statement? This defines how a system tracks and monitors security activities within the domain environment such as user logins file access and system changes for security and compliance purposes. It provides for the generation of records of security events aiding in the detection suspicious activities investigating security incidents and ensuring regulatory compliance",
+      "answer": "Soft and Hard Baseline"
+    },
+    {
+      "id": "HAB-1.1.37-18",
+      "question": "What product, concept, or principle best matches the following statement? This defines specific privileges and permissions that users or groups have within the domain environment. It is critical in maintaining security and access control by assisting the enforcement of the principle of least privilege.",
+      "answer": "User Rights Assignments"
+    },
+    {
+      "id": "HAB-1.2.26-1",
+      "question": "What vulnerability is outlined in this CVE report, and what is its importance or significance? CVE-2022-48479",
+      "answer": "The facial recognition TA of some products has the out-of-bounds memory read vulnerability. Successful exploitation of this vulnerability may cause exceptions of the facial recognition service"
+    },
+    {
+      "id": "HAB-1.2.26-2",
+      "question": "What vulnerability is outlined in this CVE report, and what is its importance or significance? CVE-2022-35744",
+      "answer": "Attacker could send RAS code through Port 1723 and RCE onto host machine"
+    },
+    {
+      "id": "HAB-1.2.26-3",
+      "question": "What command identifies multiple installed versions of an application on a Windows OS?",
+      "answer": "Get-WmiObject -Class Win32_Product"
+    },
+    {
+      "id": "HAB-1.2.11-1",
+      "question": "Which registry key maintains persistence by running a script or an executable on startup on a Windows system?",
+      "answer": "HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
     }
   ],
   "multiple_answer": [
@@ -279,12 +320,29 @@
         "Allow access to sensitive information",
         "Complete domain compromise"
       ]
+    },
+    {
+      "id": "HAB-1.2.26-4",
+      "question": "Where are outdated Windows patches located on a system?",
+      "answers": [
+        "Use the powershell Get-Fix module",
+        "Start > Settings > Update & Security > Windows Update > Updates"
+      ]
+    },
+    {
+      "id": "HAB-1.2.26-5",
+      "question": "Put the best practices to discover improperly configured host-based firewall settings on a Windows device in the correct order",
+      "answers": [
+        "Retrieve firewall settings from the host",
+        "Compare retrieved firewall settings to GPO and or organizational policies",
+        "Document discrepancies for follow on actions"
+      ]
     }
   ],
   "matching": [
     {
-      "id": "NAB-1.2.19-VPN",
-      "question": "Match the VPN technologies to their descriptions:",
+      "id": "NAB-1.2.6",
+      "question": "Match the tunneling protocols to their descriptions:",
       "pairs": [
         {
           "description": "Enables secure data transmission between a remote client and an internal server through VPN.",
@@ -301,6 +359,62 @@
         {
           "description": "Uses the data-link layer for a point-to-point session to enable endpoints to reside on different machines",
           "answer": "L2TP"
+        }
+      ]
+    },
+    {
+      "id": "NAB-1.2.7",
+      "question": "Match the security concerns to their correct concept:",
+      "pairs": [
+        {
+          "description": "Tagging, where an attacker tags a frame with two VLAN IDs (a native VLAN and a target VLAN).",
+          "answer": "VLANs"
+        },
+        {
+          "description": "Possible loss of data confidentiality.",
+          "answer": "Port-mirroring"
+        },
+        {
+          "description": "Switch Spoofing, where an attacker negotiates a trunk link to a legitimate switch to intercept traffic destined for another VLAN.",
+          "answer": "Trunking"
+        },
+        {
+          "description": "Creating a switching loop that causes a broadcast storm (denial of service).",
+          "answer": "Spanning Tree Protocol"
+        }
+      ]
+    },
+    {
+      "id": "NAB-1.2.23-protocols",
+      "question": "Match network protocols to the OSI layer:",
+      "pairs": [
+        {
+          "description": "Bluetooth, DSL",
+          "answer": "Data Link Layer (Layer 2) and Physical Layer (Layer 1) protocols."
+        },
+        {
+          "description": "ARP, IEEE 802.3, PPP",
+          "answer": "Data Link Layer (Layer 2) protocols."
+        },
+        {
+          "description": "IPv4, IPv6, ICMP, IGMP",
+          "answer": "Network Layer (Layer 3) protocols."
+        },
+        {
+          "description": "TCP, UDP",
+          "answer": "Transport Layer (Layer 4) protocols."
+        },
+        {
+          "description": "NetBIOS, RPC",
+          "answer": "Session Layer (Layer 5) protocols."
+        },
+        {
+          "description": "TLS, SSL, MIME",
+          "answer": "Presentation Layer (Layer 6) protocols."
+        },
+        {
+          "description": "HTTP, DHCP, SMTP",
+          "answer": "Application Layer (Layer 7) protocols."
         }
       ]
     },
@@ -422,15 +536,37 @@
         },
         {
           "description": "Docker Containers FreeBSD Jails",
-          "answer": "Operating System Virtualization"
+          "answer": "Hardware Virtualization"
         },
         {
           "description": "Hyper-V ESXI",
-          "answer": "Hardware Virtualization"
+          "answer": "Operating System Virtualization"
         },
         {
           "description": "Windows Terminal Server Citrix Xenapp",
           "answer": "Presentation Virtualization"
+        }
+      ]
+    },
+    {
+      "id": "HAB-1.2.11-terms",
+      "question": "Match the term with the definition:",
+      "pairs": [
+        {
+          "description": "Mapping the extent of an organizations network and key points and/or personnel of interest",
+          "answer": "Digital Footprint"
+        },
+        {
+          "description": "Eliciting a response from network services to identify the function",
+          "answer": "Scanning / Footprinting"
+        },
+        {
+          "description": "Connecting to a large number of networks ports and IP addresses to see what responds",
+          "answer": "Probing"
+        },
+        {
+          "description": "Performing an operation that allows access to a system or network",
+          "answer": "Initial Entry"
         }
       ]
     }
