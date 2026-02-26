@@ -37,8 +37,8 @@ export function normalizeTask(task) {
     id: task.id != null && task.id !== "" ? task.id : crypto.randomUUID(),
     name: task.name != null && task.name !== "" ? task.name : "Untitled",
     priority: task.priority != null && task.priority !== "" ? task.priority : "medium",
-    startDate: task.startDate || null,
-    dueDate: task.dueDate || null,
+    startDate: normalizeDateKey(task.startDate),
+    dueDate: normalizeDateKey(task.dueDate),
     notes: task.notes || "",
     createdAt,
     updatedAt,
@@ -46,8 +46,24 @@ export function normalizeTask(task) {
   };
 }
 
+function normalizeDateKey(value) {
+  if (typeof value !== "string") {
+    return null;
+  }
+  const trimmed = value.trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+    return null;
+  }
+  const date = new Date(trimmed + "T00:00:00");
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+  return trimmed;
+}
+
 function toDate(value) {
-  return value ? new Date(value + "T00:00:00") : null;
+  const normalized = normalizeDateKey(value);
+  return normalized ? new Date(normalized + "T00:00:00") : null;
 }
 
 function daysBetween(a, b) {

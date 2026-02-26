@@ -13,6 +13,7 @@ import {
 } from "./dateUtils.js";
 
 export function renderTasks(container, tasks) {
+  if (!container) return;
   container.innerHTML = "";
   if (tasks.length === 0) {
     container.innerHTML = '<div class="empty">No available tasks.</div>';
@@ -43,6 +44,7 @@ export function renderTasks(container, tasks) {
 }
 
 export function renderBacklog(container, tasks) {
+  if (!container) return;
   container.innerHTML = "";
   if (tasks.length === 0) {
     container.innerHTML = '<div class="empty">Add your first task.</div>';
@@ -77,6 +79,7 @@ export function renderBacklog(container, tasks) {
 }
 
 export function renderFocus(container, task) {
+  if (!container) return;
   container.innerHTML = "";
   if (!task) {
     container.innerHTML = '<div class="empty">Nothing scheduled, what\'s next?</div>';
