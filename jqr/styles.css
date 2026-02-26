@@ -32,6 +32,16 @@ body {
     font-size: 2.5em;
 }
 
+.last-updated {
+    margin-top: 8px;
+    font-size: 0.95em;
+    color: #8b949e;
+}
+
+.last-updated.is-hidden {
+    display: none;
+}
+
 .controls {
     padding: 20px 30px;
     background: #0d1117;

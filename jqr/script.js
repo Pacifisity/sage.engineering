@@ -5,11 +5,25 @@ async function loadQuestions() {
     try {
         const response = await fetch('questions.json');
         questionsData = await response.json();
+        updateLastUpdated();
         renderQuestions();
     } catch (error) {
         console.error('Error loading questions:', error);
         document.getElementById('content').innerHTML = 
             '<div class="no-results">Error loading questions. Please check that questions.json exists.</div>';
+    }
+}
+
+function updateLastUpdated() {
+    const lastUpdatedEl = document.getElementById('lastUpdated');
+    if (!lastUpdatedEl) return;
+
+    if (questionsData.last_updated) {
+        lastUpdatedEl.textContent = `Last updated: ${questionsData.last_updated}`;
+        lastUpdatedEl.classList.remove('is-hidden');
+    } else {
+        lastUpdatedEl.textContent = '';
+        lastUpdatedEl.classList.add('is-hidden');
     }
 }
 
