@@ -151,18 +151,29 @@ function parseQuestionHeader(header) {
     return { suffix: extractSuffix(trimmed) };
   }
 
+  if (/^match prompt(?:\s+\([^)]*\))?$/i.test(trimmed)) {
+    return { suffix: extractSuffix(trimmed) };
+  }
+
   return null;
 }
 
 function findMatchingAnswerIndex(headers, suffix) {
   for (let index = 0; index < headers.length; index += 1) {
     const candidate = (headers[index] || "").trim();
-    if (!/^answers?(?:\s+\([^)]*\))?$/i.test(candidate)) {
-      continue;
+    
+    // Check for standard "Answer(s)" columns
+    if (/^answers?(?:\s+\([^)]*\))?$/i.test(candidate)) {
+      if (extractSuffix(candidate) === suffix) {
+        return index;
+      }
     }
-
-    if (extractSuffix(candidate) === suffix) {
-      return index;
+    
+    // Check for combined "Questions | Answers" columns
+    if (/^questions?\s*\|\s*answers?(?:\s+\([^)]*\))?$/i.test(candidate)) {
+      if (extractSuffix(candidate) === suffix) {
+        return index;
+      }
     }
   }
 
@@ -191,11 +202,11 @@ function questionTypeToCode(questionType) {
   const normalized = (questionType || "").trim().toLowerCase();
 
   if (normalized.includes("match")) {
-    return "MA";
+    return "M";
   }
 
   if (normalized.includes("multiple") && normalized.includes("answer")) {
-    return "MU";
+    return "M";
   }
 
   if (normalized.includes("order") && normalized.includes("answer")) {
@@ -294,7 +305,7 @@ function renderCards(cards) {
   for (const cardData of cards) {
     const cardElement = cardTemplate.content.firstElementChild.cloneNode(true);
     cardElement.classList.add(`card-${cardData.typeKey}`);
-    cardElement.querySelector(".type-badge").textContent = cardData.questionType || "Unknown";
+    cardElement.querySelector(".type-badge").textContent = formatQuestionTypeDisplay(cardData.questionType);
     cardElement.querySelector(".timestamp").textContent = formatTimestamp(cardData.timestampText);
     cardElement.querySelector(".question").textContent = cardData.question;
     renderAnswerByType(cardElement.querySelector(".answer"), cardData);
@@ -475,4 +486,26 @@ function formatTimestamp(timestampText) {
   }
 
   return date.toLocaleString();
+}
+
+function formatQuestionTypeDisplay(questionType) {
+  const normalized = (questionType || "").trim().toLowerCase();
+  
+  if (normalized.includes("match")) {
+    return "Match";
+  }
+  
+  if (normalized.includes("multiple")) {
+    return "Multiple";
+  }
+  
+  if (normalized.includes("order")) {
+    return "Order";
+  }
+  
+  if (normalized.includes("single")) {
+    return "Single";
+  }
+  
+  return questionType || "Unknown";
 }
