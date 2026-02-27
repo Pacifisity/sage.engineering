@@ -11,13 +11,19 @@ let allCards = [];
 
 init();
 
+function setStatus(message) {
+  if (statusText) {
+    statusText.textContent = message;
+  }
+}
+
 async function init() {
   try {
     const csvText = await loadCSVText();
     const rows = parseCSV(csvText);
 
     if (rows.length < 2) {
-      statusText.textContent = "No response data found.";
+      setStatus("No response data found.");
       return;
     }
 
@@ -26,14 +32,13 @@ async function init() {
     allCards = buildCardsFromRows(headers, dataRows);
 
     if (allCards.length === 0) {
-      statusText.textContent = "No non-empty answers available yet.";
+      setStatus("No non-empty answers available yet.");
       return;
     }
 
     renderCards(allCards);
-    statusText.textContent = `Loaded ${allCards.length} ${allCards.length === 1 ? "entry" : "entries"}`;
   } catch (error) {
-    statusText.textContent = "Failed to load study data.";
+    setStatus("Failed to load study data.");
     cardsContainer.innerHTML = "";
     const message = document.createElement("p");
     message.className = "status";
@@ -62,13 +67,13 @@ searchInput.addEventListener("input", () => {
   const term = searchInput.value.trim();
   if (!term) {
     renderCards(allCards);
-    statusText.textContent = `Showing all ${allCards.length} ${allCards.length === 1 ? "entry" : "entries"} (timestamp order).`;
+    setStatus(`Showing all ${allCards.length} ${allCards.length === 1 ? "entry" : "entries"} (timestamp order).`);
     return;
   }
 
   const filtered = rankAndFilterCards(allCards, term);
   renderCards(filtered);
-  statusText.textContent = `Found ${filtered.length} result${filtered.length === 1 ? "" : "s"} for "${term}".`;
+  setStatus(`Found ${filtered.length} result${filtered.length === 1 ? "" : "s"} for "${term}".`);
 });
 
 function buildCardsFromRows(headers, rows) {
