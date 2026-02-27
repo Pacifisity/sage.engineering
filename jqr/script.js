@@ -325,9 +325,11 @@ function renderCards(cards) {
 
   const fragment = document.createDocumentFragment();
 
-  for (const cardData of cards) {
+  for (let index = 0; index < cards.length; index += 1) {
+    const cardData = cards[index];
     const cardElement = cardTemplate.content.firstElementChild.cloneNode(true);
     cardElement.classList.add(`card-${cardData.typeKey}`);
+    cardElement.style.animationDelay = `${index * 0.05}s`;
     cardElement.querySelector(".type-badge").textContent = formatQuestionTypeDisplay(cardData.questionType);
     cardElement.querySelector(".timestamp").textContent = formatTimestamp(cardData.timestampText);
     cardElement.querySelector(".question").textContent = cardData.question;
