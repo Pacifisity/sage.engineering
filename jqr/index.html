@@ -10,13 +10,16 @@
 	<main class="app">
 		<header class="app-header">
 			<h1>JQR Study Guide</h1>
-			<input
-				id="searchInput"
-				type="search"
-				placeholder="Search questions and answers..."
-				autocomplete="off"
-				aria-label="Search questions and answers"
-			/>
+			<div class="search-row">
+				<input
+					id="searchInput"
+					type="search"
+					placeholder="Search questions and answers..."
+					autocomplete="off"
+					aria-label="Search questions and answers"
+				/>
+				<a class="search-add-btn" href="https://forms.gle/F8V1RRnwjkZELQoFA" aria-label="Submit a new item">+</a>
+			</div>
 			<p id="statusText" class="status" aria-live="polite">Loading study data...</p>
 		</header>
 

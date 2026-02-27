@@ -1,10 +1,10 @@
 :root {
-  --bg: #0f0a1f;
-  --surface: #1a1233;
-  --text: #ece8ff;
-  --muted: #b6abd9;
-  --border: #34275f;
-  --accent: #a855f7;
+  --bg: #0d1117;
+  --surface: #161b22;
+  --text: #e6edf3;
+  --muted: #9aa4b2;
+  --border: #2d3642;
+  --accent: #8b5cf6;
 }
 
 * {
@@ -38,19 +38,53 @@ h1 {
   font-size: clamp(1.6rem, 3vw, 2.4rem);
 }
 
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
 #searchInput {
   width: 100%;
+  flex: 1;
   border: 1px solid var(--border);
   border-radius: 0.75rem;
   padding: 0.8rem 1rem;
   font-size: 1rem;
   outline: none;
   background: var(--surface);
+  color: var(--text);
+}
+
+#searchInput::placeholder {
+  color: var(--muted);
 }
 
 #searchInput:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.25);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+.search-add-btn {
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.search-add-btn:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
 }
 
 .status {
@@ -90,9 +124,9 @@ h1 {
   border-radius: 999px;
   font-size: 0.78rem;
   font-weight: 600;
-  color: #f5edff;
-  background: rgba(168, 85, 247, 0.24);
-  border: 1px solid rgba(168, 85, 247, 0.5);
+  color: var(--text);
+  background: rgba(139, 92, 246, 0.16);
+  border: 1px solid rgba(139, 92, 246, 0.36);
 }
 
 .timestamp {
@@ -112,7 +146,7 @@ h1 {
 
 .answer-text {
   margin: 0;
-  color: #ddd6fe;
+  color: #d7dee8;
   line-height: 1.5;
   white-space: pre-wrap;
 }
@@ -120,7 +154,7 @@ h1 {
 .answer-list {
   margin: 0;
   padding-left: 1.2rem;
-  color: #ddd6fe;
+  color: #d7dee8;
   line-height: 1.5;
 }
 
@@ -138,21 +172,21 @@ h1 {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
   gap: 0.8rem;
-  border: 1px solid rgba(168, 85, 247, 0.25);
+  border: 1px solid rgba(139, 92, 246, 0.22);
   border-radius: 0.6rem;
   padding: 0.6rem 0.7rem;
-  background: rgba(168, 85, 247, 0.06);
+  background: rgba(139, 92, 246, 0.05);
 }
 
 .match-left,
 .match-right {
   margin: 0;
-  color: #ddd6fe;
+  color: #d7dee8;
   line-height: 1.45;
 }
 
 .match-right {
-  color: #f0dcff;
+  color: #e4cdfc;
   font-weight: 600;
 }
 

@@ -31,7 +31,7 @@ async function init() {
     }
 
     renderCards(allCards);
-    statusText.textContent = `Loaded ${allCards.length} ${allCards.length === 1 ? "entry" : "entries"} (sorted by timestamp).`;
+    statusText.textContent = `Loaded ${allCards.length} ${allCards.length === 1 ? "entry" : "entries"}`;
   } catch (error) {
     statusText.textContent = "Failed to load study data.";
     cardsContainer.innerHTML = "";
