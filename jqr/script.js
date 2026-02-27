@@ -6,6 +6,7 @@ const searchInput = document.getElementById("searchInput");
 const statusText = document.getElementById("statusText");
 const cardsContainer = document.getElementById("cardsContainer");
 const cardTemplate = document.getElementById("cardTemplate");
+const loadingBar = document.getElementById("loadingBar");
 
 let allCards = [];
 
@@ -19,8 +20,15 @@ function setStatus(message) {
 
 async function init() {
   try {
+    loadingBar.classList.add("active");
+    updateProgress(10);
+    
     const csvText = await loadCSVText();
+    updateProgress(45);
+    
+    await delay(300);
     const rows = parseCSV(csvText);
+    updateProgress(65);
 
     if (rows.length < 2) {
       setStatus("No response data found.");
@@ -30,13 +38,16 @@ async function init() {
     const headers = rows[0].map((header) => header.trim());
     const dataRows = rows.slice(1);
     allCards = buildCardsFromRows(headers, dataRows);
+    updateProgress(85);
 
     if (allCards.length === 0) {
       setStatus("No non-empty answers available yet.");
       return;
     }
 
+    await delay(200);
     renderCards(allCards);
+    updateProgress(100);
   } catch (error) {
     setStatus("Failed to load study data.");
     cardsContainer.innerHTML = "";
@@ -44,7 +55,19 @@ async function init() {
     message.className = "status";
     message.textContent = `Error: ${error.message}`;
     cardsContainer.appendChild(message);
+    updateProgress(100);
+  } finally {
+    loadingBar.classList.remove("active");
+    loadingBar.classList.add("complete");
   }
+}
+
+function updateProgress(percent) {
+  loadingBar.style.width = percent + "%";
+}
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function loadCSVText() {

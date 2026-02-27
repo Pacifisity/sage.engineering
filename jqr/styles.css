@@ -11,6 +11,28 @@
   box-sizing: border-box;
 }
 
+.loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), #7c3aed, var(--accent));
+  width: 0%;
+  opacity: 0;
+  z-index: 9999;
+  transition: width 0.6s ease, opacity 0.3s ease;
+}
+
+.loading-bar.active {
+  opacity: 1;
+}
+
+.loading-bar.complete {
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease 0.3s;
+}
+
 html,
 body {
   scrollbar-width: none;
