@@ -1,29 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JQR Study Questions</title>
-    <link rel="stylesheet" href="styles.css">
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>JQR Study Guide</title>
+	<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>JQR Study Questions</h1>
-            <div class="last-updated" id="lastUpdated"></div>
-        </div>
+	<main class="app">
+		<header class="app-header">
+			<h1>JQR Study Guide</h1>
+			<input
+				id="searchInput"
+				type="search"
+				placeholder="Search questions and answers..."
+				autocomplete="off"
+				aria-label="Search questions and answers"
+			/>
+			<p id="statusText" class="status" aria-live="polite">Loading study data...</p>
+		</header>
 
-        <div class="controls">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search questions...">
-            </div>
-        </div>
+		<section id="cardsContainer" class="cards" aria-label="Study cards"></section>
+	</main>
 
-        <div class="content" id="content">
-            <!-- Questions will be loaded here -->
-        </div>
-    </div>
+	<template id="cardTemplate">
+		<article class="card">
+			<div class="card-header">
+				<span class="type-badge"></span>
+				<span class="timestamp"></span>
+			</div>
+			<h2 class="question"></h2>
+			<div class="answer"></div>
+		</article>
+	</template>
 
-    <script src="script.js"></script>
+	<script src="script.js" defer></script>
 </body>
 </html>
