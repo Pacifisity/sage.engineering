@@ -39,8 +39,6 @@ async function init() {
     const dataRows = rows.slice(1);
     allCards = buildCardsFromRows(headers, dataRows);
     updateProgress(85);
-    
-    checkForDuplicateCards(allCards);
 
     if (allCards.length === 0) {
       setStatus("No non-empty answers available yet.");
@@ -50,6 +48,9 @@ async function init() {
     await delay(200);
     renderCards(allCards);
     updateProgress(100);
+    
+    // Check for duplicates after rendering
+    setTimeout(() => checkForDuplicateCards(allCards), 100);
   } catch (error) {
     setStatus("Failed to load study data.");
     cardsContainer.innerHTML = "";
@@ -331,7 +332,18 @@ function renderCards(cards) {
     const cardData = cards[index];
     const cardElement = cardTemplate.content.firstElementChild.cloneNode(true);
     cardElement.classList.add(`card-${cardData.typeKey}`);
-    cardElement.style.animationDelay = `${index * 0.05}s`;
+    
+    if (index < 10) {
+      // Progressively faster animation: 0.5s to 0.05s
+      const duration = 0.5 - (index * 0.05);
+      cardElement.style.animation = `fadeInUp ${duration}s ease forwards`;
+      cardElement.style.animationDelay = "0s";
+    } else {
+      // No animation, just appear
+      cardElement.style.animation = "none";
+      cardElement.style.opacity = "1";
+    }
+    
     cardElement.querySelector(".type-badge").textContent = formatQuestionTypeDisplay(cardData.questionType);
     cardElement.querySelector(".timestamp").textContent = formatTimestamp(cardData.timestampText);
     cardElement.querySelector(".question").textContent = cardData.question;
