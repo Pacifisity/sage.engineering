@@ -6,6 +6,7 @@ const searchInput = document.getElementById("searchInput");
 const statusText = document.getElementById("statusText");
 const cardsContainer = document.getElementById("cardsContainer");
 const cardTemplate = document.getElementById("cardTemplate");
+const loadingBar = document.getElementById("loadingBar");
 
 let allCards = [];
 
@@ -19,8 +20,15 @@ function setStatus(message) {
 
 async function init() {
   try {
+    loadingBar.classList.add("active");
+    updateProgress(10);
+    
     const csvText = await loadCSVText();
+    updateProgress(45);
+    
+    await delay(300);
     const rows = parseCSV(csvText);
+    updateProgress(65);
 
     if (rows.length < 2) {
       setStatus("No response data found.");
@@ -30,13 +38,19 @@ async function init() {
     const headers = rows[0].map((header) => header.trim());
     const dataRows = rows.slice(1);
     allCards = buildCardsFromRows(headers, dataRows);
+    updateProgress(85);
 
     if (allCards.length === 0) {
       setStatus("No non-empty answers available yet.");
       return;
     }
 
+    await delay(200);
     renderCards(allCards);
+    updateProgress(100);
+    
+    // Check for duplicates after rendering
+    setTimeout(() => checkForDuplicateCards(allCards), 100);
   } catch (error) {
     setStatus("Failed to load study data.");
     cardsContainer.innerHTML = "";
@@ -44,7 +58,19 @@ async function init() {
     message.className = "status";
     message.textContent = `Error: ${error.message}`;
     cardsContainer.appendChild(message);
+    updateProgress(100);
+  } finally {
+    loadingBar.classList.remove("active");
+    loadingBar.classList.add("complete");
   }
+}
+
+function updateProgress(percent) {
+  loadingBar.style.width = percent + "%";
+}
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function loadCSVText() {
@@ -151,18 +177,29 @@ function parseQuestionHeader(header) {
     return { suffix: extractSuffix(trimmed) };
   }
 
+  if (/^match prompt(?:\s+\([^)]*\))?$/i.test(trimmed)) {
+    return { suffix: extractSuffix(trimmed) };
+  }
+
   return null;
 }
 
 function findMatchingAnswerIndex(headers, suffix) {
   for (let index = 0; index < headers.length; index += 1) {
     const candidate = (headers[index] || "").trim();
-    if (!/^answers?(?:\s+\([^)]*\))?$/i.test(candidate)) {
-      continue;
+    
+    // Check for standard "Answer(s)" columns
+    if (/^answers?(?:\s+\([^)]*\))?$/i.test(candidate)) {
+      if (extractSuffix(candidate) === suffix) {
+        return index;
+      }
     }
-
-    if (extractSuffix(candidate) === suffix) {
-      return index;
+    
+    // Check for combined "Questions | Answers" columns
+    if (/^questions?\s*\|\s*answers?(?:\s+\([^)]*\))?$/i.test(candidate)) {
+      if (extractSuffix(candidate) === suffix) {
+        return index;
+      }
     }
   }
 
@@ -191,11 +228,11 @@ function questionTypeToCode(questionType) {
   const normalized = (questionType || "").trim().toLowerCase();
 
   if (normalized.includes("match")) {
-    return "MA";
+    return "M";
   }
 
   if (normalized.includes("multiple") && normalized.includes("answer")) {
-    return "MU";
+    return "M";
   }
 
   if (normalized.includes("order") && normalized.includes("answer")) {
@@ -291,10 +328,23 @@ function renderCards(cards) {
 
   const fragment = document.createDocumentFragment();
 
-  for (const cardData of cards) {
+  for (let index = 0; index < cards.length; index += 1) {
+    const cardData = cards[index];
     const cardElement = cardTemplate.content.firstElementChild.cloneNode(true);
     cardElement.classList.add(`card-${cardData.typeKey}`);
-    cardElement.querySelector(".type-badge").textContent = cardData.questionType || "Unknown";
+    
+    if (index < 10) {
+      // Progressively faster animation: 0.5s to 0.05s
+      const duration = 0.5 - (index * 0.05);
+      cardElement.style.animation = `fadeInUp ${duration}s ease forwards`;
+      cardElement.style.animationDelay = "0s";
+    } else {
+      // No animation, just appear
+      cardElement.style.animation = "none";
+      cardElement.style.opacity = "1";
+    }
+    
+    cardElement.querySelector(".type-badge").textContent = formatQuestionTypeDisplay(cardData.questionType);
     cardElement.querySelector(".timestamp").textContent = formatTimestamp(cardData.timestampText);
     cardElement.querySelector(".question").textContent = cardData.question;
     renderAnswerByType(cardElement.querySelector(".answer"), cardData);
@@ -475,4 +525,103 @@ function formatTimestamp(timestampText) {
   }
 
   return date.toLocaleString();
+}
+
+function formatQuestionTypeDisplay(questionType) {
+  const normalized = (questionType || "").trim().toLowerCase();
+  
+  if (normalized.includes("match")) {
+    return "Match";
+  }
+  
+  if (normalized.includes("multiple")) {
+    return "Multiple";
+  }
+  
+  if (normalized.includes("order")) {
+    return "Order";
+  }
+  
+  if (normalized.includes("single")) {
+    return "Single";
+  }
+  
+  return questionType || "Unknown";
+}
+
+function stringSimilarity(str1, str2) {
+  const s1 = (str1 || "").toLowerCase();
+  const s2 = (str2 || "").toLowerCase();
+  
+  if (s1 === s2) return 1;
+  
+  const longer = s1.length > s2.length ? s1 : s2;
+  const shorter = s1.length > s2.length ? s2 : s1;
+  
+  if (longer.length === 0) return 1;
+  
+  const editDistance = getEditDistance(longer, shorter);
+  return (longer.length - editDistance) / longer.length;
+}
+
+function getEditDistance(s1, s2) {
+  const costs = [];
+  for (let i = 0; i <= s1.length; i++) {
+    let lastValue = i;
+    for (let j = 0; j <= s2.length; j++) {
+      if (i === 0) {
+        costs[j] = j;
+      } else if (j > 0) {
+        let newValue = costs[j - 1];
+        if (s1.charAt(i - 1) !== s2.charAt(j - 1)) {
+          newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+        }
+        costs[j - 1] = lastValue;
+        lastValue = newValue;
+      }
+    }
+    if (i > 0) {
+      costs[s2.length] = lastValue;
+    }
+  }
+  return costs[s2.length];
+}
+
+function checkForDuplicateCards(cards) {
+  const duplicates = [];
+  const SIMILARITY_THRESHOLD = 0.85;
+  
+  for (let i = 0; i < cards.length; i++) {
+    for (let j = i + 1; j < cards.length; j++) {
+      const card1 = cards[i];
+      const card2 = cards[j];
+      
+      const answerSimilarity = stringSimilarity(card1.answer, card2.answer);
+      const questionSimilarity = stringSimilarity(card1.question, card2.question);
+      const combinedSimilarity = (answerSimilarity + questionSimilarity) / 2;
+      
+      if (combinedSimilarity >= SIMILARITY_THRESHOLD) {
+        duplicates.push({
+          index1: i,
+          index2: j,
+          similarity: (combinedSimilarity * 100).toFixed(1),
+          question1: card1.question.substring(0, 60),
+          question2: card2.question.substring(0, 60)
+        });
+      }
+    }
+  }
+  
+  if (duplicates.length > 0) {
+    console.warn(`Found ${duplicates.length} pair(s) of similar cards:`);
+    duplicates.forEach((dup) => {
+      console.log(
+        `Cards [${dup.index1}] and [${dup.index2}] - ${dup.similarity}% similar\n` +
+        `  Q1: "${dup.question1}..."\n` +
+        `  Q2: "${dup.question2}..."`
+      );
+    });
+  } else {
+    console.log("No duplicate cards found.");
+  }
 }

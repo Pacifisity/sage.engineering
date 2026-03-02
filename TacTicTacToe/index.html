@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tactical Tic Tac Toe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            max-width: 100%;
+        }
+        
+        .mini-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            padding: 8px;
+            border: 3px solid #4b5563;
+            border-radius: 8px;
+            background-color: #1f2937;
+            position: relative;
+            min-width: 0;
+            min-height: 0;
+        }
+        
+        .mini-board.active {
+            border-color: #ffffff;
+            background-color: #2d3748;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .mini-board.won-x {
+            background-color: #3f1d1d;
+            border-color: #ef4444;
+        }
+        
+        .mini-board.won-o {
+            background-color: #2d1b4e;
+            border-color: #a855f7;
+        }
+        
+        .mini-board.won-x::after,
+        .mini-board.won-o::after {
+            content: attr(data-winner);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 72px;
+            font-weight: bold;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .mini-board.won-x::after {
+            color: #ef4444;
+        }
+        
+        .mini-board.won-o::after {
+            color: #a855f7;
+        }
+        
+        .cell {
+            aspect-ratio: 1;
+            border: 2px solid #374151;
+            background-color: #111827;
+            border-radius: 4px;
+            font-size: clamp(16px, 2vw, 24px);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 0;
+            min-height: 0;
+            width: 100%;
+            height: auto;
+        }
+        
+        .cell:hover:not(.occupied) {
+            background-color: #1f2937;
+            border-color: #ffffff;
+        }
+        
+        .cell.occupied {
+            cursor: not-allowed;
+        }
+        
+        .cell.x {
+            color: #ef4444;
+        }
+        
+        .cell.o {
+            color: #a855f7;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        .waiting {
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-5xl font-bold text-purple-300 mb-2">Tactical Tic Tac Toe</h1>
+            <p class="text-purple-200 text-lg">Win three mini-boards in a row to win the game!</p>
+        </div>
+        
+        <!-- Game Info Bar -->
+        <div class="max-w-4xl mx-auto mb-6 bg-gray-800 rounded-lg shadow-lg p-6 border border-purple-500/30">
+            <div class="flex flex-wrap justify-between items-center gap-4">
+                <div class="flex-1 min-w-[200px]">
+                    <div class="text-sm text-purple-300 mb-1">Current Player</div>
+                    <div id="currentPlayer" class="text-2xl font-bold">
+                        <span class="text-red-500">X</span>
+                    </div>
+                </div>
+                
+                <div class="flex-1 min-w-[200px]">
+                    <div class="text-sm text-purple-300 mb-1">Game Mode</div>
+                    <div id="gameMode" class="text-xl font-semibold text-purple-100">Local</div>
+                </div>
+                
+                <div class="flex-1 min-w-[200px]">
+                    <div class="text-sm text-purple-300 mb-1">Room Code</div>
+                    <div id="roomCode" class="text-xl font-mono text-purple-100">-</div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button id="newGameBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                        New Game
+                    </button>
+                    <button id="onlineGameBtn" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold transition">
+                        Play Online
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game Board -->
+        <div class="max-w-4xl mx-auto bg-gray-800 rounded-lg shadow-2xl p-8 border border-purple-500/30">
+            <div id="gameBoard" class="board"></div>
+        </div>
+        
+        <!-- Game Status -->
+        <div id="gameStatus" class="max-w-4xl mx-auto mt-6 text-center text-xl font-semibold text-purple-200"></div>
+    </div>
+    
+    <!-- Online Game Modal -->
+    <div id="onlineModal" class="modal">
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-md w-full mx-4 border border-purple-500/50">
+            <h2 class="text-3xl font-bold text-purple-300 mb-6 text-center">Play Online</h2>
+            
+            <div id="modalContent">
+                <div class="space-y-4">
+                    <button id="createRoomBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition">
+                        Create Room
+                    </button>
+                    
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-600"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-gray-800 text-purple-300">OR</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <input type="text" id="roomCodeInput" placeholder="Enter Room Code" 
+                            class="w-full px-4 py-3 border-2 border-gray-600 bg-gray-900 text-purple-100 rounded-lg focus:border-purple-500 focus:outline-none font-mono text-center text-lg placeholder-gray-500">
+                    </div>
+                    
+                    <button id="joinRoomBtn" class="w-full bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold transition">
+                        Join Room
+                    </button>
+                </div>
+            </div>
+            
+            <button id="closeModalBtn" class="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-purple-200 px-6 py-2 rounded-lg font-semibold transition">
+                Cancel
+            </button>
+        </div>
+    </div>
+    
+    <!-- Winner Modal -->
+    <div id="winnerModal" class="modal">
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-md w-full mx-4 border border-purple-500/50">
+            <h2 class="text-4xl font-bold text-center mb-4" id="winnerText"></h2>
+            <p class="text-center text-purple-200 text-lg mb-6" id="winnerMessage"></p>
+            <button id="playAgainBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition">
+                Play Again
+            </button>
+        </div>
+    </div>
+    
+    <!-- How to Play -->
+    <div class="max-w-4xl mx-auto mt-8 bg-gray-800 rounded-lg shadow-lg p-6 border border-purple-500/30">
+        <h3 class="text-2xl font-bold text-purple-300 mb-4">How to Play</h3>
+        <ul class="space-y-2 text-purple-100">
+            <li class="flex items-start">
+                <span class="text-purple-400 font-bold mr-2">1.</span>
+                <span>The game consists of 9 mini tic-tac-toe boards arranged in a 3x3 grid.</span>
+            </li>
+            <li class="flex items-start">
+                <span class="text-purple-400 font-bold mr-2">2.</span>
+                <span>Your move in a mini-board determines which mini-board your opponent must play in next (highlighted in purple).</span>
+            </li>
+            <li class="flex items-start">
+                <span class="text-purple-400 font-bold mr-2">3.</span>
+                <span>If you're sent to a completed mini-board, you can play in any available mini-board.</span>
+            </li>
+            <li class="flex items-start">
+                <span class="text-purple-400 font-bold mr-2">4.</span>
+                <span>Win three mini-boards in a row (horizontally, vertically, or diagonally) to win the game!</span>
+            </li>
+        </ul>
+    </div>
+    
+    <script type="module" src="game.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+</body>
+</html>

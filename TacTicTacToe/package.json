@@ -1,0 +1,22 @@
+{
+  "name": "tactical-tictactoe",
+  "version": "1.0.0",
+  "description": "A strategic twist on classic Tic Tac Toe with online multiplayer support",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000"
+  },
+  "keywords": [
+    "game",
+    "tic-tac-toe",
+    "ultimate-tic-tac-toe",
+    "multiplayer",
+    "firebase"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/tactical-tictactoe.git"
+  }
+}
