@@ -115,7 +115,29 @@ h1 {
   flex-shrink: 0;
 }
 
+.search-feedback-btn {
+  height: 2.7rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0 0.9rem;
+  line-height: 1;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
 .search-add-btn:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+.search-feedback-btn:hover {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
 }
