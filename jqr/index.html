@@ -4,7 +4,17 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>JQR Study Guide</title>
-	<link rel="stylesheet" href="styles.css" />
+	<link id="mainStylesheet" rel="stylesheet" />
+	<script>
+		(() => {
+			const assetTimestamp = Date.now();
+			window.__assetTimestamp = assetTimestamp;
+			const stylesheet = document.getElementById("mainStylesheet");
+			if (stylesheet) {
+				stylesheet.href = `styles.css?v=${assetTimestamp}`;
+			}
+		})();
+	</script>
 </head>
 <body>
 	<div id="loadingBar" class="loading-bar"></div>
@@ -37,6 +47,13 @@
 		</article>
 	</template>
 
-	<script src="script.js" defer></script>
+	<script>
+		(() => {
+			const assetTimestamp = window.__assetTimestamp || Date.now();
+			const appScript = document.createElement("script");
+			appScript.src = `script.js?v=${assetTimestamp}`;
+			document.body.appendChild(appScript);
+		})();
+	</script>
 </body>
 </html>

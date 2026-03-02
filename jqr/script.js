@@ -48,9 +48,6 @@ async function init() {
     await delay(200);
     renderCards(allCards);
     updateProgress(100);
-    
-    // Check for duplicates after rendering
-    setTimeout(() => checkForDuplicateCards(allCards), 100);
   } catch (error) {
     setStatus("Failed to load study data.");
     cardsContainer.innerHTML = "";
@@ -152,7 +149,11 @@ function getQuestionAnswerPairs(headers) {
       continue;
     }
 
-    const answerIndex = findMatchingAnswerIndex(headers, parsedQuestion.suffix);
+    const answerIndex = findMatchingAnswerIndex(
+      headers,
+      parsedQuestion.suffix,
+      parsedQuestion.kind
+    );
     if (answerIndex === -1) {
       continue;
     }
@@ -170,36 +171,54 @@ function getQuestionAnswerPairs(headers) {
 function parseQuestionHeader(header) {
   const trimmed = (header || "").trim();
   if (/^question(?:\s+\([^)]*\))?$/i.test(trimmed)) {
-    return { suffix: extractSuffix(trimmed) };
+    return { suffix: extractSuffix(trimmed), kind: "standard" };
   }
 
   if (/^match question(?:\s+\([^)]*\))?$/i.test(trimmed)) {
-    return { suffix: extractSuffix(trimmed) };
+    return { suffix: extractSuffix(trimmed), kind: "match" };
   }
 
   if (/^match prompt(?:\s+\([^)]*\))?$/i.test(trimmed)) {
-    return { suffix: extractSuffix(trimmed) };
+    return { suffix: extractSuffix(trimmed), kind: "match" };
   }
 
   return null;
 }
 
-function findMatchingAnswerIndex(headers, suffix) {
+function findMatchingAnswerIndex(headers, suffix, questionKind = "standard") {
+  const preferCombined = questionKind === "match";
+
+  const standardIndex = findAnswerIndexByPattern(
+    headers,
+    suffix,
+    /^answers?(?:\s+\([^)]*\))?$/i
+  );
+  const combinedIndex = findAnswerIndexByPattern(
+    headers,
+    suffix,
+    /^questions?\s*\|\s*answers?(?:\s+\([^)]*\))?$/i
+  );
+
+  if (preferCombined) {
+    if (combinedIndex !== -1) {
+      return combinedIndex;
+    }
+    return standardIndex;
+  }
+
+  if (standardIndex !== -1) {
+    return standardIndex;
+  }
+
+  return combinedIndex;
+}
+
+function findAnswerIndexByPattern(headers, suffix, pattern) {
   for (let index = 0; index < headers.length; index += 1) {
     const candidate = (headers[index] || "").trim();
-    
-    // Check for standard "Answer(s)" columns
-    if (/^answers?(?:\s+\([^)]*\))?$/i.test(candidate)) {
-      if (extractSuffix(candidate) === suffix) {
-        return index;
-      }
-    }
-    
-    // Check for combined "Questions | Answers" columns
-    if (/^questions?\s*\|\s*answers?(?:\s+\([^)]*\))?$/i.test(candidate)) {
-      if (extractSuffix(candidate) === suffix) {
-        return index;
-      }
+
+    if (pattern.test(candidate) && extractSuffix(candidate) === suffix) {
+      return index;
     }
   }
 
@@ -547,81 +566,4 @@ function formatQuestionTypeDisplay(questionType) {
   }
   
   return questionType || "Unknown";
-}
-
-function stringSimilarity(str1, str2) {
-  const s1 = (str1 || "").toLowerCase();
-  const s2 = (str2 || "").toLowerCase();
-  
-  if (s1 === s2) return 1;
-  
-  const longer = s1.length > s2.length ? s1 : s2;
-  const shorter = s1.length > s2.length ? s2 : s1;
-  
-  if (longer.length === 0) return 1;
-  
-  const editDistance = getEditDistance(longer, shorter);
-  return (longer.length - editDistance) / longer.length;
-}
-
-function getEditDistance(s1, s2) {
-  const costs = [];
-  for (let i = 0; i <= s1.length; i++) {
-    let lastValue = i;
-    for (let j = 0; j <= s2.length; j++) {
-      if (i === 0) {
-        costs[j] = j;
-      } else if (j > 0) {
-        let newValue = costs[j - 1];
-        if (s1.charAt(i - 1) !== s2.charAt(j - 1)) {
-          newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-        }
-        costs[j - 1] = lastValue;
-        lastValue = newValue;
-      }
-    }
-    if (i > 0) {
-      costs[s2.length] = lastValue;
-    }
-  }
-  return costs[s2.length];
-}
-
-function checkForDuplicateCards(cards) {
-  const duplicates = [];
-  const SIMILARITY_THRESHOLD = 0.85;
-  
-  for (let i = 0; i < cards.length; i++) {
-    for (let j = i + 1; j < cards.length; j++) {
-      const card1 = cards[i];
-      const card2 = cards[j];
-      
-      const answerSimilarity = stringSimilarity(card1.answer, card2.answer);
-      const questionSimilarity = stringSimilarity(card1.question, card2.question);
-      const combinedSimilarity = (answerSimilarity + questionSimilarity) / 2;
-      
-      if (combinedSimilarity >= SIMILARITY_THRESHOLD) {
-        duplicates.push({
-          index1: i,
-          index2: j,
-          similarity: (combinedSimilarity * 100).toFixed(1),
-          question1: card1.question.substring(0, 60),
-          question2: card2.question.substring(0, 60)
-        });
-      }
-    }
-  }
-  
-  if (duplicates.length > 0) {
-    console.warn(`Found ${duplicates.length} pair(s) of similar cards:`);
-    duplicates.forEach((dup) => {
-      console.log(
-        `Cards [${dup.index1}] and [${dup.index2}] - ${dup.similarity}% similar\n` +
-        `  Q1: "${dup.question1}..."\n` +
-        `  Q2: "${dup.question2}..."`
-      );
-    });
-  } else {
-    console.log("No duplicate cards found.");
-  }
 }
