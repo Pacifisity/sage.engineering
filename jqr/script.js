@@ -1,7 +1,11 @@
 const LOCAL_CSV_FILE = "JQR Answersheet - Form Responses 1.csv";
 const REMOTE_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSLWVIeYowYIxNfRA23p88_YEiWfpsf-KpbzNsP1fC_UjM1TC5bjeTyD30_XX3U4utiS8z634kY_-y/pub?output=csv";
+const REPORT_WEBHOOK_URL =
+  "https://script.google.com/macros/s/AKfycby1c_VQAFkrAv_SVci_ZDxskvdY_1SfYWhilpdNvwphAdifLxcLGaZIPKseyOeUI9QZ/exec";
 const REFRESH_INTERVAL_MS = 30000;
+const LOCAL_FLAG_OVERRIDE_MS = 5 * 60 * 1000;
+const FLAG_OVERRIDE_STORAGE_KEY = "jqrFlagOverrideExpiresByKeyV1";
 
 const searchInput = document.getElementById("searchInput");
 const statusText = document.getElementById("statusText");
@@ -12,7 +16,13 @@ const loadingBar = document.getElementById("loadingBar");
 let allCards = [];
 let lastDataFingerprint = "";
 let isRefreshing = false;
+let shouldAnimateCards = true;
+const pendingFlagKeys = new Set();
+const locallyHiddenFlagState = new Map();
+const hideTimeoutByKey = new Map();
+const flagOverrideExpiresAtByKey = new Map();
 
+loadFlagOverridesFromStorage();
 init();
 
 function setStatus(message) {
@@ -87,6 +97,8 @@ async function refreshCardsFromSource() {
 
     const previousCount = allCards.length;
     allCards = cards;
+    prunePendingFlags();
+    reconcileLocallyHiddenFlags();
     lastDataFingerprint = newFingerprint;
     renderActiveView();
 
@@ -107,15 +119,144 @@ function createCardsFingerprint(cards) {
     .join("@@");
 }
 
+function createCardKey(card) {
+  return `${(card.timestampText || "").trim()}||${(card.question || "").trim()}`;
+}
+
+function persistFlagOverridesToStorage() {
+  try {
+    const entries = Array.from(flagOverrideExpiresAtByKey.entries());
+    localStorage.setItem(FLAG_OVERRIDE_STORAGE_KEY, JSON.stringify(entries));
+  } catch {
+  }
+}
+
+function loadFlagOverridesFromStorage() {
+  try {
+    const raw = localStorage.getItem(FLAG_OVERRIDE_STORAGE_KEY);
+    if (!raw) {
+      return;
+    }
+
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      return;
+    }
+
+    const now = Date.now();
+    let changed = false;
+
+    parsed.forEach((entry) => {
+      if (!Array.isArray(entry) || entry.length !== 2) {
+        changed = true;
+        return;
+      }
+
+      const [key, expiresAt] = entry;
+      if (typeof key !== "string" || typeof expiresAt !== "number") {
+        changed = true;
+        return;
+      }
+
+      if (expiresAt <= now) {
+        changed = true;
+        return;
+      }
+
+      flagOverrideExpiresAtByKey.set(key, expiresAt);
+      pendingFlagKeys.add(key);
+      locallyHiddenFlagState.set(key, true);
+    });
+
+    if (changed) {
+      persistFlagOverridesToStorage();
+    }
+  } catch {
+  }
+}
+
+function hasActiveFlagOverride(key) {
+  const expiresAt = flagOverrideExpiresAtByKey.get(key);
+  if (!expiresAt) {
+    return false;
+  }
+
+  if (expiresAt <= Date.now()) {
+    flagOverrideExpiresAtByKey.delete(key);
+    pendingFlagKeys.delete(key);
+    locallyHiddenFlagState.delete(key);
+    persistFlagOverridesToStorage();
+    return false;
+  }
+
+  return true;
+}
+
+function startFlagOverride(key) {
+  const expiresAt = Date.now() + LOCAL_FLAG_OVERRIDE_MS;
+  flagOverrideExpiresAtByKey.set(key, expiresAt);
+  pendingFlagKeys.add(key);
+  persistFlagOverridesToStorage();
+}
+
+function prunePendingFlags() {
+  if (pendingFlagKeys.size === 0 && flagOverrideExpiresAtByKey.size === 0) {
+    return;
+  }
+
+  const now = Date.now();
+  let changed = false;
+
+  for (const [key, expiresAt] of flagOverrideExpiresAtByKey.entries()) {
+    if (expiresAt <= now) {
+      flagOverrideExpiresAtByKey.delete(key);
+      pendingFlagKeys.delete(key);
+      locallyHiddenFlagState.delete(key);
+      changed = true;
+    }
+  }
+
+  if (changed) {
+    persistFlagOverridesToStorage();
+  }
+}
+
+function reconcileLocallyHiddenFlags() {
+  if (locallyHiddenFlagState.size === 0) {
+    return;
+  }
+
+  for (const key of locallyHiddenFlagState.keys()) {
+    if (!hasActiveFlagOverride(key)) {
+      locallyHiddenFlagState.delete(key);
+    }
+  }
+}
+
 function renderActiveView() {
   const term = (searchInput?.value || "").trim();
   if (!term) {
-    renderCards(allCards);
+    renderCards(applyLocalHiddenFilter(allCards));
     return;
   }
 
   const filtered = rankAndFilterCards(allCards, term);
-  renderCards(filtered);
+  renderCards(applyLocalHiddenFilter(filtered));
+}
+
+function applyLocalHiddenFilter(cards) {
+  if (locallyHiddenFlagState.size === 0) {
+    return cards;
+  }
+
+  return cards.filter((card) => {
+    const key = createCardKey(card);
+    if (!locallyHiddenFlagState.has(key)) {
+      return true;
+    }
+
+    return !hasActiveFlagOverride(key);
+  });
 }
 
 function updateProgress(percent) {
@@ -133,35 +274,120 @@ async function loadCSVText() {
     return remoteResponse.text();
   }
 
-  const cacheBustedLocalUrl = `${encodeURIComponent(LOCAL_CSV_FILE)}?t=${Date.now()}`;
-  const localResponse = await fetch(cacheBustedLocalUrl, { cache: "no-store" });
-  if (localResponse.ok) {
-    return localResponse.text();
-  }
-
   throw new Error(`Unable to fetch CSV (${remoteResponse.status})`);
 }
 
 searchInput.addEventListener("input", () => {
   const term = searchInput.value.trim();
   if (!term) {
-    renderCards(allCards);
+    renderCards(applyLocalHiddenFilter(allCards));
     setStatus(`Showing all ${allCards.length} ${allCards.length === 1 ? "entry" : "entries"} (timestamp order).`);
     return;
   }
 
   const filtered = rankAndFilterCards(allCards, term);
-  renderCards(filtered);
+  renderCards(applyLocalHiddenFilter(filtered));
   setStatus(`Found ${filtered.length} result${filtered.length === 1 ? "" : "s"} for "${term}".`);
+});
+
+cardsContainer.addEventListener("click", async (event) => {
+  const rawTarget = event.target;
+  const targetElement = rawTarget instanceof Element ? rawTarget : rawTarget?.parentElement;
+  if (!(targetElement instanceof Element)) {
+    return;
+  }
+
+  const button = targetElement.closest(".report-btn");
+  if (!button) {
+    return;
+  }
+
+  const timestamp = (button.dataset.timestamp || "").trim();
+  const question = (button.dataset.question || "").trim();
+  const answer = button.dataset.answer || "";
+  if (!timestamp || !question) {
+    return;
+  }
+
+  const cardKey = createCardKey({ timestampText: timestamp, question });
+  if (hasActiveFlagOverride(cardKey)) {
+    return;
+  }
+
+  const reportReasonInput = window.prompt("What is wrong with this card?");
+  if (reportReasonInput === null) {
+    return;
+  }
+
+  const reportReason = reportReasonInput.trim();
+  if (!reportReason) {
+    setStatus("Please enter what is wrong with the card before flagging.");
+    return;
+  }
+
+  startFlagOverride(cardKey);
+
+  button.disabled = true;
+  button.textContent = "⏳";
+
+  try {
+    const startedAt = Date.now();
+    const cardData = { timestampText: timestamp, question, answer };
+    await submitReport(cardData, reportReason);
+    const elapsedMs = Date.now() - startedAt;
+    if (elapsedMs < 700) {
+      await delay(700 - elapsedMs);
+    }
+
+    if (hideTimeoutByKey.has(cardKey)) {
+      clearTimeout(hideTimeoutByKey.get(cardKey));
+    }
+
+    const hideTimeoutId = setTimeout(() => {
+      hideTimeoutByKey.delete(cardKey);
+      if (!hasActiveFlagOverride(cardKey)) {
+        return;
+      }
+
+      locallyHiddenFlagState.set(cardKey, true);
+      renderActiveView();
+    }, 1000);
+    hideTimeoutByKey.set(cardKey, hideTimeoutId);
+
+    button.disabled = true;
+    button.textContent = "⏳";
+    setStatus("Response flagged. Checking for sheet update...");
+    renderActiveView();
+    queuePostFlagRefreshes();
+  } catch (error) {
+    if (hideTimeoutByKey.has(cardKey)) {
+      clearTimeout(hideTimeoutByKey.get(cardKey));
+      hideTimeoutByKey.delete(cardKey);
+    }
+    flagOverrideExpiresAtByKey.delete(cardKey);
+    persistFlagOverridesToStorage();
+    locallyHiddenFlagState.delete(cardKey);
+    pendingFlagKeys.delete(cardKey);
+    button.disabled = false;
+    button.textContent = "🚩";
+    renderActiveView();
+    setStatus("Could not submit flag right now. Please try again.");
+  }
 });
 
 function buildCardsFromRows(headers, rows) {
   const timestampIndex = findHeaderIndex(headers, "timestamp");
   const questionTypeIndex = findHeaderIndex(headers, "question type");
+  const reportsIndex = findReportsColumnIndex(headers);
   const qaPairs = getQuestionAnswerPairs(headers);
   const cards = [];
 
   rows.forEach((row) => {
+    const reportValue = reportsIndex >= 0 ? (row[reportsIndex] || "").trim() : "";
+    if (isReportedValue(reportValue)) {
+      return;
+    }
+
     const timestampText = timestampIndex >= 0 ? (row[timestampIndex] || "").trim() : "";
     const questionType = questionTypeIndex >= 0 ? (row[questionTypeIndex] || "").trim() : "";
 
@@ -193,6 +419,15 @@ function buildCardsFromRows(headers, rows) {
   });
 
   return cards.sort((a, b) => b.timestampValue - a.timestampValue);
+}
+
+function queuePostFlagRefreshes() {
+  const delaysMs = [1200, 4000, 8000, 15000];
+  delaysMs.forEach((delayMs) => {
+    setTimeout(() => {
+      void refreshCardsFromSource();
+    }, delayMs);
+  });
 }
 
 function getQuestionAnswerPairs(headers) {
@@ -288,6 +523,21 @@ function extractSuffix(header) {
 
 function findHeaderIndex(headers, target) {
   return headers.findIndex((header) => header.trim().toLowerCase() === target);
+}
+
+function isReportedValue(value) {
+  return String(value || "").trim().length > 0;
+}
+
+function findReportsColumnIndex(headers) {
+  return headers.findIndex((header) => normalizeHeaderName(header) === "reports");
+}
+
+function normalizeHeaderName(header) {
+  return String(header || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z]/g, "");
 }
 
 function selectPairByQuestionType(pairs, questionType) {
@@ -402,13 +652,14 @@ function renderCards(cards) {
   }
 
   const fragment = document.createDocumentFragment();
+  const animateThisRender = shouldAnimateCards;
 
   for (let index = 0; index < cards.length; index += 1) {
     const cardData = cards[index];
     const cardElement = cardTemplate.content.firstElementChild.cloneNode(true);
     cardElement.classList.add(`card-${cardData.typeKey}`);
-    
-    if (index < 10) {
+
+    if (animateThisRender && index < 10) {
       // Progressively faster animation: 0.5s to 0.05s
       const duration = 0.5 - (index * 0.05);
       cardElement.style.animation = `fadeInUp ${duration}s ease forwards`;
@@ -420,13 +671,29 @@ function renderCards(cards) {
     }
     
     cardElement.querySelector(".type-badge").textContent = formatQuestionTypeDisplay(cardData.questionType);
-    cardElement.querySelector(".timestamp").textContent = formatTimestamp(cardData.timestampText);
+    const timestampElement = cardElement.querySelector(".timestamp");
     cardElement.querySelector(".question").textContent = cardData.question;
     renderAnswerByType(cardElement.querySelector(".answer"), cardData);
+
+    const reportButton = document.createElement("button");
+    reportButton.type = "button";
+    reportButton.className = "report-btn";
+    reportButton.dataset.timestamp = cardData.timestampText;
+    reportButton.dataset.question = cardData.question;
+    reportButton.dataset.answer = cardData.answer;
+    const cardKey = createCardKey(cardData);
+    const isPendingFlag = hasActiveFlagOverride(cardKey);
+    reportButton.textContent = isPendingFlag ? "⏳" : "🚩";
+    reportButton.setAttribute("aria-label", "Flag this response");
+    reportButton.title = "Flag this response";
+    reportButton.disabled = isPendingFlag;
+    timestampElement.replaceWith(reportButton);
+
     fragment.appendChild(cardElement);
   }
 
   cardsContainer.appendChild(fragment);
+  shouldAnimateCards = false;
 }
 
 function parseCSV(input) {
@@ -622,4 +889,28 @@ function formatQuestionTypeDisplay(questionType) {
   }
   
   return questionType || "Unknown";
+}
+
+async function submitReport(cardData, reportReason) {
+  const payload = {
+    timestamp: cardData.timestampText,
+    question: cardData.question,
+    reported: reportReason,
+    reportReason,
+    reportedAt: new Date().toISOString()
+  };
+
+  const formBody = new URLSearchParams(payload).toString();
+
+  if (typeof navigator.sendBeacon === "function") {
+    const beaconPayload = new Blob([formBody], {
+      type: "application/x-www-form-urlencoded;charset=UTF-8"
+    });
+    const sent = navigator.sendBeacon(REPORT_WEBHOOK_URL, beaconPayload);
+    if (sent) {
+      return;
+    }
+  }
+
+  throw new Error("Flag submit unavailable in this browser session.");
 }

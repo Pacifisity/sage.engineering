@@ -201,6 +201,11 @@ h1 {
   font-size: 0.8rem;
 }
 
+.timestamp-reported {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
 .question {
   margin: 0;
   font-size: 1rem;
@@ -209,6 +214,29 @@ h1 {
 
 .answer {
   margin: 0.65rem 0 0;
+}
+
+.report-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.2s ease;
+}
+
+.report-btn:hover:not(:disabled) {
+  transform: scale(1.15);
+}
+
+.report-btn:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.card-reported {
+  border-color: rgba(245, 158, 11, 0.35);
 }
 
 .answer-text {
