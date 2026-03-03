@@ -1,6 +1,7 @@
 const LOCAL_CSV_FILE = "JQR Answersheet - Form Responses 1.csv";
 const REMOTE_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSLWVIeYowYIxNfRA23p88_YEiWfpsf-KpbzNsP1fC_UjM1TC5bjeTyD30_XX3U4utiS8z634kY_-y/pub?output=csv";
+const REFRESH_INTERVAL_MS = 30000;
 
 const searchInput = document.getElementById("searchInput");
 const statusText = document.getElementById("statusText");
@@ -9,6 +10,8 @@ const cardTemplate = document.getElementById("cardTemplate");
 const loadingBar = document.getElementById("loadingBar");
 
 let allCards = [];
+let lastDataFingerprint = "";
+let isRefreshing = false;
 
 init();
 
@@ -22,32 +25,25 @@ async function init() {
   try {
     loadingBar.classList.add("active");
     updateProgress(10);
-    
-    const csvText = await loadCSVText();
-    updateProgress(45);
-    
-    await delay(300);
-    const rows = parseCSV(csvText);
-    updateProgress(65);
+    const result = await refreshCardsFromSource();
+    updateProgress(100);
 
-    if (rows.length < 2) {
+    if (result === "no-data") {
       setStatus("No response data found.");
       return;
     }
 
-    const headers = rows[0].map((header) => header.trim());
-    const dataRows = rows.slice(1);
-    allCards = buildCardsFromRows(headers, dataRows);
-    updateProgress(85);
-
-    if (allCards.length === 0) {
+    if (result === "no-cards") {
       setStatus("No non-empty answers available yet.");
       return;
     }
 
     await delay(200);
-    renderCards(allCards);
-    updateProgress(100);
+    renderActiveView();
+
+    setInterval(() => {
+      void refreshCardsFromSource();
+    }, REFRESH_INTERVAL_MS);
   } catch (error) {
     setStatus("Failed to load study data.");
     cardsContainer.innerHTML = "";
@@ -60,6 +56,66 @@ async function init() {
     loadingBar.classList.remove("active");
     loadingBar.classList.add("complete");
   }
+}
+
+async function refreshCardsFromSource() {
+  if (isRefreshing) {
+    return "skipped";
+  }
+
+  isRefreshing = true;
+  try {
+    const csvText = await loadCSVText();
+    const rows = parseCSV(csvText);
+
+    if (rows.length < 2) {
+      return "no-data";
+    }
+
+    const headers = rows[0].map((header) => header.trim());
+    const dataRows = rows.slice(1);
+    const cards = buildCardsFromRows(headers, dataRows);
+
+    if (cards.length === 0) {
+      return "no-cards";
+    }
+
+    const newFingerprint = createCardsFingerprint(cards);
+    if (newFingerprint === lastDataFingerprint) {
+      return "unchanged";
+    }
+
+    const previousCount = allCards.length;
+    allCards = cards;
+    lastDataFingerprint = newFingerprint;
+    renderActiveView();
+
+    const newCount = allCards.length - previousCount;
+    if (newCount > 0) {
+      setStatus(`Added ${newCount} new entr${newCount === 1 ? "y" : "ies"}.`);
+    }
+
+    return "updated";
+  } finally {
+    isRefreshing = false;
+  }
+}
+
+function createCardsFingerprint(cards) {
+  return cards
+    .map((card) => `${card.timestampText}||${card.question}||${card.answer}`)
+    .join("@@");
+}
+
+function renderActiveView() {
+  const term = (searchInput?.value || "").trim();
+  if (!term) {
+    renderCards(allCards);
+    return;
+  }
+
+  const filtered = rankAndFilterCards(allCards, term);
+  renderCards(filtered);
 }
 
 function updateProgress(percent) {
