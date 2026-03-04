@@ -2,7 +2,7 @@ const LOCAL_CSV_FILE = "Senior JQR Answersheet - Form Responses 1.csv";
 const REMOTE_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQRYbKt6ifGQgfgfSJDLvzVQQWBOM_bdHPte2R_PM0GgeoBU_LSBk7ZdofTeWkw9HnbcpUuBOWJzFiH/pub?output=csv";
 const REPORT_WEBHOOK_URL =
-  "https://script.google.com/macros/s/AKfycbzAfkQ8BSM4tc6CX4xFBf-3UgRjwor02C7ZE2iTHlQtoPQqiEL2hLu59zufn6yO0B-pOw/exec";
+  "https://script.google.com/macros/s/AKfycbwhGBRwGXesSgWBrwCxe8jw0DqfuorqXgxM60xgyDht0seeYPMDQNCIHELrCdQ2o3U3yQ/exec";
 const REFRESH_INTERVAL_MS = 30000;
 const LOCAL_FLAG_OVERRIDE_MS = 5 * 60 * 1000;
 const FLAG_OVERRIDE_STORAGE_KEY = "jqrsFlagOverrideExpiresByKeyV1";
