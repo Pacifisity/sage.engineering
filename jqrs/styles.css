@@ -301,6 +301,17 @@ h1 {
   border-left: 4px solid #e9d5ff;
 }
 
+.card-incorrect {
+  border-color: rgba(239, 68, 68, 0.45);
+  border-left-color: #ef4444;
+  background: linear-gradient(
+    0deg,
+    rgba(239, 68, 68, 0.08),
+    rgba(239, 68, 68, 0.08)
+  ),
+  var(--surface);
+}
+
 @media (max-width: 600px) {
   .app {
     width: 94vw;

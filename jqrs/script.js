@@ -382,6 +382,7 @@ function buildCardsFromRows(headers, rows) {
   const timestampIndex = findHeaderIndex(headers, "timestamp");
   const questionTypeIndex = findHeaderIndex(headers, "question type");
   const reportsIndex = findReportsColumnIndex(headers);
+  const incorrectIndex = findIncorrectColumnIndex(headers);
   const qaPairs = getQuestionAnswerPairs(headers);
   const cards = [];
 
@@ -393,6 +394,7 @@ function buildCardsFromRows(headers, rows) {
 
     const timestampText = timestampIndex >= 0 ? (row[timestampIndex] || "").trim() : "";
     const questionType = questionTypeIndex >= 0 ? (row[questionTypeIndex] || "").trim() : "";
+    const incorrectValue = incorrectIndex >= 0 ? (row[incorrectIndex] || "").trim() : "";
 
     const filledPairs = qaPairs.filter((pair) => {
       const question = (row[pair.questionIndex] || "").trim();
@@ -417,6 +419,7 @@ function buildCardsFromRows(headers, rows) {
       matchPairs: parseMatchPairs(answer),
       timestampValue: toTimestampValue(timestampText),
       timestampText,
+      isIncorrect: String(incorrectValue).trim().length > 0,
       searchText: `${question} ${answer}`.toLowerCase()
     });
   });
@@ -534,6 +537,10 @@ function isReportedValue(value) {
 
 function findReportsColumnIndex(headers) {
   return headers.findIndex((header) => normalizeHeaderName(header) === "flags");
+}
+
+function findIncorrectColumnIndex(headers) {
+  return headers.findIndex((header) => normalizeHeaderName(header) === "incorrect");
 }
 
 function normalizeHeaderName(header) {
@@ -661,6 +668,9 @@ function renderCards(cards) {
     const cardData = cards[index];
     const cardElement = cardTemplate.content.firstElementChild.cloneNode(true);
     cardElement.classList.add(`card-${cardData.typeKey}`);
+    if (cardData.isIncorrect) {
+      cardElement.classList.add("card-incorrect");
+    }
 
     if (animateThisRender && index < 10) {
       // Progressively faster animation: 0.5s to 0.05s
