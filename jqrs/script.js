@@ -2,7 +2,7 @@ const LOCAL_CSV_FILE = "Senior JQR Answersheet - Form Responses 1.csv";
 const REMOTE_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQRYbKt6ifGQgfgfSJDLvzVQQWBOM_bdHPte2R_PM0GgeoBU_LSBk7ZdofTeWkw9HnbcpUuBOWJzFiH/pub?output=csv";
 const REPORT_WEBHOOK_URL =
-  "https://script.google.com/macros/s/AKfycbwhGBRwGXesSgWBrwCxe8jw0DqfuorqXgxM60xgyDht0seeYPMDQNCIHELrCdQ2o3U3yQ/exec";
+  "https://script.google.com/macros/s/AKfycbyGZXtGgNlXnvnpLRNvkDgHzT5XyBwqTENlkvmq_UNpNqII6U0TE6GkRDseirrib9K95w/exec";
 const REFRESH_INTERVAL_MS = 30000;
 const LOCAL_FLAG_OVERRIDE_MS = 5 * 60 * 1000;
 const FLAG_OVERRIDE_STORAGE_KEY = "jqrsFlagOverrideExpiresByKeyV1";
@@ -371,7 +371,10 @@ cardsContainer.addEventListener("click", async (event) => {
     button.disabled = false;
     button.textContent = "🚩";
     renderActiveView();
-    setStatus("Could not submit flag right now. Please try again.");
+    const errorMessage = error instanceof Error && error.message
+      ? error.message
+      : "Could not submit flag right now. Please try again.";
+    setStatus(errorMessage);
   }
 });
 
@@ -901,6 +904,45 @@ async function submitReport(cardData, reportReason) {
   };
 
   const formBody = new URLSearchParams(payload).toString();
+
+  let response;
+  try {
+    response = await fetch(REPORT_WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+      body: formBody,
+      cache: "no-store",
+      credentials: "omit"
+    });
+  } catch {
+    response = null;
+  }
+
+  if (response) {
+    const responseText = await response.text();
+    let responseJson = null;
+
+    try {
+      responseJson = responseText ? JSON.parse(responseText) : null;
+    } catch {
+      responseJson = null;
+    }
+
+    if (!response.ok) {
+      throw new Error(
+        (responseJson && responseJson.error) ||
+          `Flag submit failed (${response.status}).`
+      );
+    }
+
+    if (responseJson && responseJson.ok === false) {
+      throw new Error(responseJson.error || "Flag rejected by endpoint.");
+    }
+
+    return;
+  }
 
   if (typeof navigator.sendBeacon === "function") {
     const beaconPayload = new Blob([formBody], {
