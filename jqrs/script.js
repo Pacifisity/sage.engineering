@@ -2,7 +2,7 @@ const LOCAL_CSV_FILE = "Senior JQR Answersheet - Form Responses 1.csv";
 const REMOTE_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQRYbKt6ifGQgfgfSJDLvzVQQWBOM_bdHPte2R_PM0GgeoBU_LSBk7ZdofTeWkw9HnbcpUuBOWJzFiH/pub?output=csv";
 const REPORT_WEBHOOK_URL =
-  "https://script.google.com/macros/s/AKfycbyGZXtGgNlXnvnpLRNvkDgHzT5XyBwqTENlkvmq_UNpNqII6U0TE6GkRDseirrib9K95w/exec";
+  "https://script.google.com/macros/s/AKfycbyvswMKj-ymmFC9cAl3gxzEH74WvgUqqxGFyXTCCrg4jk8PRiD0vpM0IgmBOgDfv9qv9g/exec";
 const REFRESH_INTERVAL_MS = 30000;
 const LOCAL_FLAG_OVERRIDE_MS = 5 * 60 * 1000;
 const FLAG_OVERRIDE_STORAGE_KEY = "jqrsFlagOverrideExpiresByKeyV1";
@@ -899,8 +899,7 @@ async function submitReport(cardData, reportReason) {
     timestamp: cardData.timestampText,
     question: cardData.question,
     reported: reportReason,
-    reportReason,
-    reportedAt: new Date().toISOString()
+    reportReason
   };
 
   const formBody = new URLSearchParams(payload).toString();
