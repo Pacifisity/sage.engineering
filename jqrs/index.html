@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Senior JQR Study Guide</title>
+	<link id="mainStylesheet" rel="stylesheet" />
+	<script>
+		(() => {
+			const assetTimestamp = Date.now();
+			window.__assetTimestamp = assetTimestamp;
+			const stylesheet = document.getElementById("mainStylesheet");
+			if (stylesheet) {
+				stylesheet.href = `styles.css?v=${assetTimestamp}`;
+			}
+		})();
+	</script>
+</head>
+<body>
+	<div id="loadingBar" class="loading-bar"></div>
+	<main class="app">
+		<header class="app-header">
+			<h1>Senior JQR Study Guide</h1>
+			<div class="search-row">
+				<input
+					id="searchInput"
+					type="search"
+					placeholder="Search questions and answers..."
+					autocomplete="off"
+					aria-label="Search questions and answers"
+				/>
+				<a
+					class="search-feedback-btn"
+					href="https://forms.gle/f4CEmLHrViEN1WRi7"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Open feedback form"
+				>
+					Feedback
+				</a>
+				<a
+					class="search-add-btn"
+					href="https://forms.gle/rK8ooXGXNz3xPkAb7"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Submit a new senior item"
+				>
+					+
+				</a>
+			</div>
+		</header>
+
+		<section id="cardsContainer" class="cards" aria-label="Study cards"></section>
+	</main>
+
+	<template id="cardTemplate">
+		<article class="card">
+			<div class="card-header">
+				<span class="type-badge"></span>
+				<span class="timestamp"></span>
+			</div>
+			<h2 class="question"></h2>
+			<div class="answer"></div>
+		</article>
+	</template>
+
+	<script>
+		(() => {
+			const assetTimestamp = window.__assetTimestamp || Date.now();
+			const appScript = document.createElement("script");
+			appScript.src = `script.js?v=${assetTimestamp}`;
+			document.body.appendChild(appScript);
+		})();
+	</script>
+</body>
+</html>
