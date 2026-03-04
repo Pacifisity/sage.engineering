@@ -853,17 +853,44 @@ function getQuestionTypeKey(questionType) {
 function parseMatchPairs(answer) {
   return getAnswerLines(answer)
     .map((line) => {
-      const splitIndex = line.indexOf("|");
+      const splitIndex = findFirstUnescapedPipeIndex(line);
       if (splitIndex === -1) {
         return null;
       }
 
       return {
-        left: line.slice(0, splitIndex).trim(),
-        right: line.slice(splitIndex + 1).trim()
+        left: unescapeMatchText(line.slice(0, splitIndex).trim()),
+        right: unescapeMatchText(line.slice(splitIndex + 1).trim())
       };
     })
     .filter((pair) => pair && pair.left && pair.right);
+}
+
+function findFirstUnescapedPipeIndex(text) {
+  let isEscaped = false;
+
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+
+    if (char === "\\" && !isEscaped) {
+      isEscaped = true;
+      continue;
+    }
+
+    if (char === "|" && !isEscaped) {
+      return index;
+    }
+
+    isEscaped = false;
+  }
+
+  return -1;
+}
+
+function unescapeMatchText(text) {
+  return text
+    .replace(/\\\|/g, "|")
+    .replace(/\\\\/g, "\\");
 }
 
 function getAnswerLines(answer) {
