@@ -683,7 +683,18 @@ function renderCards(cards) {
       cardElement.style.opacity = "1";
     }
     
-    cardElement.querySelector(".type-badge").textContent = formatQuestionTypeDisplay(cardData.questionType);
+    const typeBadge = cardElement.querySelector(".type-badge");
+    typeBadge.textContent = formatQuestionTypeDisplay(cardData.questionType);
+    const badgeGroup = document.createElement("div");
+    badgeGroup.className = "badge-group";
+    typeBadge.insertAdjacentElement("beforebegin", badgeGroup);
+    badgeGroup.appendChild(typeBadge);
+    if (cardData.isIncorrect) {
+      const incorrectBadge = document.createElement("span");
+      incorrectBadge.className = "type-badge incorrect-badge";
+      incorrectBadge.textContent = "Incorrect";
+      badgeGroup.appendChild(incorrectBadge);
+    }
     const timestampElement = cardElement.querySelector(".timestamp");
     cardElement.querySelector(".question").textContent = cardData.question;
     renderAnswerByType(cardElement.querySelector(".answer"), cardData);

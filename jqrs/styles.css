@@ -196,6 +196,18 @@ h1 {
   border: 1px solid rgba(139, 92, 246, 0.36);
 }
 
+.badge-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.incorrect-badge {
+  background: rgba(239, 68, 68, 0.14);
+  border-color: rgba(239, 68, 68, 0.38);
+  color: #fecaca;
+}
+
 .timestamp {
   color: var(--muted);
   font-size: 0.8rem;
