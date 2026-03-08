@@ -45,37 +45,12 @@ export const DataService = {
         return rows;
     },
     /**
-     * Levenshtein distance for fuzzy string matching
-     */
-    levenshteinDistance: (str1, str2) => {
-        const len1 = str1.length;
-        const len2 = str2.length;
-        const matrix = Array(len1 + 1).fill(null).map(() => Array(len2 + 1).fill(0));
-
-        for (let i = 0; i <= len1; i++) matrix[i][0] = i;
-        for (let j = 0; j <= len2; j++) matrix[0][j] = j;
-
-        for (let i = 1; i <= len1; i++) {
-            for (let j = 1; j <= len2; j++) {
-                const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
-                matrix[i][j] = Math.min(
-                    matrix[i - 1][j] + 1,
-                    matrix[i][j - 1] + 1,
-                    matrix[i - 1][j - 1] + cost
-                );
-            }
-        }
-        return matrix[len1][len2];
-    },
-
-    /**
-     * Detects duplicate books with fuzzy matching (80% similarity threshold)
+     * Detects duplicate books using exact title matching only.
      * @param {Array} books - The library to check
      * @param {Object} newBook - The book being added/edited
      * @returns {Array} Array of potential duplicates
      */
     detectDuplicates: (books, newBook) => {
-        const threshold = 80; // 80% similarity required
         const matches = [];
 
         books.forEach(book => {
@@ -84,24 +59,6 @@ export const DataService = {
             // Exact title match (case-insensitive)
             if (book.title.toLowerCase() === newBook.title.toLowerCase()) {
                 matches.push({ book, similarity: 100, reason: 'Exact title match' });
-                return;
-            }
-
-            // Fuzzy title matching
-            const title1 = newBook.title.toLowerCase();
-            const title2 = book.title.toLowerCase();
-            const maxLen = Math.max(title1.length, title2.length);
-            const distance = DataService.levenshteinDistance(title1, title2);
-            const similarity = Math.round((1 - distance / maxLen) * 100);
-
-            if (similarity >= threshold) {
-                const sameAuthor = newBook.author && book.author && 
-                    newBook.author.toLowerCase() === book.author.toLowerCase();
-                matches.push({ 
-                    book, 
-                    similarity, 
-                    reason: sameAuthor ? 'Similar title + same author' : 'Similar title' 
-                });
             }
         });
 

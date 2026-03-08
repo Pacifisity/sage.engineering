@@ -1,11 +1,11 @@
-const LOCAL_CSV_FILE = "JQR Answersheet - Form Responses 1.csv";
+const LOCAL_CSV_FILE = "Senior JQR Answersheet - Form Responses 1.csv";
 const REMOTE_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSLWVIeYowYIxNfRA23p88_YEiWfpsf-KpbzNsP1fC_UjM1TC5bjeTyD30_XX3U4utiS8z634kY_-y/pub?output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQRYbKt6ifGQgfgfSJDLvzVQQWBOM_bdHPte2R_PM0GgeoBU_LSBk7ZdofTeWkw9HnbcpUuBOWJzFiH/pub?output=csv";
 const REPORT_WEBHOOK_URL =
-  "https://script.google.com/macros/s/AKfycby1c_VQAFkrAv_SVci_ZDxskvdY_1SfYWhilpdNvwphAdifLxcLGaZIPKseyOeUI9QZ/exec";
+  "https://script.google.com/macros/s/AKfycbyvswMKj-ymmFC9cAl3gxzEH74WvgUqqxGFyXTCCrg4jk8PRiD0vpM0IgmBOgDfv9qv9g/exec";
 const REFRESH_INTERVAL_MS = 30000;
 const LOCAL_FLAG_OVERRIDE_MS = 5 * 60 * 1000;
-const FLAG_OVERRIDE_STORAGE_KEY = "jqrFlagOverrideExpiresByKeyV1";
+const FLAG_OVERRIDE_STORAGE_KEY = "jqrsFlagOverrideExpiresByKeyV1";
 
 const searchInput = document.getElementById("searchInput");
 const statusText = document.getElementById("statusText");
@@ -371,7 +371,10 @@ cardsContainer.addEventListener("click", async (event) => {
     button.disabled = false;
     button.textContent = "🚩";
     renderActiveView();
-    setStatus("Could not submit flag right now. Please try again.");
+    const errorMessage = error instanceof Error && error.message
+      ? error.message
+      : "Could not submit flag right now. Please try again.";
+    setStatus(errorMessage);
   }
 });
 
@@ -379,6 +382,7 @@ function buildCardsFromRows(headers, rows) {
   const timestampIndex = findHeaderIndex(headers, "timestamp");
   const questionTypeIndex = findHeaderIndex(headers, "question type");
   const reportsIndex = findReportsColumnIndex(headers);
+  const incorrectIndex = findIncorrectColumnIndex(headers);
   const qaPairs = getQuestionAnswerPairs(headers);
   const cards = [];
 
@@ -390,6 +394,7 @@ function buildCardsFromRows(headers, rows) {
 
     const timestampText = timestampIndex >= 0 ? (row[timestampIndex] || "").trim() : "";
     const questionType = questionTypeIndex >= 0 ? (row[questionTypeIndex] || "").trim() : "";
+    const incorrectValue = incorrectIndex >= 0 ? (row[incorrectIndex] || "").trim() : "";
 
     const filledPairs = qaPairs.filter((pair) => {
       const question = (row[pair.questionIndex] || "").trim();
@@ -414,6 +419,7 @@ function buildCardsFromRows(headers, rows) {
       matchPairs: parseMatchPairs(answer),
       timestampValue: toTimestampValue(timestampText),
       timestampText,
+      isIncorrect: String(incorrectValue).trim().length > 0,
       searchText: `${question} ${answer}`.toLowerCase()
     });
   });
@@ -530,7 +536,11 @@ function isReportedValue(value) {
 }
 
 function findReportsColumnIndex(headers) {
-  return headers.findIndex((header) => normalizeHeaderName(header) === "reports");
+  return headers.findIndex((header) => normalizeHeaderName(header) === "flags");
+}
+
+function findIncorrectColumnIndex(headers) {
+  return headers.findIndex((header) => normalizeHeaderName(header) === "incorrect");
 }
 
 function normalizeHeaderName(header) {
@@ -658,6 +668,9 @@ function renderCards(cards) {
     const cardData = cards[index];
     const cardElement = cardTemplate.content.firstElementChild.cloneNode(true);
     cardElement.classList.add(`card-${cardData.typeKey}`);
+    if (cardData.isIncorrect) {
+      cardElement.classList.add("card-incorrect");
+    }
 
     if (animateThisRender && index < 10) {
       // Progressively faster animation: 0.5s to 0.05s
@@ -670,7 +683,18 @@ function renderCards(cards) {
       cardElement.style.opacity = "1";
     }
     
-    cardElement.querySelector(".type-badge").textContent = formatQuestionTypeDisplay(cardData.questionType);
+    const typeBadge = cardElement.querySelector(".type-badge");
+    typeBadge.textContent = formatQuestionTypeDisplay(cardData.questionType);
+    const badgeGroup = document.createElement("div");
+    badgeGroup.className = "badge-group";
+    typeBadge.insertAdjacentElement("beforebegin", badgeGroup);
+    badgeGroup.appendChild(typeBadge);
+    if (cardData.isIncorrect) {
+      const incorrectBadge = document.createElement("span");
+      incorrectBadge.className = "type-badge incorrect-badge";
+      incorrectBadge.textContent = "Incorrect";
+      badgeGroup.appendChild(incorrectBadge);
+    }
     const timestampElement = cardElement.querySelector(".timestamp");
     cardElement.querySelector(".question").textContent = cardData.question;
     renderAnswerByType(cardElement.querySelector(".answer"), cardData);
@@ -840,17 +864,44 @@ function getQuestionTypeKey(questionType) {
 function parseMatchPairs(answer) {
   return getAnswerLines(answer)
     .map((line) => {
-      const splitIndex = line.indexOf("|");
+      const splitIndex = findFirstUnescapedPipeIndex(line);
       if (splitIndex === -1) {
         return null;
       }
 
       return {
-        left: line.slice(0, splitIndex).trim(),
-        right: line.slice(splitIndex + 1).trim()
+        left: unescapeMatchText(line.slice(0, splitIndex).trim()),
+        right: unescapeMatchText(line.slice(splitIndex + 1).trim())
       };
     })
     .filter((pair) => pair && pair.left && pair.right);
+}
+
+function findFirstUnescapedPipeIndex(text) {
+  let isEscaped = false;
+
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+
+    if (char === "\\" && !isEscaped) {
+      isEscaped = true;
+      continue;
+    }
+
+    if (char === "|" && !isEscaped) {
+      return index;
+    }
+
+    isEscaped = false;
+  }
+
+  return -1;
+}
+
+function unescapeMatchText(text) {
+  return text
+    .replace(/\\\|/g, "|")
+    .replace(/\\\\/g, "\\");
 }
 
 function getAnswerLines(answer) {
@@ -896,11 +947,49 @@ async function submitReport(cardData, reportReason) {
     timestamp: cardData.timestampText,
     question: cardData.question,
     reported: reportReason,
-    reportReason,
-    reportedAt: new Date().toISOString()
+    reportReason
   };
 
   const formBody = new URLSearchParams(payload).toString();
+
+  let response;
+  try {
+    response = await fetch(REPORT_WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+      body: formBody,
+      cache: "no-store",
+      credentials: "omit"
+    });
+  } catch {
+    response = null;
+  }
+
+  if (response) {
+    const responseText = await response.text();
+    let responseJson = null;
+
+    try {
+      responseJson = responseText ? JSON.parse(responseText) : null;
+    } catch {
+      responseJson = null;
+    }
+
+    if (!response.ok) {
+      throw new Error(
+        (responseJson && responseJson.error) ||
+          `Flag submit failed (${response.status}).`
+      );
+    }
+
+    if (responseJson && responseJson.ok === false) {
+      throw new Error(responseJson.error || "Flag rejected by endpoint.");
+    }
+
+    return;
+  }
 
   if (typeof navigator.sendBeacon === "function") {
     const beaconPayload = new Blob([formBody], {

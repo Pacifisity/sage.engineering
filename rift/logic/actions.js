@@ -51,12 +51,12 @@ export const BookActions = {
 
         const index = state.books.findIndex(b => b.id === cleanedData.id);
         
-        // Check for duplicates (only warn, don't prevent)
+        // Check for exact duplicates (only warn, don't prevent)
         const duplicates = DataService.detectDuplicates(state.books, cleanedData);
         if (duplicates.length > 0 && index === -1) {
-            // Only warn about duplicates when creating new books
+            // Only warn about exact duplicate titles when creating new books
             const dupTitles = duplicates.slice(0, 3).map(d => d.book.title).join(', ');
-            console.warn(`Possible duplicate detected: Similar to "${dupTitles}"`);
+            console.warn(`Possible duplicate detected: Exact title match with "${dupTitles}"`);
         }
         
         if (index > -1) {
