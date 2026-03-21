@@ -9,17 +9,17 @@
 }
 
 :root {
-  --bg-night: #080710;
-  --bg-panel: #130f22;
-  --bg-panel-soft: #1d1530;
-  --bg-reader: #0f1020;
+  --bg-night: #040406;
+  --bg-panel: #0a0a10;
+  --bg-panel-soft: #101018;
+  --bg-reader: #0b0b12;
   --accent-purple: #a86dff;
   --accent-purple-deep: #7b3df2;
-  --accent-glow: rgba(168, 109, 255, 0.4);
-  --text-main: #ede8ff;
-  --text-soft: #b9b2d6;
-  --text-dim: #968fb7;
-  --line: rgba(168, 109, 255, 0.22);
+  --accent-glow: rgba(168, 109, 255, 0.22);
+  --text-main: #eceaf7;
+  --text-soft: #b8b5c8;
+  --text-dim: #8f8aa6;
+  --line: rgba(168, 109, 255, 0.14);
   --danger: #ff8ea2;
   --shadow: 0 24px 45px rgba(3, 3, 7, 0.55);
 }
@@ -45,10 +45,10 @@ body {
   font-family: "Manrope", sans-serif;
   color: var(--text-main);
   background:
-    radial-gradient(circle at 15% 10%, rgba(168, 109, 255, 0.2), transparent 35%),
-    radial-gradient(circle at 88% 18%, rgba(123, 61, 242, 0.28), transparent 40%),
-    radial-gradient(circle at 65% 85%, rgba(74, 26, 158, 0.22), transparent 30%),
-    linear-gradient(165deg, #060509, #0a0813 40%, #05050b 100%);
+    radial-gradient(circle at 15% 10%, rgba(168, 109, 255, 0.1), transparent 35%),
+    radial-gradient(circle at 88% 18%, rgba(123, 61, 242, 0.12), transparent 40%),
+    radial-gradient(circle at 65% 85%, rgba(74, 26, 158, 0.1), transparent 30%),
+    linear-gradient(165deg, #020203, #050509 40%, #010102 100%);
   padding: 1.4rem;
 }
 
@@ -58,7 +58,7 @@ body {
   min-height: calc(100vh - 2.8rem);
   display: grid;
   grid-template-columns: 320px 1fr;
-  background: linear-gradient(140deg, rgba(13, 11, 24, 0.96), rgba(9, 8, 17, 0.95));
+  background: linear-gradient(140deg, rgba(8, 8, 13, 0.97), rgba(4, 4, 8, 0.96));
   border: 1px solid var(--line);
   border-radius: 18px;
   overflow: hidden;
@@ -81,6 +81,18 @@ body {
   line-height: 1;
   color: #f5efff;
   text-shadow: 0 0 16px rgba(168, 109, 255, 0.36);
+}
+
+.brand-link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.brand-link:hover,
+.brand-link:focus-visible {
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(168, 109, 255, 0.5);
 }
 
 .home-btn {
@@ -150,7 +162,10 @@ body {
 .story-list {
   display: grid;
   gap: 0.65rem;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
   padding-right: 0.2rem;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -164,7 +179,7 @@ body {
 .story-btn {
   border: 1px solid rgba(168, 109, 255, 0.24);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.01);
   color: var(--text-main);
   padding: 0.75rem;
   text-align: left;
@@ -175,13 +190,13 @@ body {
 
 .story-btn:hover {
   transform: translateY(-2px);
-  border-color: rgba(168, 109, 255, 0.65);
-  background: rgba(123, 61, 242, 0.2);
+  border-color: rgba(168, 109, 255, 0.5);
+  background: rgba(123, 61, 242, 0.12);
 }
 
 .story-btn.active {
   border-color: var(--accent-purple);
-  background: linear-gradient(95deg, rgba(123, 61, 242, 0.42), rgba(168, 109, 255, 0.28));
+  background: linear-gradient(95deg, rgba(123, 61, 242, 0.28), rgba(168, 109, 255, 0.16));
 }
 
 .story-btn-title {
@@ -198,7 +213,7 @@ body {
 .content {
   position: relative;
   padding: 1.5rem 1.7rem;
-  background: linear-gradient(180deg, rgba(15, 16, 32, 0.95), rgba(10, 10, 20, 0.95));
+  background: linear-gradient(180deg, rgba(10, 10, 16, 0.96), rgba(6, 6, 10, 0.96));
 }
 
 .status {
@@ -286,7 +301,7 @@ body {
 
 .focus-mode-btn {
   border: 1px solid rgba(168, 109, 255, 0.35);
-  background: rgba(123, 61, 242, 0.16);
+  background: rgba(123, 61, 242, 0.1);
   color: var(--text-main);
   border-radius: 8px;
   padding: 0.5rem 0.85rem;
@@ -301,14 +316,14 @@ body {
 }
 
 .focus-mode-btn.active {
-  background: linear-gradient(90deg, rgba(123, 61, 242, 0.74), rgba(168, 109, 255, 0.55));
+  background: linear-gradient(90deg, rgba(123, 61, 242, 0.56), rgba(168, 109, 255, 0.36));
   border-color: rgba(214, 190, 255, 0.78);
   color: #fff;
 }
 
 .chapter-select {
   width: 100%;
-  background: rgba(123, 61, 242, 0.16);
+  background: rgba(123, 61, 242, 0.08);
   border: 1px solid rgba(168, 109, 255, 0.4);
   color: var(--text-main);
   border-radius: 8px;
@@ -329,7 +344,7 @@ body {
 }
 
 .chapter-select option {
-  background: #1d1530;
+  background: #0f0f17;
   color: var(--text-main);
 }
 
@@ -344,7 +359,7 @@ body {
 
 .chapter-nav-btn {
   border: 1px solid rgba(168, 109, 255, 0.4);
-  background: rgba(123, 61, 242, 0.16);
+  background: rgba(123, 61, 242, 0.08);
   color: var(--text-main);
   border-radius: 8px;
   padding: 0.55rem 1.2rem;
@@ -355,7 +370,7 @@ body {
 
 .chapter-nav-btn:hover:not(:disabled) {
   border-color: var(--accent-purple);
-  background: rgba(123, 61, 242, 0.3);
+  background: rgba(123, 61, 242, 0.18);
 }
 
 .chapter-nav-btn:disabled {

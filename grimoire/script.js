@@ -12,7 +12,7 @@ const storyBodyEl = document.getElementById("storyBody");
 const statusEl = document.getElementById("status");
 const homeViewEl = document.getElementById("homeView");
 const readerViewEl = document.getElementById("readerView");
-const homeCardEl = document.getElementById("homeCard");
+const homeBrandLinkEl = document.getElementById("homeBrandLink");
 
 let library = [];
 let filteredLibrary = [];
@@ -261,32 +261,11 @@ window.addEventListener("scroll", () => {
   });
 });
 
-function renderHomeCard(story) {
-  if (!story) {
-    homeCardEl.innerHTML = "<h3>No story selected</h3><p>Choose any story from the left to preview it.</p>";
-    return;
-  }
-
-  const chapterCount = Array.isArray(story.chapters) ? story.chapters.length : 0;
-  homeCardEl.innerHTML = `
-    <h3>${escapeHtml(story.title)}</h3>
-    <p>${escapeHtml(story.description || "No description yet.")}</p>
-    <p>${chapterCount} chapter${chapterCount === 1 ? "" : "s"}</p>
-    <button class="open-story-btn" type="button" data-story-id="${escapeHtml(story.id)}">Open Story</button>
-  `;
-
-  const openBtn = homeCardEl.querySelector(".open-story-btn");
-  openBtn.addEventListener("click", () => {
-    openStory(story.id);
-  });
-}
-
 function renderStoryList() {
   storyListEl.innerHTML = "";
 
   if (filteredLibrary.length === 0) {
     storyListEl.innerHTML = "<p class=\"story-btn-meta\">No stories match this search.</p>";
-    renderHomeCard(null);
     return;
   }
 
@@ -311,7 +290,6 @@ function renderStoryList() {
 
   const fallback = filteredLibrary.find((story) => story.id === activeStoryId) || filteredLibrary[0];
   activeStoryId = fallback.id;
-  renderHomeCard(fallback);
 }
 
 async function loadChapter(chapterPath) {
@@ -342,7 +320,8 @@ function renderChapterList() {
   activeChapters.forEach((chapter, index) => {
     const option = document.createElement("option");
     option.value = index;
-    option.textContent = chapter.title;
+    const chapterTitle = chapter.title || `Chapter ${index + 1}`;
+    option.textContent = `${index + 1} - ${chapterTitle}`;
     chapterSelectEl.appendChild(option);
   });
 }
@@ -463,6 +442,11 @@ function setFocusMode(enabled) {
 
 focusModeBtnEl.addEventListener("click", () => {
   setFocusMode(!document.body.classList.contains("focus-mode"));
+});
+
+homeBrandLinkEl.addEventListener("click", (event) => {
+  event.preventDefault();
+  showHome();
 });
 
 loadLibrary();
