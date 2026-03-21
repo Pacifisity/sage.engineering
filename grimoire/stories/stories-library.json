@@ -1,0 +1,149 @@
+{
+  "stories": [
+    {
+      "id": "hero-of-tommorrow",
+      "title": "The Hero Of Tommorrow",
+      "description": "A hero with the power to turn back time is summoned to defeat the Demon King \u2014 but keeps finding reasons to do it tomorrow.",
+      "chapters": [
+        {
+          "title": "The Summoning",
+          "path": "stories/The Hero Of Tommorrow/1.md"
+        },
+        {
+          "title": "Tomorrow, I Promise",
+          "path": "stories/The Hero Of Tommorrow/2.md"
+        },
+        {
+          "title": "The Art of the Perfect Plan",
+          "path": "stories/The Hero Of Tommorrow/3.md"
+        },
+        {
+          "title": "A Very Noble Scouting Mission",
+          "path": "stories/The Hero Of Tommorrow/4.md"
+        },
+        {
+          "title": "The First Attempt (Sort Of)",
+          "path": "stories/The Hero Of Tommorrow/5.md"
+        },
+        {
+          "title": "What the Sage Saw",
+          "path": "stories/The Hero Of Tommorrow/6.md"
+        },
+        {
+          "title": "The Demon King Sends a Letter",
+          "path": "stories/The Hero Of Tommorrow/7.md"
+        },
+        {
+          "title": "Running Out of Tomorrows",
+          "path": "stories/The Hero Of Tommorrow/8.md"
+        },
+        {
+          "title": "The Road That Doesn't Reset",
+          "path": "stories/The Hero Of Tommorrow/9.md"
+        },
+        {
+          "title": "Eventually",
+          "path": "stories/The Hero Of Tommorrow/10.md"
+        }
+      ]
+    },
+    {
+      "id": "echo-chamber",
+      "title": "The Echo Chamber",
+      "description": "A normal man starts an online theory thread that mutates into a cult, spiraling into real-world harm before he breaks and fights to shut it down.",
+      "chapters": [
+        {
+          "title": "Thread One",
+          "path": "stories/The Echo Chamber/1.md"
+        },
+        {
+          "title": "Phase Two",
+          "path": "stories/The Echo Chamber/2.md"
+        },
+        {
+          "title": "The Noise Floor",
+          "path": "stories/The Echo Chamber/3.md"
+        }
+      ]
+    },
+    {
+      "id": "pay-in-bone",
+      "title": "Pay in Bone",
+      "description": "A grimdark war chronicle of Cael Veyr's descent through power, debt, and impossible survival.",
+      "chapters": [
+        {
+          "title": "Before the Sigil Was Taken",
+          "path": "stories/Pay in Bone/1.md"
+        },
+        {
+          "title": "Pay in Bone",
+          "path": "stories/Pay in Bone/2.md"
+        },
+        {
+          "title": "Ashbridge Law",
+          "path": "stories/Pay in Bone/3.md"
+        },
+        {
+          "title": "Riot Gospel",
+          "path": "stories/Pay in Bone/4.md"
+        },
+        {
+          "title": "Tongues Over the Gate",
+          "path": "stories/Pay in Bone/5.md"
+        },
+        {
+          "title": "Tunnel Arithmetic",
+          "path": "stories/Pay in Bone/6.md"
+        },
+        {
+          "title": "The Hollow Spire Campaign",
+          "path": "stories/Pay in Bone/7.md"
+        },
+        {
+          "title": "Bells for the Poisoned",
+          "path": "stories/Pay in Bone/8.md"
+        },
+        {
+          "title": "The Glassfields War",
+          "path": "stories/Pay in Bone/9.md"
+        },
+        {
+          "title": "Fire on the Tides",
+          "path": "stories/Pay in Bone/10.md"
+        },
+        {
+          "title": "The Mother's Ash Script",
+          "path": "stories/Pay in Bone/11.md"
+        },
+        {
+          "title": "White Hair Dominion",
+          "path": "stories/Pay in Bone/12.md"
+        },
+        {
+          "title": "Roads Built on Hurt",
+          "path": "stories/Pay in Bone/13.md"
+        },
+        {
+          "title": "Kingdom of Escalation",
+          "path": "stories/Pay in Bone/14.md"
+        },
+        {
+          "title": "Graves for Distance",
+          "path": "stories/Pay in Bone/15.md"
+        },
+        {
+          "title": "The Exit Cost",
+          "path": "stories/Pay in Bone/16.md"
+        },
+        {
+          "title": "Weather Debt",
+          "path": "stories/Pay in Bone/17.md"
+        },
+        {
+          "title": "No Last Chapter",
+          "path": "stories/Pay in Bone/18.md"
+        }
+      ]
+    }
+  ]
+}

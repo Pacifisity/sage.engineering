@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Story Grimoire</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<main class="app" aria-label="Story reader">
+		<aside class="sidebar">
+			<h1 class="brand">Grimoire</h1>
+
+			<section id="storyList" class="story-list" aria-label="Available stories"></section>
+		</aside>
+
+		<section class="content">
+			<p id="status" class="status" role="status" aria-live="polite"></p>
+
+			<section id="homeView" class="home-view active" aria-label="Story home">
+				<h2 class="home-title">Story Home</h2>
+				<p class="home-text">Pick a story from the left panel and jump into reading with markdown-aware formatting.</p>
+				<article id="homeCard" class="home-card"></article>
+			</section>
+
+			<section id="readerView" class="reader-view" aria-label="Reader view">
+				<div class="reader-topbar">
+					<div class="chapter-select-wrap">
+					<select id="chapterSelect" class="chapter-select" aria-label="Chapter"></select>
+					</div>
+					<button id="focusModeBtn" class="focus-mode-btn" type="button" aria-pressed="false">Full View</button>
+				</div>
+				<article id="storyBody" class="story-body"></article>
+				<nav class="chapter-nav-bottom" aria-label="Chapter navigation">
+					<button id="prevChapterBtn" type="button" class="chapter-nav-btn">&#8592; Previous</button>
+					<button id="nextChapterBtn" type="button" class="chapter-nav-btn">Next &#8594;</button>
+				</nav>
+			</section>
+		</section>
+	</main>
+
+	<script src="script.js"></script>
+</body>
+</html>
