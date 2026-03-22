@@ -1,42 +1,46 @@
-# Continuity Checkpoints (Current Through Ch 12)
+﻿# Continuity Checkpoints (Current Through Ch 15)
 
-## Core Arc State
-- Ch 1-3: Sigil theft and exile establish Cael as dispossessed but operational.
-- Ch 4-6: route wars and early moral debt set the ledger voice and survival calculus.
-- Ch 7-10: insurgent logistics scale into district governance and coercive infrastructure.
-- Ch 11-12: debt-ledger warfare expands legitimacy while increasing state retaliation risk.
-- Ch 13-18: removed from active canon; rewrite pending.
+## Canon Arc State
+- Ch 1-3: Sigil theft, exile, survival adaptation.
+- Ch 4-6: Black Weight onset, transactional alliances, moral debt foundation.
+- Ch 7-9: infrastructure war, vow architecture, coercive command emergence.
+- Ch 10-11: bell-casting scale, memory attrition, Yarrow command maturation.
+- Ch 12-13: dock promise, annexation pressure, kin extraction strategy, Nara pregnancy reveal.
+- Ch 14-15: debt archive heist and public burn, retaliation surge, Marrow Court siphon break, Nara departure.
 
-## Character Checkpoints
-- Cael:
-	- No longer framed as only fugitive or raider by mid arc.
-	- Must carry cumulative bodily and perceptual cost from casting decisions.
-- Yarrow:
-	- Introduced as very young (around twelve in early text).
-	- Progresses into junior officer/intelligence role; avoid conflicting hard-number age restatements.
-- Nara:
-	- Remains ethical counterforce with operational influence, not passive conscience voice.
-- Halvek:
-	- Indispensable ritual technician with poisoned trust relationship.
-- Sereth:
-	- Active strategic threat; destabilized at times but never narratively trivialized.
+## Must-Carry Consequences Into Ch 16+
+- Cael burned three months lifespan in the archive operation.
+- Sereth escaped with two ledger pages and unresolved kill pressure.
+- Warrant/search authority expanded after the ledger burn.
+- Nara has left with the child; this is a structural break, not a temporary separation.
+- Yarrow now executes command decisions without moral pause.
+- Nara relocates to a new city under a different House.
+- Yarrow eventually controls the city formerly held by House Veyr.
+- Sereth's attrition war spans 3 years before Cael's sacrifice point.
+- Kess is 3 years old at the time of Cael's sacrifice.
 
-## World/War Checkpoints
-- Territorial control is measured by roads, clinics, depots, relay sites, and ration authority.
-- Major operations must leave downstream civic effects (prices, disease, migration, revenge, legitimacy shifts).
-- House conflict should read as active war pressure, not procedural paperwork conflict.
+## Character Continuity Locks
+- Cael cannot return to early-fugitive framing.
+- Nara cannot be written as if Chapter 15 did not happen.
+- Sereth cannot be written as stable or secure.
+- Yarrow cannot regress into naive apprentice behavior.
+- Kess is the female second MC after Cael; do not frame successor identity as male.
 
-## Oath and Magic Checkpoints
-- Cast scenes should include cost acknowledgment before or at cast moment (explicit or symbolic).
-- Vow break consequences must persist across chapters.
-- Black Weight effects should evolve, not appear/disappear episodically.
+## World Continuity Locks
+- Territorial control equals routes + medicine + food + legal process.
+- Every major operation must produce civic aftershocks.
+- Administrative violence should appear as paperwork plus force, not force alone.
 
-## Style/Voice Checkpoints
-- Avoid repetitive "X called it / I called it" constructions in dense clusters.
-- Keep ledger language concise and diagnostic.
-- Keep moral argument in scene conflict, not authorial explanation.
+## Magic and Oath Locks
+- Major casts must name cost or show immediate cost signal.
+- Bell-cast memory loss is durable and operationally relevant.
+- Black Weight remains present and functionally advisory.
+- Vow consequences persist across chapters.
 
-## Forward Guardrails (For Ch 13+ Rewrite)
-- Add one dated timeline anchor per major arc shift to stabilize age continuity.
-- When introducing new command doctrine, show immediate tactical gain and delayed civilian/system cost.
-- Do not resolve core contradictions quickly; this story's engine is cumulative cost.
+## Chapter Build Standard
+Each new chapter must permanently scar at least one domain:
+- body
+- relationships
+- infrastructure
+- legitimacy
+- resource systems

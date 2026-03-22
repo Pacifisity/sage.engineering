@@ -1,86 +1,78 @@
-# Character Notes (Current Through Ch 12)
+﻿# Character Notes (Current Through Ch 15)
 
 Use this file as the source of truth for character continuity in active chapters.
 
 ## Cael Veyr
 - Role: protagonist; warlord-administrator built from betrayal, extraction trauma, and survival math.
-- Core condition: Origin Sigil was stolen; operates via vow structures, scar lattice workarounds, and escalating ritual cost.
-- Current trajectory: from resistance commander into system builder who increasingly governs through coercive infrastructure.
-- Psychological markers: ledger fixation, moral compartmentalization, mirror/Black Weight interference, strategic self-justification under guilt.
-- Physical markers (active): chronic channel damage, recurring pain/injury backlash, post-ritual deterioration, unstable casting reliability after vow break.
+- Current state: has shifted from insurgent to coercive district governor.
+- Physical state: chronic scar-lattice pain, recurring channel damage, visible aging (gray/white intrusion), persistent injury load.
+- Psychological state: ledger fixation, moral compartmentalization, Black Weight co-pilot behavior, memory-fragment adaptation.
+- Chapter 15 status: defeats Sereth's siphon structure but does not kill her; loses Nara and remains in power.
 
 ## Sereth Veyr
-- Role: primary antagonist; holds stolen Origin power.
-- Method: kin-blood architecture, ritual logistics, command through scalable extraction systems.
-- Current state through Ch 12: active strategic threat with escalating political and ritual reach.
+- Role: primary bloodline antagonist with stolen Origin power.
+- Method: kin extraction, line resonance exploitation, legal-theological cover.
+- Current state: destabilized and hungry; escaped Marrow Court with two ledger pages.
+- Chapter 16+ rule: dangerous, desperate, and still strategic; never written as solved.
 
 ## Yarrow Pike
 - Role: scout -> courier -> intelligence operator -> junior command asset.
-- Introduction anchor: appears around age twelve in early arc (Ch 2-4 language).
-- Progression anchor: visibly older by mid arc; treated operationally as barely grown, not a child by command behavior.
-- Current function: pattern analysis, internal watch work, high-trust field utility under Cael.
-- Psychological arc: competence rises with moral injury; increasingly shaped by Cael's methods.
-- Continuity guardrail:
-	- Avoid hard age jumps unless an explicit time-skip is stated.
-	- Prefer relative language after early chapters (e.g., "barely grown," "young officer") to preserve timeline flexibility.
+- Current function: autonomous tactical decision-maker trusted with lethal authority.
+- Arc state: loyalty intact, moral injury deepening, execution logic now routine.
+- Political state (post-attrition): holds operational control of the former House Veyr city.
+- Continuity rule: avoid hard age numbers after early chapters; use role-based language (young officer, barely grown, unit lead).
 
 ## Nara Quill
-- Role: surgeon, moral counterweight, systems realist.
-- Core position: protects civilians and clinical ethics while operating inside Cael's war machine.
-- Leverage over Cael: enforces constraints (notably child-protection boundary logic) through consequences, not idealism.
-- Current relationship to Cael: ongoing cooperation under severe ethical strain; influence persists but trust is repeatedly damaged.
+- Role: surgeon, ethic counterweight, systems realist.
+- Current state: left Cael in Chapter 15 to protect herself and their child from the machine he runs.
+- Relocation lock: resettles in a different city under a different House after departure.
+- Narrative rule: she is not dead, not erased, and not politically neutral after leaving.
+
+## Kess
+- Role: second MC after Cael's terminal arc.
+- Identity lock: female.
+- Inheritance mechanics: Black Weight harvests Cael's cores and memory architecture, then \"rewards\" both to Kess in exchange for accepting Black Weight's attachment.
+- Power state (at MC transition): enters as unusually resourced for age, holding both harvested magical capacity and Cael's complete memory.
+- Timeline lock: is 3 years old at the moment of Cael's sacrifice; young enough that memory integration becomes formative rather than destabilizing.
 
 ## Brother Halvek
-- Role: oathcraft specialist, ritual engineer, corrosive advisor.
-- Key functions: vow architecture, counter-lattice development, cost doctrine.
-- Complication: implicated in legal/ritual architecture that enabled core betrayal; retained for utility.
-- Current relationship to Cael: indispensable and poisoned; tactical alignment without moral repair.
+- Role: oathcraft and ritual engineer.
+- Current state: still indispensable, still untrusted, still right too often.
+- Chapter 16+ rule: keep him as a costly advisor, not a moral guide.
 
 ## Irix Thorn
-- Role: assassin-intelligence operator; high-skill field pragmatist.
-- Function in arc: perimeter discipline, leak control, structural critique of Cael's command logic.
-- Current state through Ch 12: active and operationally present, but trust remains conditional.
-- Continuity guardrail: keep motive ambiguity active unless an explicit betrayal or break is shown in a future rewrite.
+- Role: assassin-intelligence operator and perimeter discipline specialist.
+- Current state: high-value, motive ambiguity intact.
+- Rule: keep his utility high and his emotional transparency low.
 
 ## Morn Hal
-- Role: former regime officer turned conditional defector.
-- Value: doctrine, maps, military integration gains.
-- Cost: institutionalized suspicion and internal trust erosion after integration.
-- Current state: treated as high-value but never fully trusted.
-
-## Karel Dune
-- Role: elite hunter/rival figure; pressure agent and mirror to Cael's logic.
-- Arc function: tests Cael's collapse thresholds and strategic self-story.
-- Current state through Ch 12: active rival pressure and unresolved threat.
-
-## Uncle Drov Veyr
-- Role: House power actor pursuing territorial control.
-- Correct framing: war annexation pressure, not passive administrative oversight.
-- Methods: ultimata, proxy force, coordinated strikes, coercive legal-religious cover.
+- Role: former regime officer turned conditional ally.
+- Current state: strategic military asset, trust never complete.
 
 ## Lio Ferr
-- Role: archivist-analyst of rites, lineages, and system memory.
-- Function: translates occult/legal infrastructure into usable war intelligence.
-- Current value: high for ritual continuity and threat modeling.
+- Role: archivist-analyst of bloodline law and rite systems.
+- Current state: central to continuity intelligence, especially after ledger fragmentation.
 
-## Matron Ys Veyr
-- Role: mother; complicit architect in foundational betrayal.
-- Narrative function: legal-ritual lineage authority, emotional fracture point, strategic legacy pressure.
+## Uncle Drov Veyr
+- Role: annexation actor using law and logistics as warfare.
+- Current state: still active pressure vector through depots, clinics, road control, and warrants.
 
 ## Tamsin Rook
-- Role: smuggler power broker.
-- Function: corridor, passage, and transactional leverage across unstable fronts.
+- Role: smuggler broker and route-power negotiator.
+- Current state: still holds leverage over Cael through debt-marked exchanges.
 
-## Continuity Guardrails (High Priority)
-- Yarrow age logic:
-	- Early chapters: explicit around twelve is fine.
-	- Mid/late chapters: avoid conflicting hard numbers; use progression language unless a dated timeskip is explicit.
-- Command structure:
-	- Cael is no longer only insurgent; he is governing through war infrastructure.
-	- Policy language should reflect coercive administration, not ad hoc gang control.
-- Drov conflict logic:
-	- Treat as active territorial war pressure.
-	- Avoid scenes that read like peaceful office audit unless framed as deception inside ongoing violence.
-- Oath/cost logic:
-	- Major casts should acknowledge cost in-scene (explicitly or symbolically).
-	- Vow breaches must produce durable consequences, not one-scene flavor.
+## Matriarch Ys
+- Role: Cael's mother; bloodline apex actor and hidden architect of family collapse.
+- Method: Origin harvesting, kin extraction, multi-generational power consolidation.
+- Chapter 1 appearance: took interim authority after Cael's father vanished; watched Sereth's rise without visible opposition.
+- Chapter 16+ state: overt antagonist revealed; orchestrates attrition war through Sereth as proxy; harvest power escalates visibly post-Sereth confrontation.
+- Narrative rule: no internal POV or omniscient cuts; always filtered through Cael's understanding or secondary witness accounts.
+- Terminal arc role: apex threat that forces Cael toward sacrificial endgame; her power absorbs Sereth's Origin mid-war.
+- Post-Cael presence: may persist as supernatural pressure within Black Weight after Cael's death.
+
+## Continuity Guardrails
+- Every character shift must be earned over multiple chapters.
+- No clean redemption turns for major actors.
+- Keep command language precise and administrative when Cael is operating as governor.
+- Keep relationship damage cumulative; do not soft reset after climactic chapters.
+- As Kess grows, mention Nara's relocation city and Yarrow-held Veyr city through subtle lived details rather than exposition dumps.
