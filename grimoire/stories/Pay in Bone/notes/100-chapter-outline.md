@@ -51,28 +51,28 @@ Cael, Nara, and Yarrow infiltrate a Warden archive during curfew, crawling throu
 Consequence: debt relief wins loyalty; state retaliation targets medical supply lines.
 
 ## Chapter 13 - Guild Chains Notice
-Guild Chains issue a professional bounty: cinders, pardon slips, and tax immunity for whoever delivers Cael alive. Hunters flood into taverns, chapels, and funeral roads asking for his scars. Irix Thorn takes the contract, then trails Cael for days instead of striking, memorizing routines and weaknesses like verses.
-Consequence: every safehouse becomes temporary, and paranoia becomes policy.
+Removed from active draft on 2026-03-21.
+Rewrite pending.
 
 ## Chapter 14 - The Quarry Lesson
-At Red Quarry, Halvek forces Cael to hold a blood ward for six straight hours while winds throw stone grit into open cuts. If the ward drops, hidden refugees die. Cael keeps it active, then collapses with a permanent tremor in his left hand. He cannot hold a cup without spilling afterward.
-Consequence: Cael saves people but loses fine motor control forever.
+Removed from active draft on 2026-03-21.
+Rewrite pending.
 
 ## Chapter 15 - Family Broadcast
-Sereth appears on brass braziers across market squares, serene and radiant with stolen sigil light. She calls Cael a plague parasite and posts ten thousand ashmarks for his heart. In reply, Cael intercepts her herald caravan and hangs severed tongues over a Veyr gate before dawn prayers.
-Consequence: the feud escalates from private betrayal into public war.
+Removed from active draft on 2026-03-21.
+Rewrite pending.
 
 ## Chapter 16 - The Idiom Of Bone
-Street vendors start saying, Pay in bone like Veyr's stray, whenever customers complain about hidden costs. Cael hears his own legend harden into idiom and realizes stories outpace command. He tries to control rumors with planted whispers and fails because fear travels faster than orders.
-Consequence: mythic reputation grows, reducing diplomacy options and increasing fanatic followers.
+Removed from active draft on 2026-03-21.
+Rewrite pending.
 
 ## Chapter 17 - First Sacrifice
-Pinned in catacombs by crossbow fire and smoke, Cael has one route out: collapse the tunnel with a living anchor. He chooses a captured Warden rather than Yarrow, pins him with iron, and completes the rite while the man begs for water. The collapse saves Cael's unit.
-Consequence: tactical survival, recurring nightmares, and a visible moral drop among his followers.
+Removed from active draft on 2026-03-21.
+Rewrite pending.
 
 ## Chapter 18 - Return To Ashbridge
-He revisits Ashbridge and sees the camp city built in its shadow: tarp chapels, ration knives, bone cough. Cael harvests despair from the camp to fuel a veil and hide supply wagons. The spell works too well; for hours he cannot tell whether nearby screams are real or remembered.
-Consequence: Black Weight deepens, and refugee resentment toward his banner increases.
+Removed from active draft on 2026-03-21.
+Rewrite pending.
 
 ## Chapter 19 - Morn Hal's Offer
 Morn Hal arranges a midnight parley under the bridge ruins and offers amnesty if Cael serves as deniable weapon for the regime. Cael declines with a smile, then steals the signed offer sheet and seal ring from Hal's clerk. He walks away empty-handed militarily, richer politically.
