@@ -9,8 +9,8 @@ Build from existing canon without retcon drift. Prioritize consequence chains ov
 - Narrative perspective remains single-MC only.
 - Current active MC is Cael through his terminal arc.
 - Post-Cael transition MC is Kess, his daughter and second MC.
-- Cael's memory remnants persist inside Black Weight after his death.
-- Black Weight is later transferred into Kess, carrying those fragments.
+- At Cael's death, Black Weight harvests Cael's cores and full memory architecture.
+- Black Weight then rewards harvested cores and memory to Kess in exchange for attachment.
 
 ## Time and Geopolitical Locks
 - Sereth's civil-uprising attrition war lasts 3 years before Cael's sacrifice phase.
@@ -36,7 +36,7 @@ Build from existing canon without retcon drift. Prioritize consequence chains ov
 - Keep consequence absolute: Cael dies; identity continuity is broken.
 - Black Weight harvests Cael's cores (gathered Origins) and complete memory architecture at the moment of death.
 - Black Weight "rewards" both cores and memories to Kess in exchange for Kess accepting Black Weight's attachment; an active transaction, not burden inheritance.
-- Kess inherits not only memory fragments but actual power(s), creating a successor with resource-level stake in the relationship rather than psychological burden alone.
+- Kess inherits full harvested memory architecture plus actual power(s), creating a successor with resource-level stake in the relationship rather than psychological burden alone.
 - Hand resistance leadership to Yarrow, whose surreal intelligence and coldness become structural.
 
 ## Balanced Arc Length Recommendation
@@ -48,7 +48,7 @@ Build from existing canon without retcon drift. Prioritize consequence chains ov
 ### Ch 16
 - Sereth opens with multi-front attrition strikes.
 - Cael is forced onto frontline command.
-- Yarrow solves first logistics collapse caused by Nara's departure.
+- Yarrow stabilizes first compounded logistics failures, sharpened by Nara's departure but rooted in wider wartime strain.
 
 ### Ch 17
 - Escalation in civic combat zones; clinic corridors become contested ground.
@@ -188,7 +188,7 @@ Use this as a decision map before drafting. Each chapter includes a direction lo
 
 ### Chapter 30 (Month 36, End of 3-Year Attrition War)
 - Direction lock: Cael's terminal sacrifice; Kess age lock is 3 years old.
-- Core function: end Cael coherence, preserve fragments in Black Weight.
+- Core function: end Cael coherence, trigger Black Weight harvest-and-reward succession transaction.
 - Permanent scar: identity transfer burden begins; no Cael reset.
 - Modification levers:
 	- Violent ending: catastrophic ritual blast footprint.
@@ -303,7 +303,7 @@ Use this as a decision map before drafting. Each chapter includes a direction lo
 - Primary cost: irreversible identity collapse of Cael as coherent self.
 - Secondary cost: catastrophic physiological burnout across scar lattice channels.
 - Tertiary cost: localized infrastructural distortion at ritual site.
-- Surviving continuity element: memory fragments only through Black Weight inheritance path to Kess.
+- Surviving continuity element: Black Weight carries harvested cores and full memory architecture forward through Kess attachment.
 
 ### Continuity Anchor Map (Ch 10-15 Carryover by Block)
 - Ch 16-18 anchors: archive retaliation powers, clinic stress, Yarrow command hardening.

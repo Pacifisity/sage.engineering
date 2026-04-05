@@ -50,7 +50,7 @@
 - Sereth runs attrition pressure until Cael finally defeats her.
 - Matriarch Ys immediately harvests Sereth's Origin to become the primary apex threat.
 - Drov is later betrayed and consumed by Matriarch Ys in a loyalty-destruction beat.
-- Yarrow handles first-order system failures triggered by Nara's abrupt departure.
+- Yarrow handles first-order system failures that predate the split and worsen after Nara's abrupt departure.
 
 ## Chapter Construction Checklist
 - Show one concrete scarcity detail (price, stock, route, queue).

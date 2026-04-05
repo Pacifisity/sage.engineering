@@ -8,6 +8,7 @@ Prep only. Do not draft chapter prose in this file.
 - [x] Log all unresolved claims/promises still binding Cael politically.
 - [x] Define POV guardrail for each chapter scene (single MC only).
 - [x] Lock month anchor for each chapter to preserve 3-year attrition timeline.
+- [x] Build a chapter-specific prep packet for Ch 17 (scene spine, locks, costs, and end pressure).
 
 ## Character Tasks
 - [x] Draft Cael's operational vs personal priority conflict for chapters 16-30.
