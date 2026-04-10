@@ -6,6 +6,7 @@ import {
   isQuoteDisabled,
   updateQuoteToggleButton
 } from "./quoteManager.js";
+import { toggleTheme, updateThemeToggleButton } from "./themeManager.js";
 import { positionProfilePanel } from "./profilePanel.js";
 import { animateSchedule } from "./scheduleAnimation.js";
 import { getWeekStart, addDays, toLocalDateKey, formatDateLabel } from "../core/dateUtils.js";
@@ -183,6 +184,13 @@ export function setupEventHandlers(dom, taskManager, googleSync, focusTimer) {
         taskManager.renderAll();
       }
       updateQuoteToggleButton(dom.quoteToggleBtn);
+    });
+  }
+
+  if (dom.themeToggleBtn) {
+    dom.themeToggleBtn.addEventListener("click", () => {
+      toggleTheme();
+      updateThemeToggleButton(dom.themeToggleBtn);
     });
   }
 

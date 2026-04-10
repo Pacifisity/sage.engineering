@@ -8,6 +8,7 @@ import { resolveSyncConflict } from "./app/conflictUI.js";
 import { setAuthButtonState } from "./app/profilePanel.js";
 import { setupEventHandlers, updateScheduleWeekLabel } from "./app/eventHandlers.js";
 import { initFocusNotes, setupFocusNotesEvents } from "./app/focusNotes.js";
+import { initTheme, updateThemeToggleButton } from "./app/themeManager.js";
 
 const dom = {
   tasksList: document.getElementById("tasksList"),
@@ -19,6 +20,7 @@ const dom = {
   importBtn: document.getElementById("importBtn"),
   importFile: document.getElementById("importFile"),
   googleBtn: document.getElementById("googleBtn"),
+  themeToggleBtn: document.getElementById("themeToggleBtn"),
   quoteToggleBtn: document.getElementById("quoteToggleBtn"),
   searchInput: document.getElementById("searchInput"),
   backlogSearchInput: document.getElementById("backlogSearchInput"),
@@ -109,5 +111,7 @@ setActiveView(
   dom.navButtons
 );
 setAuthButtonState(dom, false);
+initTheme();
+updateThemeToggleButton(dom.themeToggleBtn);
 updateQuoteToggleButton(dom.quoteToggleBtn);
 focusTimer.updateDisplay();
